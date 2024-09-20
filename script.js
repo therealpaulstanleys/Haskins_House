@@ -1,50 +1,45 @@
 const API_BASE_URL = 'https://7734-198-54-130-91.ngrok-free.app';
+const APP_ID = 'sandbox-sq0idb-xyfwMjNNL94zoBbn2Aswfw';
+const LOCATION_ID = 'LYCJZ87TJ8EHY';
+
+let items = [];
+let cart = [];
 
 // Initialize Square payment form
 async function initializePaymentForm() {
-    const appId = 'sandbox-sq0idb-xyfwMjNNL94zoBbn2Aswfw'; // Your provided app ID
-    const locationId = 'LYCJZ87TJ8EHY'; // Replace with your actual location ID
-
     try {
         if (!window.Square) {
             throw new Error('Square.js failed to load properly');
         }
 
-        const payments = window.Square.payments(appId, locationId);
+        const payments = window.Square.payments(APP_ID, LOCATION_ID);
         const card = await payments.card();
         await card.attach('#card-container');
 
         const cardButton = document.getElementById('card-button');
-        const cardNameInput = document.getElementById('card-name');
-        const customerEmailInput = document.getElementById('customer-email');
-        const customerPhoneInput = document.getElementById('customer-phone');
-        const shippingAddressInput = document.getElementById('shipping-address');
-
-        cardButton.addEventListener('click', async function(event) {
-            event.preventDefault();
-
-            try {
-                const result = await card.tokenize();
-                if (result.status === 'OK') {
-                    console.log('Payment token generated:', result.token);
-                    // Call your backend to process the payment
-                    await processPayment(result.token, {
-                        name: cardNameInput.value,
-                        email: customerEmailInput.value,
-                        phone: customerPhoneInput.value,
-                        address: shippingAddressInput.value
-                    });
-                }
-            } catch (e) {
-                console.error('Payment tokenization failed:', e);
-                alert('Payment failed. Please try again.');
-            }
-        });
+        cardButton.addEventListener('click', handlePayment);
 
         console.log('Payment form initialized successfully');
     } catch (error) {
         console.error('Payment form initialization error:', error);
         alert('Failed to initialize payment form. Please refresh and try again.');
+    }
+}
+
+// Handle payment submission
+async function handlePayment(event) {
+    event.preventDefault();
+    const card = await window.Square.payments(APP_ID, LOCATION_ID).card();
+    const customerDetails = getCustomerDetails();
+
+    try {
+        const result = await card.tokenize();
+        if (result.status === 'OK') {
+            await processPayment(result.token, customerDetails);
+        }
+    } catch (e) {
+        console.error('Payment tokenization failed:', e);
+        alert('Payment failed. Please try again.');
     }
 }
 
@@ -56,16 +51,16 @@ async function processPayment(token, customerDetails) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 sourceId: token,
-                amount: calculateTotal() * 100, // Make sure this function exists and returns the correct amount
-                locationId: 'LYCJZ87TJ8EHY',
-                idempotencyKey: uuidv4(), // Make sure this function exists
+                amount: calculateTotal() * 100,
+                locationId: LOCATION_ID,
+                idempotencyKey: uuidv4(),
                 customerDetails: customerDetails
             }),
         });
         const result = await response.json();
         if (result.payment && result.payment.status === 'COMPLETED') {
             alert('Payment successful!');
-            clearCart(); // Make sure this function exists
+            clearCart();
         } else {
             throw new Error('Payment failed');
         }
@@ -75,27 +70,23 @@ async function processPayment(token, customerDetails) {
     }
 }
 
-// Load inventory items from Square Catalog API
+// Load inventory items from JSON file
 async function loadInventory() {
     const inventoryList = document.getElementById('inventory-list');
     
     try {
-        const response = await fetch(`${API_BASE_URL}/get-catalog-items`);
+        const response = await fetch('/api/inventory.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
-
-        if (!Array.isArray(items)) {
-            throw new Error('Invalid data format: expected an array of items');
-        }
+        items = await response.json();
 
         inventoryList.innerHTML = items.map(item => `
             <div class="inventory-item">
-                <img src="${item.imageUrl || 'placeholder.jpg'}" alt="${item.itemData.name}" aria-label="${item.itemData.name}">
-                <h3>${item.itemData.name}</h3>
-                <p>$${(item.itemData.variations[0].itemVariationData.priceMoney.amount / 100).toFixed(2)}</p>
-                <button class="add-to-cart" data-id="${item.id}" aria-label="Add ${item.itemData.name} to cart">Add to Cart</button>
+                <img src="${item.imageUrl || 'placeholder.jpg'}" alt="${item.name}" aria-label="${item.name}">
+                <h3>${item.name}</h3>
+                <p>$${item.price.toFixed(2)}</p>
+                <button class="add-to-cart" data-id="${item.id}" aria-label="Add ${item.name} to cart">Add to Cart</button>
             </div>
         `).join('');
     } catch (error) {
@@ -105,8 +96,6 @@ async function loadInventory() {
 }
 
 // Shopping cart functionality
-let cart = [];
-
 function addToCart(itemId) {
     const item = items.find(item => item.id === itemId);
     if (item) {
@@ -139,6 +128,22 @@ function clearCart() {
     updateCartDisplay();
 }
 
+// Helper functions
+function getCustomerDetails() {
+    return {
+        name: document.getElementById('card-name').value,
+        email: document.getElementById('customer-email').value,
+        phone: document.getElementById('customer-phone').value,
+        address: document.getElementById('shipping-address').value
+    };
+}
+
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
     initializePaymentForm();
@@ -151,12 +156,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-// Generate UUID for idempotency key
-function uuidv4() {
-    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
-}
-
-// Remove console.log statements for production

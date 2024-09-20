@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "Haskins_House",
+			"path": "../../Haskins_House"
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"Haskins"
+		]
+	}
+}
