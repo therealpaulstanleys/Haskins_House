@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haskins House Records</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="auto">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="inventory.html">Inventory</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home">
+            <h1>Welcome to Haskins House Records</h1>
+            <p>Spinning vinyl dreams for over a decade</p>
+        </section>
+
+        <section id="about">
+            <h2>Our Story</h2>
+            <p>We have been serving the area's vinyl needs since 2015. We aim to be the best music store in the world. Armed with his father's record collection, that's just what Travis Haskins has accomplished.</p>
+        </section>
+
+        <section id="inventory">
+            <h2>Saturday Drop</h2>
+            <div id="inventory-list">
+                <!-- Inventory items will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Get in Touch</h2>
+            <p>Contact us if you want buy or even sell!</p>
+            <form id="payment-form">
+                <div id="card-container"></div>
+                <input type="text" id="card-name" name="card-name" placeholder="Name on card" required>
+                <input type="email" id="customer-email" name="customer-email" placeholder="Email address" required>
+                <input type="tel" id="customer-phone" name="customer-phone" placeholder="Phone number" required>
+                <input type="text" id="shipping-address" name="shipping-address" placeholder="Shipping address" required>
+                <button id="card-button" type="submit">Pay</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Haskins House Records. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+
+
+
+
