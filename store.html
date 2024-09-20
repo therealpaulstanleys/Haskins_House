@@ -11,46 +11,29 @@
 </head>
 <body>
     <header>
-        <div class="logo-container">
-            <img src="images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="auto">
-        </div>
-        <nav>
+        <nav aria-label="Main navigation">
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="inventory.html">Inventory</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="store.html">Store</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="store.html" aria-current="page">Store</a></li>
+                <li><a href="questions.html">Questions</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section id="store">
-            <h1>Haskins House Records Store</h1>
-            <div class="store-items">
-                <!-- Store items will be dynamically loaded here -->
-            </div>
-        </section>
-
-        <section id="cart">
-            <h2>Your Cart</h2>
-            <div id="cart-items">
-                <!-- Cart items will be dynamically added here -->
-            </div>
-            <div class="cart-total">Total: $<span id="cart-total">0.00</span></div>
-            <button id="checkout-button">Proceed to Checkout</button>
-        </section>
-
-        <section id="payment-form">
-            <!-- Payment form will be dynamically generated here -->
-        </section>
+        <h1>Our Store</h1>
+        <!-- Add your store content here -->
     </main>
 
     <footer>
         <p>&copy; 2023 Haskins House Records. All rights reserved.</p>
-        <a href="privacy-policy.html">Privacy Policy</a> | 
-        <a href="terms-and-conditions.html">Terms and Conditions</a>
+        <nav aria-label="Footer navigation">
+            <a href="privacy-policy.html">Privacy Policy</a> | 
+            <a href="terms-and-conditions.html">Terms and Conditions</a>
+        </nav>
     </footer>
 </body>
 </html>

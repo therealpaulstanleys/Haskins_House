@@ -1,21 +1,14 @@
 {
     "inventory": [
       {
-        "id": 1,
+        "id": "ITEM_1",
         "title": "Abbey Road",
         "artist": "The Beatles",
         "genre": "Rock",
         "price": 19.99,
         "quantity": 5
       },
-      {
-        "id": 2,
-        "title": "Thriller",
-        "artist": "Michael Jackson",
-        "genre": "Pop",
-        "price": 14.99,
-        "quantity": 3
-      }
+      // ... add all your inventory items here
     ]
   }
 {
