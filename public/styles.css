@@ -1,0 +1,281 @@
+/* CSS Variables */
+:root {
+  --primary-color: #333;
+  --secondary-color: #2980b9;
+  --text-color: #333;
+  --background-color: #f4f4f4;
+  --footer-bg-color: #34495e;
+  --footer-text-color: white;
+  --link-color: #3498db;
+}
+
+/* Basic reset and typography */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    color: var(--text-color);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #2c3e50;
+}
+
+/* Header and navigation */
+header {
+    background-color: var(--background-color);
+    padding: 1rem;
+    text-align: center;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.logo {
+    max-width: 200px;
+    margin-bottom: 1rem;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    transition: background-color 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li a[aria-current="page"] {
+    background-color: #ddd;
+}
+
+/* Main content */
+main {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+    background-color: var(--footer-bg-color);
+    color: var(--footer-text-color);
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+footer a {
+    color: var(--link-color);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Form styles */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+input, textarea, button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Store-specific styles */
+.inventory-item {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+#cart {
+    background-color: var(--background-color);
+    padding: 1rem;
+    margin-top: 2rem;
+}
+
+/* Logo styles */
+.logo-container {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.logo {
+    max-width: 200px;
+    height: auto;
+}
+
+/* New styles for Saturday Drop */
+#saturday-drop-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.catalog-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.catalog-item:hover {
+    transform: translateY(-5px);
+}
+
+.catalog-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.catalog-item h3 {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.catalog-item p {
+    color: var(--link-color);
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    #saturday-drop-items {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+    
+    body {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 400px) {
+    #saturday-drop-items {
+        grid-template-columns: 1fr;
+    }
+}
+
+#catalog-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+@media (max-width: 600px) {
+    #catalog-preview {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media (max-width: 400px) {
+    #catalog-preview {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-color);
+}
+
+#newsletter-form {
+    margin-top: 1rem;
+}
+
+#newsletter-form input[type="email"] {
+    padding: 10px;
+    width: 60%;
+    margin-right: 10px;
+}
+
+#newsletter-form button {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.social-links {
+    margin-top: 1rem;
+}
+
+.social-links a {
+    margin: 0 10px;
+}
+
+/* Accessibility improvements */
+a:focus, button:focus, input:focus {
+  outline: 2px solid var(--link-color);
+}
+
+/* Print styles */
+@media print {
+    body {
+        font-size: 12pt;
+    }
+    header, nav, footer {
+        display: none;
+    }
+    main {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+}
+
