@@ -20,6 +20,16 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'public, max-age=3600');
+  next();
+});
+
+app.use((req, res, next) => {
+  res.setHeader('Content-Security-Policy', "frame-ancestors 'self';");
+  next();
+});
+
 const squareClient = new Client({
   accessToken: process.env.SQUARE_ACCESS_TOKEN,
   environment: Environment.Sandbox // or Environment.Production
