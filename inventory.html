@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - Haskins House Records</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="inventory.html">Inventory</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#store">Store</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inventory">
+            <h1>Our Inventory</h1>
+            <div id="inventory-list">
+                <!-- Inventory items will be dynamically loaded here by script.js -->
+            </div>
+        </section>
+
+        <section id="cart">
+            <h2>Shopping Cart</h2>
+            <div id="cart-items">
+                <!-- Cart items will be dynamically added here -->
+            </div>
+            <div id="cart-total">
+                <p>Total: $<span id="total-amount">0.00</span></p>
+            </div>
+            <button id="checkout-button">Proceed to Checkout</button>
+        </section>
+
+        <section id="payment-form" style="display: none;">
+            <h2>Payment</h2>
+            <form id="payment-form">
+                <div id="card-container"></div>
+                <button type="submit">Pay Now</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Haskins House Records. All rights reserved.</p>
+        <a href="privacy-policy.html">Privacy Policy</a> | 
+        <a href="terms-of-service.html">Terms of Service</a>
+    </footer>
+</body>
+</html>
