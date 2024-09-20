@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { Client, Environment } = require('square');
+const { Client, Environment, ApiError } = require('square');
 require('dotenv').config();
 
 const app = express();
@@ -22,6 +22,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'public, max-age=3600');
+  res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' https://sandbox.web.squarecdn.com; style-src 'self' 'unsafe-inline';");
   next();
 });
 

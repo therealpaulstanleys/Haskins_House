@@ -1,319 +1,102 @@
-/* Reset default styles */
+/* Basic reset and typography */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-/* Header styles */
+/* Header and navigation */
 header {
-    background-color: #1a1a1a;
-    padding: 1rem 0;
+    background-color: #f4f4f4;
+    padding: 1rem;
+    margin-bottom: 2rem;
 }
 
 nav ul {
-    list-style-type: none;
+    list-style: none;
     display: flex;
-    justify-content: center;
-}
-
-nav ul li {
-    margin: 0 1rem;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 nav ul li a {
-    color: #fff;
     text-decoration: none;
-    font-weight: bold;
+    color: #333;
+    padding: 0.5rem 1rem;
 }
 
-/* Main content styles */
+nav ul li a:hover,
+nav ul li a[aria-current="page"] {
+    background-color: #ddd;
+}
+
+/* Main content */
 main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+    min-height: calc(100vh - 200px);
 }
 
-section {
-    margin-bottom: 3rem;
-}
-
-h1, h2 {
+h1 {
     margin-bottom: 1rem;
 }
 
-/* Home section */
-#home {
+/* Footer */
+footer {
+    background-color: #f4f4f4;
+    padding: 1rem;
     text-align: center;
-    padding: 3rem 0;
+    margin-top: 2rem;
 }
 
-#home h1 {
-    font-size: 2.5rem;
-    color: #1a1a1a;
+/* Responsive design */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
-/* Inventory section */
-#inventory-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
-}
-
-/* Contact form */
-#contact-form {
-    display: flex;
-    flex-direction: column;
+/* Form styles */
+form {
     max-width: 500px;
     margin: 0 auto;
 }
 
-#contact-form input,
-#contact-form textarea {
-    margin-bottom: 1rem;
+input, textarea, button {
+    width: 100%;
     padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    margin-top: 0.5rem;
 }
 
-#contact-form button {
-    background-color: #1a1a1a;
+button {
+    background-color: #333;
     color: #fff;
-    padding: 0.5rem 1rem;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
 }
 
-#contact-form button:hover {
-    background-color: #333;
+button:hover {
+    background-color: #555;
 }
 
-/* Footer styles */
-footer {
-    background-color: #1a1a1a;
-    color: #fff;
-    text-align: center;
-    padding: 1rem 0;
-}
-.store-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
+/* Store-specific styles */
 .inventory-item {
     border: 1px solid #ddd;
     padding: 1rem;
-    text-align: center;
+    margin-bottom: 1rem;
 }
 
-.shopping-cart {
-    margin-top: 2rem;
-    border: 1px solid #ddd;
+#cart {
+    background-color: #f4f4f4;
     padding: 1rem;
-}
-
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-}
-
-.cart-total {
-    font-weight: bold;
-    margin-top: 1rem;
-}
-
-.payment-section {
     margin-top: 2rem;
-}
-
-@media (max-width: 768px) {
-    .store-items {
-        grid-template-columns: 1fr;
-    }
-}
-// ... existing styles ...
-
-/* Responsive enhancements */
-@media (max-width: 768px) {
-    body {
-        font-size: 16px;
-    }
-
-    header nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    header nav ul li {
-        margin: 10px 0;
-    }
-
-    .store-items {
-        grid-template-columns: 1fr;
-    }
-
-    .inventory-item {
-        max-width: 300px;
-        margin: 0 auto;
-    }
-
-    .cart-item {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #card-container {
-        width: 100%;
-    }
-}
-
-.logo-container {
-    text-align: center;
-    margin: 1rem 0;
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.logo {
-    max-width: 200px;
-    height: auto;
-    transition: transform 0.3s ease;
-}
-
-.logo:hover {
-    transform: scale(1.05);
-}
-
-@media (max-width: 768px) {
-    .logo-container {
-        padding: 0.8rem;
-    }
-    
-    .logo {
-        max-width: 160px;
-    }
-}
-
-@media (max-width: 480px) {
-    .logo-container {
-        padding: 0.6rem;
-    }
-    
-    .logo {
-        max-width: 120px;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        font-size: 14px;
-    }
-
-    h1 {
-        font-size: 24px;
-    }
-
-    h2 {
-        font-size: 20px;
-    }
-
-    .inventory-item {
-        max-width: 250px;
-    }
-}
-
-/* Styles for the payment form */
-#payment-form {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#payment-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#card-container {
-    margin-bottom: 20px;
-}
-
-#payment-form button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#payment-form button:hover {
-    background-color: #45a049;
-}
-
-@media (max-width: 768px) {
-    #payment-form {
-        max-width: 100%;
-        padding: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    #payment-form button {
-        font-size: 14px;
-    }
-}
-
-/* Additional styles for error messages */
-.error-message {
-    color: #ff0000;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-/* Style for form inputs */
-#payment-form input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-/* Style for loading indicator */
-.loading {
-    text-align: center;
-    margin-top: 10px;
-}
-
-.loading::after {
-    content: "Processing...";
-    display: inline-block;
-    animation: ellipsis 1.5s infinite;
-}
-
-@keyframes ellipsis {
-    0% { content: "Processing"; }
-    33% { content: "Processing."; }
-    66% { content: "Processing.."; }
-    100% { content: "Processing..."; }
 }
 

@@ -1,50 +1,38 @@
-const API_BASE_URL = 'https://7734-198-54-130-91.ngrok-free.app';
-const APP_ID = 'sandbox-sq0idb-xyfwMjNNL94zoBbn2Aswfw';
-const LOCATION_ID = 'LYCJZ87TJ8EHY';
+const API_BASE_URL = 'https://your-server-url.com';
+const APP_ID = 'your-square-app-id';
+const LOCATION_ID = 'your-square-location-id';
 
 let items = [];
 let cart = [];
 
 // Initialize Square payment form
 async function initializePaymentForm() {
-    try {
-        if (!window.Square) {
-            throw new Error('Square.js failed to load properly');
-        }
-
-        const payments = window.Square.payments(APP_ID, LOCATION_ID);
-        const card = await payments.card();
-        await card.attach('#card-container');
-
-        const cardButton = document.getElementById('card-button');
-        cardButton.addEventListener('click', handlePayment);
-
-        console.log('Payment form initialized successfully');
-    } catch (error) {
-        console.error('Payment form initialization error:', error);
-        alert('Failed to initialize payment form. Please refresh and try again.');
+    if (!window.Square) {
+        throw new Error('Square.js failed to load properly');
     }
-}
 
-// Handle payment submission
-async function handlePayment(event) {
-    event.preventDefault();
-    const card = await window.Square.payments(APP_ID, LOCATION_ID).card();
-    const customerDetails = getCustomerDetails();
+    const payments = window.Square.payments(APP_ID, LOCATION_ID);
+    const card = await payments.card();
+    await card.attach('#card-container');
 
-    try {
-        const result = await card.tokenize();
-        if (result.status === 'OK') {
-            await processPayment(result.token, customerDetails);
+    const cardButton = document.getElementById('card-button');
+    cardButton.addEventListener('click', async function(event) {
+        event.preventDefault();
+
+        try {
+            const result = await card.tokenize();
+            if (result.status === 'OK') {
+                await processPayment(result.token);
+            }
+        } catch (e) {
+            console.error(e);
+            alert('Payment failed. Please try again.');
         }
-    } catch (e) {
-        console.error('Payment tokenization failed:', e);
-        alert('Payment failed. Please try again.');
-    }
+    });
 }
 
 // Process payment using Square
-async function processPayment(token, customerDetails) {
+async function processPayment(token) {
     try {
         const response = await fetch(`${API_BASE_URL}/process-payment`, {
             method: 'POST',
@@ -52,9 +40,7 @@ async function processPayment(token, customerDetails) {
             body: JSON.stringify({
                 sourceId: token,
                 amount: calculateTotal() * 100,
-                locationId: LOCATION_ID,
-                idempotencyKey: uuidv4(),
-                customerDetails: customerDetails
+                locationId: LOCATION_ID
             }),
         });
         const result = await response.json();
@@ -65,39 +51,38 @@ async function processPayment(token, customerDetails) {
             throw new Error('Payment failed');
         }
     } catch (error) {
-        console.error('Payment processing error:', error);
+        console.error(error);
         alert('Payment failed. Please try again.');
     }
 }
 
 // Load inventory items from JSON file
 async function loadInventory() {
-    const inventoryList = document.getElementById('inventory-list');
-    
     try {
         const response = await fetch('/api/inventory.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        items = await response.json();
-
-        inventoryList.innerHTML = items.map(item => `
-            <div class="inventory-item">
-                <img src="${item.imageUrl || 'placeholder.jpg'}" alt="${item.name}" aria-label="${item.name}">
-                <h3>${item.name}</h3>
-                <p>$${item.price.toFixed(2)}</p>
-                <button class="add-to-cart" data-id="${item.id}" aria-label="Add ${item.name} to cart">Add to Cart</button>
-            </div>
-        `).join('');
+        const data = await response.json();
+        displayInventory(data.inventory);
     } catch (error) {
         console.error('Error loading inventory:', error);
-        inventoryList.innerHTML = '<p>Error loading inventory. Please try again later.</p>';
+        document.getElementById('inventory-list').innerHTML = '<p>Error loading inventory. Please try again later.</p>';
     }
+}
+
+function displayInventory(items) {
+    const inventoryList = document.getElementById('inventory-list');
+    inventoryList.innerHTML = items.map(item => `
+        <div class="inventory-item">
+            <h3>${item.title}</h3>
+            <p>${item.artist}</p>
+            <p>$${item.price.toFixed(2)}</p>
+            <button onclick="addToCart('${item.id}')">Add to Cart</button>
+        </div>
+    `).join('');
 }
 
 // Shopping cart functionality
 function addToCart(itemId) {
-    const item = items.find(item => item.id === itemId);
+    const item = items.find(i => i.id === itemId);
     if (item) {
         cart.push(item);
         updateCartDisplay();
@@ -105,18 +90,13 @@ function addToCart(itemId) {
 }
 
 function updateCartDisplay() {
-    const cartElement = document.getElementById('cart');
-    cartElement.innerHTML = cart.map(item => `
-        <div class="cart-item">
-            <span>${item.name}</span>
-            <span>$${item.price.toFixed(2)}</span>
-        </div>
+    const cartItems = document.getElementById('cart-items');
+    cartItems.innerHTML = cart.map(item => `
+        <div>${item.title} - $${item.price.toFixed(2)}</div>
     `).join('');
 
-    const total = calculateTotal();
-    cartElement.innerHTML += `
-        <div class="cart-total">Total: $${total.toFixed(2)}</div>
-    `;
+    const cartTotal = document.getElementById('cart-total');
+    cartTotal.textContent = `Total: $${calculateTotal().toFixed(2)}`;
 }
 
 function calculateTotal() {
@@ -145,14 +125,7 @@ function uuidv4() {
 }
 
 // Event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    initializePaymentForm();
-    loadInventory();
-
-    document.getElementById('inventory-list').addEventListener('click', (event) => {
-        if (event.target.classList.contains('add-to-cart')) {
-            const itemId = event.target.getAttribute('data-id');
-            addToCart(itemId);
-        }
-    });
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadInventory();
+    await initializePaymentForm();
 });
