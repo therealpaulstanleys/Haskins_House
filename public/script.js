@@ -3,13 +3,72 @@
 
 const APP_ID = 'sandbox-sq0idb-xyfwMjNNL94zoBbn2Aswfw';
 const LOCATION_ID = 'LYCJZ87TJ8EHY'; // Replace with your actual location ID
+const WS_URL = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`;
 
 let items = [];
 let cart = [];
+let socket;
 
-// Initialize Square payment form
+function setupWebSocket() {
+  socket = new WebSocket(WS_URL);
+  
+  socket.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    if (data.type === 'inventory_update') {
+      updateItemInDisplay(data.item);
+    }
+  };
+
+  socket.onclose = function(event) {
+    console.log('WebSocket connection closed. Reconnecting...');
+    setTimeout(setupWebSocket, 3000);
+  };
+}
+
+function updateItemInDisplay(updatedItem) {
+  const itemElement = document.querySelector(`.inventory-item[data-id="${updatedItem.id}"]`);
+  if (itemElement) {
+    if (updatedItem.stockQuantity !== undefined) {
+      const stockQuantityElement = itemElement.querySelector('.stock-quantity');
+      if (stockQuantityElement) {
+        stockQuantityElement.textContent = `In Stock: ${updatedItem.stockQuantity}`;
+      }
+      const addButton = itemElement.querySelector('button');
+      if (addButton) {
+        if (updatedItem.stockQuantity === 0) {
+          addButton.disabled = true;
+          addButton.textContent = 'Out of Stock';
+        } else {
+          addButton.disabled = false;
+          addButton.textContent = 'Add to Cart';
+        }
+      }
+    }
+    // Update other properties if they're provided in the updatedItem object
+    if (updatedItem.name !== undefined) {
+      const nameElement = itemElement.querySelector('h3');
+      if (nameElement) {
+        nameElement.textContent = updatedItem.name;
+      }
+    }
+    if (updatedItem.price !== undefined) {
+      const priceElement = itemElement.querySelector('p:nth-of-type(1)');
+      if (priceElement) {
+        priceElement.textContent = `Price: $${(updatedItem.price / 100).toFixed(2)}`;
+      }
+    }
+    if (updatedItem.imageUrl !== undefined) {
+      const imageElement = itemElement.querySelector('img');
+      if (imageElement) {
+        imageElement.src = updatedItem.imageUrl;
+        imageElement.alt = updatedItem.name || 'Product image';
+      }
+    }
+  }
+}
+
 async function initializePaymentForm() {
-    if (!Square) {
+    if (typeof Square === 'undefined') {
         console.error('Square.js failed to load properly');
         return;
     }
@@ -33,14 +92,15 @@ async function initializePaymentForm() {
                 }
             } catch (e) {
                 console.error('Tokenization failed:', e);
+                showError('Payment tokenization failed. Please try again.');
             }
         });
     } catch (e) {
         console.error('Initializing Card failed:', e);
+        showError('Failed to initialize payment form. Please refresh the page and try again.');
     }
 }
 
-// Process payment using Square
 async function processPayment(token) {
     try {
         const response = await fetch('/process-payment', {
@@ -50,59 +110,69 @@ async function processPayment(token) {
                 sourceId: token,
                 amount: calculateTotal() * 100,
                 locationId: LOCATION_ID,
-                idempotencyKey: uuidv4(),
+                idempotencyKey: generateUniqueId(),
                 customerDetails: getCustomerDetails()
             }),
         });
         const result = await response.json();
         if (result.payment && result.payment.status === 'COMPLETED') {
-            alert('Payment successful!');
+            showSuccess('Payment successful!');
             clearCart();
         } else {
             throw new Error('Payment failed');
         }
     } catch (error) {
         console.error(error);
-        alert('Payment failed. Please try again.');
+        showError('Payment failed. Please try again.');
     }
 }
 
-// Load inventory items from JSON file
 async function loadInventory() {
     try {
-        const response = await fetch('/api/inventory');
+        console.log('Fetching catalog items...');
+        const response = await fetch('/get-catalog-items');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        items = data.items; // Store items globally
-        displayInventory(data.items);
+        console.log('Received inventory data:', data);
+        
+        items = data.items;
+        console.log('Number of items:', items.length);
+        displayInventory(items);
     } catch (error) {
         console.error('Error loading inventory:', error);
-        document.getElementById('inventory-list').innerHTML = '<p>Error loading inventory. Please try again later.</p>';
+        const loadingMessage = document.getElementById('loading-message');
+        if (loadingMessage) {
+            loadingMessage.textContent = 'Error loading inventory. Please try again later.';
+        }
     }
 }
 
 function displayInventory(items) {
     const inventoryList = document.getElementById('inventory-list');
+    if (!inventoryList) return;
+    
     if (items.length === 0) {
         inventoryList.innerHTML = '<p>No items in inventory.</p>';
         return;
     }
 
     const itemsHtml = items.map(item => `
-        <div class="inventory-item">
+        <div class="inventory-item" data-id="${item.id}">
+            <img src="${item.imageUrl}" alt="${item.name}" class="item-image">
             <h3>${item.name}</h3>
             <p>Price: $${(item.price / 100).toFixed(2)}</p>
-            <p>${item.description || 'No description available.'}</p>
-            <button onclick="addToCart('${item.id}')">Add to Cart</button>
+            <p class="stock-quantity">In Stock: ${item.stockQuantity}</p>
+            <button onclick="addToCart('${item.id}')" ${item.stockQuantity === 0 ? 'disabled' : ''}>
+                ${item.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+            </button>
         </div>
     `).join('');
 
     inventoryList.innerHTML = itemsHtml;
 }
 
-// Shopping cart functionality
 function addToCart(itemId) {
     const item = items.find(i => i.id === itemId);
     if (item) {
@@ -130,7 +200,6 @@ function clearCart() {
     updateCartDisplay();
 }
 
-// Helper functions
 function getCustomerDetails() {
     return {
         name: document.getElementById('card-name').value,
@@ -140,91 +209,32 @@ function getCustomerDetails() {
     };
 }
 
-function uuidv4() {
-    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-    );
+function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
 }
 
-// Event listeners
+function showError(message) {
+    // Implement a user-friendly error display method
+    console.error(message);
+    // For example, update a designated error message element on the page
+}
+
+function showSuccess(message) {
+    // Implement a user-friendly success message display method
+    console.log(message);
+    // For example, update a designated success message element on the page
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Load catalog preview
-    loadCatalogPreview();
-
-    // Setup newsletter form
-    setupNewsletterForm();
-
-    // Load inventory if on the inventory page
     if (document.querySelector('#inventory-list')) {
         loadInventory();
     }
 
-    // Initialize payment form if on the checkout page
     if (document.querySelector('#payment-form')) {
         initializePaymentForm();
     }
+
+    setupWebSocket();
 });
-
-async function loadCatalogPreview() {
-    try {
-        const response = await fetch('/api/catalog-preview');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        displayCatalogPreview(data.items);
-    } catch (error) {
-        console.error('Error loading catalog preview:', error);
-        document.getElementById('catalog-preview').innerHTML = '<p>Error loading preview. Please try again later.</p>';
-    }
-}
-
-function displayCatalogPreview(items) {
-    const previewContainer = document.getElementById('catalog-preview');
-    if (!previewContainer) return;
-    
-    if (items.length === 0) {
-        previewContainer.innerHTML = '<p>No items available for preview.</p>';
-        return;
-    }
-
-    const itemsHtml = items.map(item => `
-        <div class="preview-item">
-            <img src="${item.imageUrl}" alt="${item.name}" class="preview-image">
-            <h3>${item.name}</h3>
-            <p>Price: $${(item.price / 100).toFixed(2)}</p>
-        </div>
-    `).join('');
-
-    previewContainer.innerHTML = itemsHtml;
-}
-
-function setupNewsletterForm() {
-    const form = document.getElementById('newsletter-form');
-    if (form) {
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            try {
-                const response = await fetch('/api/newsletter-signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ email }),
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const result = await response.json();
-                alert(result.message); // Show success message
-                form.reset(); // Clear the form
-            } catch (error) {
-                console.error('Error signing up for newsletter:', error);
-                alert('There was an error signing up for the newsletter. Please try again later.');
-            }
-        });
-    }
-}
 
 console.log('Script loaded successfully!');

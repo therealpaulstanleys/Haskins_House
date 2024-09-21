@@ -1,0 +1,64 @@
+{
+  "items": [
+    {
+      "id": "1",
+      "name": "The Beatles - Abbey Road",
+      "price": 2999,
+      "description": "Classic album from 1969",
+      "imageUrl": "/images/abbey-road.jpg",
+      "stockQuantity": 5,
+      "genre": "Rock",
+      "releaseYear": 1969,
+      "format": "Vinyl",
+      "artist": "The Beatles"
+    },
+    {
+      "id": "2",
+      "name": "Pink Floyd - Dark Side of the Moon",
+      "price": 3499,
+      "description": "Iconic progressive rock album",
+      "imageUrl": "/images/dark-side-of-the-moon.jpg",
+      "stockQuantity": 3,
+      "genre": "Progressive Rock",
+      "releaseYear": 1973,
+      "format": "Vinyl",
+      "artist": "Pink Floyd"
+    },
+    {
+      "id": "3",
+      "name": "Miles Davis - Kind of Blue",
+      "price": 2799,
+      "description": "Legendary jazz album",
+      "imageUrl": "/images/kind-of-blue.jpg",
+      "stockQuantity": 7,
+      "genre": "Jazz",
+      "releaseYear": 1959,
+      "format": "Vinyl",
+      "artist": "Miles Davis"
+    },
+    {
+      "id": "4",
+      "name": "Fleetwood Mac - Rumours",
+      "price": 3299,
+      "description": "Best-selling album of the 1970s",
+      "imageUrl": "/images/rumours.jpg",
+      "stockQuantity": 4,
+      "genre": "Rock",
+      "releaseYear": 1977,
+      "format": "Vinyl",
+      "artist": "Fleetwood Mac"
+    },
+    {
+      "id": "5",
+      "name": "David Bowie - The Rise and Fall of Ziggy Stardust",
+      "price": 3199,
+      "description": "Concept album about a rock star from Mars",
+      "imageUrl": "/images/ziggy-stardust.jpg",
+      "stockQuantity": 2,
+      "genre": "Glam Rock",
+      "releaseYear": 1972,
+      "format": "Vinyl",
+      "artist": "David Bowie"
+    }
+  ]
+}
