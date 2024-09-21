@@ -27,7 +27,7 @@ async function fetchInventory() {
         const inventoryResponse = await squareClient.inventoryApi.retrieveInventoryCount(item.id);
         const stockQuantity = inventoryResponse.result.counts[0]?.quantity || 0;
 
-        return {
+        return sanitizeItem({
           id: item.id,
           name: item.itemData.name,
           price: item.itemData.variations[0].itemVariationData.priceMoney.amount,
@@ -38,7 +38,7 @@ async function fetchInventory() {
           releaseYear: item.itemData.releaseDate ? new Date(item.itemData.releaseDate).getFullYear() : '',
           format: 'Vinyl', // Assuming all items are vinyl
           artist: item.itemData.name.split(' - ')[0]
-        };
+        });
       } catch (error) {
         console.error(`Error processing item ${item.id}:`, error);
         return null;
@@ -49,12 +49,25 @@ async function fetchInventory() {
 
     const inventoryData = { items: validItems };
     const inventoryPath = path.join(__dirname, 'inventory.json');
-    fs.writeFileSync(inventoryPath, JSON.stringify(inventoryData, null, 2));
-    console.log(`Saved ${validItems.length} items to inventory.json`);
+    try {
+      fs.writeFileSync(inventoryPath, JSON.stringify(inventoryData, null, 2));
+      console.log(`Saved ${validItems.length} items to inventory.json`);
+    } catch (error) {
+      console.error('Error writing inventory file:', error);
+    }
   } catch (error) {
     console.error('Error fetching inventory:', error);
     console.log('Error details:', error.result);
   }
+}
+
+function sanitizeItem(item) {
+  return {
+    ...item,
+    name: item.name.replace(/[<>&'"]/g, ''),
+    description: item.description.replace(/[<>&'"]/g, ''),
+    // Add more fields as needed
+  };
 }
 
 fetchInventory();
