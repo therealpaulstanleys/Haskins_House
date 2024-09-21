@@ -3,65 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Contact Haskins House Records for inquiries about vinyl records, orders, or general information.">
-    <title>Contact Us - Haskins House Records</title>
+    <title>Contact Haskins House Records - Vinyl Inquiries and Support</title>
+    <meta name="description" content="Contact Haskins House Records for inquiries about our vinyl collection, order assistance, or general information. Reach out via email, phone, or visit our store in Musictown.">
     <link rel="stylesheet" href="/styles.css">
     <link rel="icon" href="/images/logo.png" type="image/png">
     <script src="/script.js" defer></script>
+    <!-- Remove the anime.js script reference -->
 </head>
 <body>
     <header>
         <div class="logo-container">
-            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="150">
         </div>
-        <nav>
+        <nav aria-label="Main navigation">
             <ul>
                 <li><a href="/">Home</a></li>
                 <li><a href="/about.html">About</a></li>
-                <li><a href="/store.html">Store</a></li>
-                <li><a href="/inventory.html">Inventory</a></li>
-                <li><a href="/questions.html">Questions</a></li>
-                <li><a href="/contact.html" aria-current="page">Contact</a></li>
+                <li><a href="/store.html">Vinyl Store</a></li>
+                <li><a href="/inventory.html">Record Inventory</a></li>
+                <li><a href="/questions.html">FAQs</a></li>
+                <li><a href="/contact.html" aria-current="page">Contact Us</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h1>Contact Us</h1>
+        <h1>Contact Haskins House Records</h1>
         
         <section id="contact-info">
-            <h2>Get in Touch</h2>
-            <p>We'd love to hear from you! Whether you have questions about our vinyl collection, need assistance with an order, or just want to chat about music, we're here to help.</p>
+            <h2>Get in Touch with Vinyl Enthusiasts</h2>
+            <p>We'd love to hear from you! Whether you have questions about our vinyl collection, need assistance with an order, or just want to chat about music, our team of vinyl enthusiasts is here to help.</p>
             
             <div class="contact-details">
-                <h3>Contact Information:</h3>
+                <h3>Vinyl Store Contact Information:</h3>
                 <p><strong>Email:</strong> <a href="mailto:info@haskinshouserecords.com">info@haskinshouserecords.com</a></p>
-                <p><strong>Phone:</strong> (555) 123-4567</p>
-                <p><strong>Address:</strong> 123 Vinyl Lane, Musictown, MT 12345</p>
+                <p><strong>Phone:</strong> <a href="tel:+15551234567">(555) 123-4567</a></p>
+                <address>
+                    <strong>Address:</strong><br>
+                    Haskins House Records<br>
+                    123 Vinyl Lane<br>
+                    Musictown, MT 12345
+                </address>
             </div>
 
             <div class="business-hours">
-                <h3>Business Hours:</h3>
-                <p>Monday - Friday: 10:00 AM - 7:00 PM</p>
-                <p>Saturday: 11:00 AM - 6:00 PM</p>
-                <p>Sunday: Closed</p>
+                <h3>Vinyl Store Hours:</h3>
+                <ul>
+                    <li>Monday - Friday: 10:00 AM - 7:00 PM</li>
+                    <li>Saturday: 11:00 AM - 6:00 PM</li>
+                    <li>Sunday: Closed</li>
+                </ul>
             </div>
         </section>
 
         <section id="contact-form">
-            <h2>Send Us a Message</h2>
+            <h2>Send Us a Message About Vinyl</h2>
             <form action="/submit-form" method="POST">
-                <input type="text" name="name" required>
-                <input type="email" name="email" required>
-                <textarea name="message" required></textarea>
-                <button type="submit">Send</button>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                
+                <button type="submit">Send Message</button>
             </form>
         </section>
     </main>
 
     <footer>
         <p>&copy; 2023 Haskins House Records. All rights reserved.</p>
-        <nav>
+        <nav aria-label="Footer navigation">
             <a href="/privacy-policy.html">Privacy Policy</a> | 
             <a href="/terms-and-conditions.html">Terms and Conditions</a>
         </nav>

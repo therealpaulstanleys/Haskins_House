@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory - Haskins House Records</title>
+    <title>Vinyl Inventory - Haskins House Records</title>
+    <meta name="description" content="Browse our extensive collection of vinyl records at Haskins House Records. From classic rock to modern indie, discover high-quality vinyl for every music lover.">
     <link rel="stylesheet" href="/styles.css">
     <link rel="icon" href="/images/logo.png" type="image/png">
     <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
@@ -11,37 +12,40 @@
 </head>
 <body>
     <header>
+        <div class="logo-container">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo">
+        </div>
         <nav aria-label="Main navigation">
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About</a></li>
-                <li><a href="/inventory.html" aria-current="page">Inventory</a></li>
+                <li><a href="/about.html">About Us</a></li>
+                <li><a href="/inventory.html" aria-current="page">Vinyl Inventory</a></li>
                 <li><a href="/contact.html">Contact</a></li>
-                <li><a href="/store.html">Store</a></li>
-                <li><a href="/questions.html">Questions</a></li>
+                <li><a href="/store.html">Online Store</a></li>
+                <li><a href="/questions.html">FAQs</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <h1>Our Inventory</h1>
-        <p>For 10 years, Haskins House Records has been your trusted source for vinyl treasures. Browse our extensive collection of vinyl records. From classic rock to modern indie, we have something for everyone.</p>
+        <h1>Our Vinyl Record Inventory</h1>
+        <p>For over a decade, Haskins House Records has been your trusted source for vinyl treasures. Browse our extensive collection of high-quality vinyl records, featuring everything from classic rock to modern indie.</p>
         
         <section id="saturday-drop">
-            <h2>Saturday Drop</h2>
-            <p>Every Saturday, our owner Travis goes above and beyond for our customers. He travels all over, searching high and low for unique and rare records to add to our collection. It's this dedication that sets Haskins House Records apart and ensures our inventory is always fresh and exciting.</p>
+            <h2>Saturday Vinyl Drop: Weekly Treasures</h2>
+            <p>Every Saturday, our dedicated owner Travis goes above and beyond for our vinyl enthusiasts. He travels far and wide, searching for unique and rare records to add to our collection. It's this passion that sets Haskins House Records apart and ensures our vinyl inventory is always fresh and exciting.</p>
         </section>
         
         <div id="inventory-list">
-            <!-- Inventory items will be dynamically inserted here -->
-            <p id="loading-message">Loading inventory...</p>
+            <!-- Vinyl inventory items will be dynamically inserted here -->
+            <p id="loading-message">Loading our vinyl inventory...</p>
         </div>
 
         <div id="cart">
-            <h2>Shopping Cart</h2>
+            <h2>Your Vinyl Shopping Cart</h2>
             <div id="cart-items"></div>
             <div id="cart-total"></div>
-            <button id="checkout-button" style="display: none;">Proceed to Checkout</button>
+            <button id="checkout-button" style="display: none;">Proceed to Vinyl Checkout</button>
         </div>
     </main>
 
