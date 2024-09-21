@@ -5,20 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Store - Haskins House Records</title>
     <link rel="stylesheet" href="/styles.css">
-    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="icon" href="/images/logo.png" type="image/png">
     <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
     <script src="/script.js" defer></script>
 </head>
 <body>
     <header>
+        <div class="logo-container">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo">
+        </div>
         <nav aria-label="Main navigation">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="inventory.html">Inventory</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="store.html" aria-current="page">Store</a></li>
-                <li><a href="questions.html">Questions</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/inventory.html">Inventory</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/store.html" aria-current="page">Store</a></li>
+                <li><a href="/questions.html">Questions</a></li>
             </ul>
         </nav>
     </header>
@@ -27,20 +30,37 @@
         <h1>Haskins House Online Store</h1>
         <p>Can't make it to our physical location? No problem! Shop our online store for a wide selection of vinyl records and accessories.</p>
         <h2>Featured Categories</h2>
-        <ul>
+        <ul id="category-list">
             <li>New Arrivals</li>
             <li>Bestsellers</li>
             <li>Rare Finds</li>
             <li>Turntables & Equipment</li>
         </ul>
+
+        <div id="inventory-list">
+            <!-- Inventory items will be dynamically inserted here -->
+            <p id="loading-message">Loading inventory...</p>
+        </div>
+
+        <div id="cart">
+            <h2>Shopping Cart</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+            <button id="checkout-button" style="display: none;">Proceed to Checkout</button>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2023 Haskins House Records. All rights reserved.</p>
         <nav aria-label="Footer navigation">
-            <a href="privacy-policy.html">Privacy Policy</a> | 
-            <a href="terms-and-conditions.html">Terms and Conditions</a>
+            <a href="/privacy-policy.html">Privacy Policy</a> | 
+            <a href="/terms-and-conditions.html">Terms and Conditions</a>
         </nav>
+        <div class="social-links">
+            <a href="https://facebook.com/haskinshouse" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href="https://instagram.com/haskinshouse" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a href="https://twitter.com/haskinshouse" target="_blank" rel="noopener noreferrer">Twitter</a>
+        </div>
     </footer>
 </body>
 </html>
