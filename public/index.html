@@ -54,8 +54,8 @@
         <section id="newsletter-signup">
             <h2>Stay in the Loop</h2>
             <p>Subscribe to our newsletter for the latest updates, exclusive offers, and vinyl news!</p>
-            <form id="newsletter-form">
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            <form id="newsletter-form" action="/subscribe-newsletter" method="POST">
+                <input type="email" id="email" name="email" placeholder="Enter your email" required autocomplete="email">
                 <button type="submit">Subscribe</button>
             </form>
         </section>

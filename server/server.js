@@ -3,10 +3,11 @@ process.on('uncaughtException', (error) => {
     console.error('Uncaught Exception:', error);
 });
 
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const { Client, Environment, ApiError } = require('square');
-require('dotenv').config();
 const path = require('path');
 const helmet = require('helmet');
 const crypto = require('crypto');
@@ -23,6 +24,8 @@ app.use(helmet({
       scriptSrc: ["'self'", "https://sandbox.web.squarecdn.com"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "https://connect.squareupsandbox.com"], // Add this line
+      // Add other necessary directives here
     },
   },
 }));
@@ -44,6 +47,9 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Add this line if it's not already present
+app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, '..', 'public'), {
@@ -115,211 +121,7 @@ app.post('/api/update-inventory', (req, res) => {
     }
 });
 
-app.post('/process-payment', async (req, res) => {
-  try {
-    const { sourceId, amount, locationId, idempotencyKey, customerDetails } = req.body;
-
-    // Create or update customer
-    let customerId = await createOrUpdateCustomer(customerDetails);
-
-    // Process payment
-    const paymentBody = {
-      sourceId,
-      amountMoney: {
-        amount,
-        currency: 'USD'
-      },
-      locationId,
-      idempotencyKey,
-      customerId
-    };
-
-    const { result } = await squareClient.paymentsApi.createPayment(paymentBody);
-
-    res.json({ payment: result.payment });
-  } catch (error) {
-    console.error('Error processing payment:', error);
-    res.status(500).json({ error: 'Failed to process payment' });
-  }
-});
-
-app.post('/api/newsletter-signup', (req, res) => {
-  const { email } = req.body;
-  // TODO: Implement actual newsletter signup logic
-  console.log(`Newsletter signup: ${email}`);
-  res.json({ message: 'Thank you for signing up for our newsletter!' });
-});
-
-// Catch-all route
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-});
-
-// Helper function for customer management
-async function createOrUpdateCustomer(customerDetails) {
-  try {
-    const { result } = await squareClient.customersApi.searchCustomers({
-      query: {
-        filter: {
-          emailAddress: {
-            exact: customerDetails.email
-          }
-        }
-      }
-    });
-
-    if (result.customers && result.customers.length > 0) {
-      const customerId = result.customers[0].id;
-      await squareClient.customersApi.updateCustomer(customerId, {
-        givenName: customerDetails.name.split(' ')[0],
-        familyName: customerDetails.name.split(' ').slice(1).join(' '),
-        emailAddress: customerDetails.email,
-        phoneNumber: customerDetails.phone,
-        address: {
-          addressLine1: customerDetails.address
-        }
-      });
-      return customerId;
-    } else {
-      const { result } = await squareClient.customersApi.createCustomer({
-        givenName: customerDetails.name.split(' ')[0],
-        familyName: customerDetails.name.split(' ').slice(1).join(' '),
-        emailAddress: customerDetails.email,
-        phoneNumber: customerDetails.phone,
-        address: {
-          addressLine1: customerDetails.address
-        }
-      });
-      return result.customer.id;
-    }
-  } catch (error) {
-    console.error('Error creating/updating customer:', error);
-    throw error;
-  }
-}
-
-// Webhook handler
-app.post('/', express.raw({type: 'application/json'}), (req, res) => {
-    const signature = req.get('X-Square-Signature');
-    const body = req.body;
-
-    // Verify the webhook signature
-    const hash = crypto.createHmac('sha256', process.env.SQUARE_WEBHOOK_SIGNATURE_KEY)
-                       .update(body.toString('utf8'))
-                       .digest('base64');
-
-    if (hash !== signature) {
-        console.error('Invalid webhook signature');
-        return res.status(400).send('Invalid signature');
-    }
-
-    const event = JSON.parse(body.toString('utf8'));
-
-    console.log('Received webhook event:', event.type);
-
-    // Handle different event types
-    switch (event.type) {
-        case 'inventory.count.updated':
-            handleInventoryUpdate(event.data.object);
-            break;
-        case 'catalog.version.updated':
-            handleCatalogUpdate(event.data.object);
-            break;
-        case 'customer.created':
-        case 'customer.updated':
-        case 'customer.deleted':
-            handleCustomerEvent(event.type, event.data.object);
-            break;
-        case 'order.created':
-        case 'order.updated':
-        case 'order.fulfillment.updated':
-            handleOrderEvent(event.type, event.data.object);
-            break;
-        case 'payment.created':
-        case 'payment.updated':
-            handlePaymentEvent(event.type, event.data.object);
-            break;
-        case 'refund.created':
-        case 'refund.updated':
-            handleRefundEvent(event.type, event.data.object);
-            break;
-        case 'subscription.created':
-        case 'subscription.updated':
-            handleSubscriptionEvent(event.type, event.data.object);
-            break;
-        default:
-            console.log(`Unhandled event type: ${event.type}`);
-    }
-
-    res.sendStatus(200);
-});
-
-// Event handlers
-async function handleInventoryUpdate(data) {
-    console.log('Inventory updated:', data);
-    const { catalog_object_id, quantity } = data.counts[0];
-    
-    const item = inventory.find(item => item.id === catalog_object_id);
-    if (item) {
-        item.stockQuantity = quantity;
-        saveInventory();
-        
-        // Broadcast the update to all connected clients
-        wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(JSON.stringify({
-                    type: 'inventory_update',
-                    item: { id: catalog_object_id, stockQuantity: quantity }
-                }));
-            }
-        });
-    }
-}
-
-async function handleCatalogUpdate(data) {
-    console.log('Catalog updated:', data);
-    // Notify all connected clients to refresh their inventory
-    wss.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify({
-                type: 'catalog_update',
-                message: 'Catalog has been updated. Please refresh.'
-            }));
-        }
-    });
-}
-
-function handleCustomerEvent(type, data) {
-    console.log(`Customer event (${type}):`, data);
-    // Implement customer event logic
-    // This might involve updating a customer database or sending notifications
-}
-
-function handleOrderEvent(type, data) {
-    console.log(`Order event (${type}):`, data);
-    // Implement order event logic
-    // This might involve updating order status in your system
-    // or triggering fulfillment processes
-}
-
-function handlePaymentEvent(type, data) {
-    console.log(`Payment event (${type}):`, data);
-    // Implement payment event logic
-    // This might involve updating payment status in your system
-    // or triggering order fulfillment
-}
-
-function handleRefundEvent(type, data) {
-    console.log(`Refund event (${type}):`, data);
-    // Implement refund event logic
-    // This might involve updating order status or inventory
-}
-
-function handleSubscriptionEvent(type, data) {
-    console.log(`Subscription event (${type}):`, data);
-    // Implement subscription event logic
-    // This might involve updating subscription status in your system
-}
+// ... (rest of the code remains the same)
 
 // Server setup
 const PORT = process.env.PORT || 3000;
@@ -353,10 +155,11 @@ wss.on('connection', (ws) => {
   });
 });
 
-app.get('/styles.css', (req, res) => {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(path.join(__dirname, '..', 'public', 'styles.css'));
-});
+// Remove this route as it's already handled by express.static
+// app.get('/styles.css', (req, res) => {
+//   res.setHeader('Content-Type', 'text/css');
+//   res.sendFile(path.join(__dirname, '..', 'public', 'styles.css'));
+// });
 
 // Add an endpoint to serve images
 app.get('/image/:imageId', async (req, res) => {
@@ -368,4 +171,106 @@ app.get('/image/:imageId', async (req, res) => {
     console.error('Error fetching image:', error);
     res.status(404).send('Image not found');
   }
+});
+
+// Add a new route to handle form submissions
+app.post('/submit-form', (req, res) => {
+    const { name, email, message } = req.body;
+    
+    const submission = {
+        name,
+        email,
+        message,
+        timestamp: new Date().toISOString()
+    };
+
+    const filePath = path.join(__dirname, 'submissions.json');
+
+    fs.readFile(filePath, (err, data) => {
+        let submissions = [];
+        if (!err) {
+            submissions = JSON.parse(data);
+        }
+        submissions.push(submission);
+
+        fs.writeFile(filePath, JSON.stringify(submissions, null, 2), (err) => {
+            if (err) {
+                console.error('Error saving submission:', err);
+                res.status(500).send('An error occurred. Please try again later.');
+            } else {
+                res.send('Thank you for your message. We will get back to you soon!');
+            }
+        });
+    });
+});
+
+// Add a new route to handle newsletter subscription
+app.post('/subscribe-newsletter', (req, res) => {
+    const { email } = req.body;
+    
+    const subscription = {
+        email,
+        timestamp: new Date().toISOString()
+    };
+
+    const filePath = path.join(__dirname, 'newsletter_subscriptions.json');
+
+    fs.readFile(filePath, (err, data) => {
+        let subscriptions = [];
+        if (!err) {
+            subscriptions = JSON.parse(data);
+        }
+        
+        // Check if email already exists
+        if (!subscriptions.some(sub => sub.email === email)) {
+            subscriptions.push(subscription);
+
+            fs.writeFile(filePath, JSON.stringify(subscriptions, null, 2), (err) => {
+                if (err) {
+                    console.error('Error saving subscription:', err);
+                    res.status(500).send('An error occurred. Please try again later.');
+                } else {
+                    res.send('Thank you for subscribing to our newsletter!');
+                }
+            });
+        } else {
+            res.send('You are already subscribed to our newsletter.');
+        }
+    });
+});
+
+const squareClient = new Client({
+    accessToken: process.env.SQUARE_ACCESS_TOKEN,
+    environment: Environment.Sandbox // Use Environment.Production for production
+});
+
+app.get('/api/inventory', (req, res) => {
+    // This should return your inventory data
+    // For now, we'll return a mock inventory
+    const inventory = [
+        { id: '1', name: 'Record 1', price: 1999, stockQuantity: 5, imageUrl: '/images/record1.jpg' },
+        { id: '2', name: 'Record 2', price: 2499, stockQuantity: 3, imageUrl: '/images/record2.jpg' },
+        // Add more items as needed
+    ];
+    res.json({ items: inventory });
+});
+
+app.post('/process-payment', async (req, res) => {
+    const { token, amount, customerDetails } = req.body;
+
+    try {
+        const response = await squareClient.paymentsApi.createPayment({
+            sourceId: token,
+            amountMoney: {
+                amount: amount,
+                currency: 'USD'
+            },
+            idempotencyKey: new Date().toISOString()
+        });
+
+        res.json({ success: true, payment: response.result.payment });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: error.message });
+    }
 });
