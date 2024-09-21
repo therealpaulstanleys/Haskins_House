@@ -269,10 +269,9 @@ function animateParticles(particles, toHeart) {
             heart.style.left = `${heartCenterX - 5}px`;
             heart.style.top = `${heartCenterY - 5}px`;
             document.body.appendChild(heart);
-            heart.style.animation = 'heartAnimation 1s ease-out forwards';
-            heart.style.opacity = '1';
+            heart.style.animation = 'heartAnimation 1s ease-out forwards, fadeOut 1s ease-out 2s forwards';
             
-            // Remove the heart after 3 seconds
+            // Remove the heart after animation completes
             setTimeout(() => {
                 heart.remove();
             }, 3000);
@@ -292,6 +291,11 @@ function dissipateLogo() {
             logo.style.display = 'none';
             animateParticles(particles, true);
         }, 1000);
+
+        // Remove particles after animation
+        setTimeout(() => {
+            particles.forEach(p => p.remove());
+        }, 4000);
     } else {
         console.error('Logo element not found');
     }
@@ -300,9 +304,10 @@ function dissipateLogo() {
 function restoreLogo() {
     const logo = document.querySelector('.logo');
     if (logo && logo.style.display === 'none') {
+        // Remove any existing particles or hearts
+        document.querySelectorAll('.particle, .heart').forEach(el => el.remove());
+
         const particles = createParticles(document.body, 100);
-        const heart = document.querySelector('.heart');
-        if (heart) heart.remove();
         animateParticles(particles, false);
         setTimeout(() => {
             logo.style.display = '';
@@ -312,7 +317,7 @@ function restoreLogo() {
     }
 }
 
-// Update the event listener to toggle between dissapate and restore
+// Update the event listener to toggle between dissipate and restore
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded');
     const logoContainer = document.querySelector('.logo-container');
@@ -325,7 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (logo.style.display === 'none') {
                 restoreLogo();
             } else {
-                dissapateLogo();
+                dissipateLogo();
             }
         });
     } else {
