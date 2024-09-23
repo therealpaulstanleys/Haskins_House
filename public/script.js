@@ -1,7 +1,8 @@
 'use strict';
 
-const APP_ID = 'sandbox-sq0idb-xyfwMjNNL94zoBbn2Aswfw';
-const LOCATION_ID = 'LYCJZ87TJ8EHY';
+// Use environment variables for sensitive information
+const APP_ID = process.env.APP_ID; // Set this in your .env file
+const LOCATION_ID = process.env.LOCATION_ID; // Set this in your .env file
 
 let items = [];
 let payments;
@@ -28,17 +29,17 @@ function initializePageFunctionality() {
     if (inventoryList) {
         loadInventory();
     }
-    if (paymentForm) { 
-        initializePaymentForm(); 
+    if (paymentForm) {
+        initializePaymentForm();
     }
-    if (checkoutButton) { 
-        checkoutButton.addEventListener('click', showPaymentForm); 
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', showPaymentForm);
     }
-    if (cartItems && cartTotal) { 
-        updateCartDisplay(); 
+    if (cartItems && cartTotal) {
+        updateCartDisplay();
     }
-    if (logo) { 
-        logo.addEventListener('click', dissipateLogo); 
+    if (logo) {
+        logo.addEventListener('click', dissipateLogo);
     }
 }
 
@@ -49,11 +50,7 @@ async function loadInventory() {
         displayInventory(items);
     } catch (error) {
         console.error('Error loading inventory:', error);
-    if/* The code `(!inventoryList) { return; }` is a conditional check that is used to exit the
-    `loadInventory` function early if the `inventoryList` element is not found. */
-     (!inventoryList) {
-      return;
-    }document.getElementById('loading-message');
+        const loadingMessage = document.getElementById('loading-message');
         if (loadingMessage) {
             loadingMessage.textContent = 'Error loading inventory. Please try again later.';
         }
@@ -65,8 +62,8 @@ function displayInventory(items) {
     if (!inventoryList) {
         return;
     }
-    
-    inventoryList.innerHTML = items.length === 0 ? '<p>No items in inventory.</p>' : 
+
+    inventoryList.innerHTML = items.length === 0 ? '<p>No items in inventory.</p>' :
         items.map(item => `
             <div class="inventory-item" data-id="${item.id}">
                 <img src="${item.imageUrl}" alt="${item.name}" class="item-image">
@@ -103,9 +100,7 @@ async function removeFromCart(itemId) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ itemId })
         });
-        const { success, cart } = await response.json();
-        // sourcery-skip: use-object-destructuring
-        
+        const { success } = await response.json();
         updateCartDisplay();
     } catch (error) {
         console.error('Error removing from cart:', error);
@@ -122,7 +117,7 @@ async function updateCartDisplay() {
             cartTotal: document.getElementById('cart-total'),
             checkoutButton: document.getElementById('checkout-button')
         };
-        
+
         if (cartItems && cartTotal) {
             cartItems.innerHTML = cart.map(item => `
                 <div>${item.name} - $${(item.price / 100).toFixed(2)} x ${item.quantity}
@@ -132,7 +127,7 @@ async function updateCartDisplay() {
 
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity) / 100, 0);
             cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-            
+
             if (checkoutButton) {
                 checkoutButton.style.display = cart.length > 0 ? 'block' : 'none';
             }
@@ -270,7 +265,7 @@ function animateParticles(particles, toHeart) {
             heart.style.top = `${heartCenterY - 5}px`;
             document.body.appendChild(heart);
             heart.style.animation = 'heartAnimation 1s ease-out forwards, fadeOut 1s ease-out 2s forwards';
-            
+
             // Remove the heart after animation completes
             setTimeout(() => {
                 heart.remove();
