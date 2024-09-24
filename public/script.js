@@ -1,10 +1,6 @@
 'use strict';
 
-// Use environment variables for sensitive information
-const APP_ID = process.env.APP_ID; // Set this in your .env file
-const LOCATION_ID = process.env.LOCATION_ID; // Set this in your .env file
-
-let items = [];
+// Initialize Square payments
 let payments;
 
 document.addEventListener('DOMContentLoaded', initializePageFunctionality);
@@ -151,7 +147,11 @@ async function initializePaymentForm() {
     }
 
     try {
-        payments = window.Square.payments(APP_ID, LOCATION_ID);
+        // Fetch APP_ID and LOCATION_ID from the server
+        const response = await fetch('/api/square-config');
+        const { appId, locationId } = await response.json();
+
+        payments = window.Square.payments(appId, locationId);
         const card = await payments.card();
         await card.attach('#card-container');
 

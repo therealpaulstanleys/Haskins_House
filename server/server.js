@@ -18,22 +18,12 @@ const session = require('express-session');
 const app = express();
 
 // Use helmet for additional security headers
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "https://sandbox.web.squarecdn.com"],
-            styleSrc: ["'self'", "'unsafe-inline'"],
-            imgSrc: ["'self'", "data:", "https:"],
-            connectSrc: ["'self'", "https://connect.squareupsandbox.com"],
-        },
-    },
-}));
+app.use(helmet());
 
 // CORS configuration
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://your-ngrok-url.ngrok.io' // Update this with your actual ngrok URL
+    'https://c5f5-198-54-130-91.ngrok-free.app' // Update this with your new ngrok URL
 ];
 
 app.use(cors({
@@ -61,21 +51,11 @@ app.use(session({
     secret: process.env.SESSION_SECRET || 'your-secret-key', // Set this in your .env file
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === 'production' }
+    cookie: { secure: process.env.NODE_ENV === 'production' } // Ensure secure cookies in production
 }));
 
 // Serve static files from the public directory
-app.use(express.static(path.join(__dirname, '..', 'public'), {
-    setHeaders: (res, filePath) => {
-        if (filePath.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        } else if (filePath.endsWith('.js')) {
-            res.setHeader('Content-Type', 'application/javascript');
-        }
-        res.setHeader('Cache-Control', 'public, max-age=3600');
-        res.setHeader('X-Frame-Options', 'SAMEORIGIN');
-    }
-}));
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Load inventory from JSON file
 let inventory = [];
@@ -92,15 +72,6 @@ async function loadInventory() {
     }
 }
 
-async function saveInventory() {
-    try {
-        await fs.writeFile(inventoryPath, JSON.stringify({ items: inventory }, null, 2));
-        console.log('Inventory saved to file');
-    } catch (error) {
-        console.error('Error saving inventory:', error);
-    }
-}
-
 loadInventory();
 
 // Routes
@@ -108,179 +79,15 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-app.get('/get-catalog-items', (req, res) => {
-    console.log(`Sending ${inventory.length} items to client`);
-    res.json({ items: inventory });
-});
+// Other routes...
 
-app.get('/api/inventory', (req, res) => {
-    res.json({ items: inventory });
-});
-
-app.post('/api/update-inventory', async(req, res) => {
-    const { id, stockQuantity } = req.body;
-    const item = inventory.find(item => item.id === id);
-    if (item) {
-        item.stockQuantity = stockQuantity;
-        await saveInventory();
-        res.json({ success: true, item });
-    } else {
-        res.status(404).json({ success: false, message: 'Item not found' });
-    }
-});
-
-// Cart functionality
-app.post('/api/cart/add', (req, res) => {
-    const { itemId, quantity } = req.body;
-    if (!req.session.cart) {
-        req.session.cart = [];
-    }
-
-    const existingItem = req.session.cart.find(item => item.id === itemId);
-    if (existingItem) {
-        existingItem.quantity += quantity;
-    } else {
-        const item = inventory.find(item => item.id === itemId);
-        if (item) {
-            req.session.cart.push({ id: itemId, quantity, price: item.price, name: item.name });
-        }
-    }
-
-    res.json({ success: true, cart: req.session.cart });
-});
-
-app.post('/api/cart/remove', (req, res) => {
-    const { itemId } = req.body;
-    if (req.session.cart) {
-        req.session.cart = req.session.cart.filter(item => item.id !== itemId);
-    }
-    res.json({ success: true, cart: req.session.cart });
-});
-
-app.get('/api/cart', (req, res) => {
-    res.json({ cart: req.session.cart || [] });
-});
-
-app.post('/api/cart/clear', (req, res) => {
-    req.session.cart = [];
-    res.json({ success: true, cart: [] });
-});
-
-// Server setup
-const PORT = process.env.PORT || 3000;
-
-const server = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-server.on('error', (e) => {
-    if (e.code === 'EADDRINUSE') {
-        console.log('Address in use, retrying...');
-        setTimeout(() => {
-            server.close();
-            server.listen(PORT);
-        }, 1000);
-    }
-});
-
-// WebSocket setup
-const wss = new WebSocket.Server({ server });
-
-wss.on('connection', (ws) => {
-    console.log('New WebSocket connection');
-
-    ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
-    });
-
-    ws.on('close', () => {
-        console.log('WebSocket connection closed');
-    });
-});
-
-// Add an endpoint to serve images
-app.get('/image/:imageId', async(req, res) => {
-    try {
-        const response = await squareClient.catalogApi.retrieveCatalogObject(req.params.imageId);
-        const imageUrl = response.result.object.imageData.url;
-        res.redirect(imageUrl);
-    } catch (error) {
-        console.error('Error fetching image:', error);
-        res.status(404).send('Image not found');
-    }
-});
-
-// Add a new route to handle form submissions
-app.post('/submit-form', async(req, res) => {
-    const { name, email, message } = req.body;
-
-    const submission = {
-        name,
-        email,
-        message,
-        timestamp: new Date().toISOString()
-    };
-
-    const filePath = path.join(__dirname, 'submissions.json');
-
-    try {
-        let submissions = [];
-        try {
-            const data = await fs.readFile(filePath, 'utf8');
-            submissions = JSON.parse(data);
-        } catch (err) {
-            // File doesn't exist or is empty, start with an empty array
-        }
-        submissions.push(submission);
-
-        await fs.writeFile(filePath, JSON.stringify(submissions, null, 2));
-        res.send('Thank you for your message. We will get back to you soon!');
-    } catch (err) {
-        console.error('Error saving submission:', err);
-        res.status(500).send('An error occurred. Please try again later.');
-    }
-});
-
-// Add a new route to handle newsletter subscription
-app.post('/subscribe-newsletter', async(req, res) => {
-    const { email } = req.body;
-
-    const subscription = {
-        email,
-        timestamp: new Date().toISOString()
-    };
-
-    const filePath = path.join(__dirname, 'newsletter_subscriptions.json');
-
-    try {
-        let subscriptions = [];
-        try {
-            const data = await fs.readFile(filePath, 'utf8');
-            subscriptions = JSON.parse(data);
-        } catch (err) {
-            // File doesn't exist or is empty, start with an empty array
-        }
-
-        // Check if email already exists
-        if (!subscriptions.some(sub => sub.email === email)) {
-            subscriptions.push(subscription);
-
-            await fs.writeFile(filePath, JSON.stringify(subscriptions, null, 2));
-            res.send('Thank you for subscribing to our newsletter!');
-        } else {
-            res.send('You are already subscribed to our newsletter.');
-        }
-    } catch (err) {
-        console.error('Error saving subscription:', err);
-        res.status(500).send('An error occurred. Please try again later.');
-    }
-});
-
+// Square client setup
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN, // Set this in your .env file
     environment: Environment.Sandbox // Use Environment.Production for production
 });
 
+// Payment processing route
 app.post('/process-payment', async(req, res) => {
     const { token, customerDetails } = req.body;
     const cart = req.session.cart || [];
@@ -306,7 +113,36 @@ app.post('/process-payment', async(req, res) => {
 
         res.json({ success: true, payment: response.result.payment });
     } catch (error) {
-        console.error(error);
+        console.error('Payment processing error:', error);
         res.status(500).json({ success: false, error: error.message });
     }
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+// WebSocket setup should come after the server is initialized
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+    console.log('New WebSocket connection');
+
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
+
+    ws.on('close', () => {
+        console.log('WebSocket connection closed');
+    });
+});
+
+// Add this route to your existing server.js file
+app.get('/api/square-config', (req, res) => {
+    res.json({
+        appId: process.env.APP_ID,
+        locationId: process.env.LOCATION_ID
+    });
 });
