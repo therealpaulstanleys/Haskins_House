@@ -1,6 +1,13 @@
 # Environment variables
 .env
 
+#keys 
+*.key
+*.pem
+*.pub
+key.pem
+cert.pem
+
 # Node modules
 node_modules/
 
@@ -89,3 +96,5 @@ typings/
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.key
+*.pem
