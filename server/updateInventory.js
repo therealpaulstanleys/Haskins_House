@@ -30,7 +30,7 @@ async function fetchInventory() {
                     name: item.itemData.name,
                     price: item.itemData.variations[0].itemVariationData.priceMoney.amount,
                     description: item.itemData.description || '',
-                    imageUrl: item.itemData.imageIds ? `/image/${item.itemData.imageIds[0]}` : '',
+                    imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '', // Fixed path
                     stockQuantity: stockQuantity,
                     genre: item.itemData.categories ? item.itemData.categories[0] : '',
                     releaseYear: item.itemData.releaseDate ? new Date(item.itemData.releaseDate).getFullYear() : '',
