@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Vinyl Store - Haskins House Records</title>
-    <meta name="description" content="Shop our online store for a wide selection of vinyl records and accessories. Discover new arrivals, bestsellers, and rare finds at Haskins House Records.">
+    <meta name="description" content="Shop our online store for a wide selection of vinyl records.">
     <link rel="stylesheet" href="/styles.css">
     <link rel="icon" href="/images/logo.png" type="image/png">
     <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
     <script src="/script.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </head>
 
 <body>
@@ -34,25 +33,21 @@
 
     <main>
         <h1>Haskins House Online Vinyl Store</h1>
-        <p>Can't make it to our physical location? No problem! Shop our online store for a wide selection of vinyl records and accessories. Discover the perfect addition to your record collection today!</p>
-        <h2>Featured Vinyl Categories</h2>
-        <ul id="category-list">
-            <li>New Vinyl Arrivals</li>
-            <li>Bestselling Records</li>
-            <li>Rare Vinyl Finds</li>
-            <li>Turntables & Vinyl Equipment</li>
-        </ul>
+        <p>Can't make it to our physical location? No problem! Shop our extensive collection of vinyl records online.</p>
 
-        <div id="inventory-list">
-            <!-- Vinyl inventory items will be dynamically inserted here -->
-            <p id="loading-message">Loading our vinyl inventory...</p>
-        </div>
+        <section id="product-list">
+            <h2>Available Vinyl Records</h2>
+            <div id="products">
+                <!-- Products will be dynamically inserted here -->
+                <p id="loading-message">Loading products...</p>
+            </div>
+        </section>
 
         <div id="cart">
-            <h2>Your Vinyl Shopping Cart</h2>
+            <h2>Your Shopping Cart</h2>
             <div id="cart-items"></div>
             <div id="cart-total"></div>
-            <button id="checkout-button" style="display: none;">Proceed to Vinyl Checkout</button>
+            <button id="checkout-button" style="display: none;">Proceed to Checkout</button>
         </div>
     </main>
 
