@@ -79,8 +79,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// Other routes...
-
 // Square client setup
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN, // Set this in your .env file
