@@ -146,3 +146,27 @@ app.get('/api/square-config', (req, res) => {
         locationId: process.env.LOCATION_ID
     });
 });
+
+// Add webhook endpoint
+app.post('/api/webhooks', (req, res) => {
+    const event = req.body;
+
+    // Log the event for debugging
+    console.log('Received webhook event:', event);
+
+    // Handle the event based on its type
+    switch (event.type) {
+        case 'payment.updated':
+            // Handle payment update
+            break;
+        case 'payment.created':
+            // Handle payment creation
+            break;
+            // Add more cases as needed
+        default:
+            console.log(`Unhandled event type: ${event.type}`);
+    }
+
+    // Respond with a 200 status to acknowledge receipt
+    res.status(200).send('Webhook received');
+});
