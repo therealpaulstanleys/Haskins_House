@@ -83,12 +83,18 @@ async function addToCart(itemId) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ itemId, quantity: 1 })
         });
+
+        if (!response.ok) {
+            throw new Error('Failed to add item to cart');
+        }
+
         const { success } = await response.json();
         if (success) {
             updateCartDisplay();
         }
     } catch (error) {
         console.error('Error adding to cart:', error);
+        alert('Could not add item to cart. Please try again.'); // User feedback
     }
 }
 
@@ -99,10 +105,18 @@ async function removeFromCart(itemId) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ itemId })
         });
+
+        if (!response.ok) {
+            throw new Error('Failed to remove item from cart');
+        }
+
         const { success } = await response.json();
-        updateCartDisplay();
+        if (success) {
+            updateCartDisplay();
+        }
     } catch (error) {
         console.error('Error removing from cart:', error);
+        alert('Could not remove item from cart. Please try again.'); // User feedback
     }
 }
 
@@ -197,7 +211,7 @@ async function processPayment(token) {
             displayPaymentResults('Payment Successful');
             clearCart();
         } else {
-            throw new Error(result.error);
+            throw new Error(result.error || 'Payment processing failed');
         }
     } catch (error) {
         console.error('Error:', error);
@@ -335,3 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Logo container not found');
     }
 });
+
+// Call loadInventory when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', loadInventory);
