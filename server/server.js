@@ -3,12 +3,13 @@ BigInt.prototype.toJSON = function() {
     return this.toString();
 };
 
+require('dotenv').config({ path: './.env' }); // Adjust the path if necessary
+
 console.log("Script started");
 process.on('uncaughtException', (error) => {
     console.error('Uncaught Exception:', error);
 });
 
-require('dotenv').config();
 console.log('Session Secret:', process.env.SESSION_SECRET); // Debugging line
 
 const express = require('express');
