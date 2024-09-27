@@ -131,7 +131,12 @@ app.post('/process-payment', async(req, res) => {
 app.get('/api/inventory', async(req, res) => {
     try {
         const response = await squareClient.catalogApi.listCatalog();
-        const items = response.result.objects.filter(item => item.type === 'ITEM');
+        const items = response.result.objects.filter(item => item.type === 'ITEM').map(item => {
+            return {
+                ...item,
+                price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Convert BigInt to Number
+            };
+        });
         res.json({ items });
     } catch (error) {
         console.error('Error fetching inventory:', error);
