@@ -45,14 +45,23 @@ const limiter = rateLimit({
 app.use(limiter);
 
 app.use(express.json({ limit: '1mb' }));
+
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError) {
+        console.error('Invalid JSON:', err);
+        return res.status(400).send({ error: 'Invalid JSON' });
+    }
+    next();
+});
+
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 // Add session middleware
 app.use(session({
-    secret: process.env.SESSION_SECRET, // Ensure this is set in your .env file
+    secret: process.env.SESSION_SECRET || 'your-default-secret', // Ensure this is set in your .env file
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true } // Ensure secure cookies in production
+    cookie: { secure: process.env.NODE_ENV === 'production' } // Ensure secure cookies in production
 }));
 
 // Serve static files from the public directory
@@ -113,7 +122,7 @@ app.post('/process-payment', async(req, res) => {
         res.json({ success: true, payment: response.result.payment });
     } catch (error) {
         console.error('Payment processing error:', error);
-        res.status(500).json({ success: false, error: error.message });
+        res.status(500).json({ success: false, error: 'Payment processing failed. Please try again.' });
     }
 });
 
