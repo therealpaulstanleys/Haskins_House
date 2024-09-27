@@ -1,3 +1,8 @@
+// Add this at the top of your server.js file
+BigInt.prototype.toJSON = function() {
+    return this.toString();
+};
+
 console.log("Script started");
 process.on('uncaughtException', (error) => {
     console.error('Uncaught Exception:', error);
@@ -120,7 +125,12 @@ app.post('/process-payment', async(req, res) => {
         // Clear the cart after successful payment
         req.session.cart = [];
 
-        res.json({ success: true, payment: response.result.payment });
+        const responseData = {
+            inventoryCount: BigIntValue, // Ensure BigIntValue is defined and is a BigInt
+            // ... other properties ...
+        };
+
+        res.json(responseData); // Send the response
     } catch (error) {
         console.error('Payment processing error:', error);
         res.status(500).json({ success: false, error: 'Payment processing failed. Please try again.' });
@@ -199,3 +209,8 @@ app.post('/api/webhooks', (req, res) => {
     // Respond with a 200 status to acknowledge receipt
     res.status(200).send('Webhook received');
 });
+
+// Add this at the top of your server.js file
+BigInt.prototype.toJSON = function() {
+    return this.toString();
+};
