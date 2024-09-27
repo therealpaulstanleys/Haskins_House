@@ -23,7 +23,8 @@ app.use(helmet());
 // CORS configuration
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://c5f5-198-54-130-91.ngrok-free.app' // Update this with your new ngrok URL
+    'https://haskinshouserecords.com',
+    'https://www.haskinshouserecords.com'
 ];
 
 app.use(cors({
@@ -48,10 +49,10 @@ app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
 // Add session middleware
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'your-secret-key', // Set this in your .env file
+    secret: process.env.SESSION_SECRET, // Ensure this is set in your .env file
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === 'production' } // Ensure secure cookies in production
+    cookie: { secure: true } // Ensure secure cookies in production
 }));
 
 // Serve static files from the public directory
@@ -81,8 +82,8 @@ app.get('/', (req, res) => {
 
 // Square client setup
 const squareClient = new Client({
-    accessToken: process.env.SQUARE_ACCESS_TOKEN, // Set this in your .env file
-    environment: Environment.Sandbox // Use Environment.Production for production
+    accessToken: process.env.SQUARE_ACCESS_TOKEN, // Ensure this is set in your .env file
+    environment: Environment.Production // Use Production for production
 });
 
 // Payment processing route
@@ -137,7 +138,7 @@ wss.on('connection', (ws) => {
     });
 });
 
-// Add this route to your existing server.js file
+// Square configuration route
 app.get('/api/square-config', (req, res) => {
     res.json({
         appId: process.env.APP_ID,
@@ -145,7 +146,7 @@ app.get('/api/square-config', (req, res) => {
     });
 });
 
-// Add webhook endpoint
+// Webhook endpoint
 app.post('/api/webhooks', (req, res) => {
     const event = req.body;
 
@@ -160,7 +161,10 @@ app.post('/api/webhooks', (req, res) => {
         case 'payment.created':
             // Handle payment creation
             break;
-            // Add more cases as needed
+        case 'payout.paid':
+            // Handle payout paid event
+            console.log('Payout has been paid:', event.data);
+            break;
         default:
             console.log(`Unhandled event type: ${event.type}`);
     }
