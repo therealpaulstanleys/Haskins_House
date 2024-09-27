@@ -5,7 +5,7 @@ const path = require('path');
 
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
-    environment: Environment.Production // Change to Production for production
+    environment: Environment.Production
 });
 
 async function fetchInventory() {
@@ -23,18 +23,18 @@ async function fetchInventory() {
         const items = await Promise.all(response.result.objects.map(async(item) => {
             try {
                 const inventoryResponse = await squareClient.inventoryApi.retrieveInventoryCount(item.id);
-                const stockQuantity = inventoryResponse.result.counts[0] ? inventoryResponse.result.counts[0].quantity : 0;
+                const stockQuantity = inventoryResponse.result.counts[0] ? inventoryResponse.result.counts[0].quantity || 0 : 0;
 
                 return sanitizeItem({
                     id: item.id,
                     name: item.itemData.name,
-                    price: item.itemData.variations[0].itemVariationData.priceMoney.amount,
+                    price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Convert to Number
                     description: item.itemData.description || '',
-                    imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '', // Fixed path
-                    stockQuantity: stockQuantity,
+                    imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
+                    stockQuantity,
                     genre: item.itemData.categories ? item.itemData.categories[0] : '',
                     releaseYear: item.itemData.releaseDate ? new Date(item.itemData.releaseDate).getFullYear() : '',
-                    format: 'Vinyl', // Assuming all items are vinyl
+                    format: 'Vinyl',
                     artist: item.itemData.name.split(' - ')[0]
                 });
             } catch (error) {
@@ -44,7 +44,6 @@ async function fetchInventory() {
         }));
 
         const validItems = items.filter(item => item !== null);
-
         const inventoryData = { items: validItems };
         const inventoryPath = path.join(__dirname, 'inventory.json');
         fs.writeFileSync(inventoryPath, JSON.stringify(inventoryData, null, 2));
