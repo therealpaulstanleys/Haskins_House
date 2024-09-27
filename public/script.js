@@ -42,7 +42,10 @@ function initializePageFunctionality() {
 async function loadInventory() {
     try {
         const response = await fetch('/api/inventory');
-        items = (await response.json()).items;
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const { items } = await response.json();
         displayInventory(items);
     } catch (error) {
         console.error('Error loading inventory:', error);

@@ -5,7 +5,7 @@ const path = require('path');
 
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
-    environment: Environment.Sandbox // Change to Environment.Production for production
+    environment: Environment.Production // Change to Production for production
 });
 
 async function fetchInventory() {
