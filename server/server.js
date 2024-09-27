@@ -4,6 +4,7 @@ process.on('uncaughtException', (error) => {
 });
 
 require('dotenv').config();
+console.log('Session Secret:', process.env.SESSION_SECRET); // Debugging line
 
 const express = require('express');
 const cors = require('cors');
