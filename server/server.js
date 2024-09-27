@@ -98,7 +98,7 @@ app.get('/', (req, res) => {
 // Square client setup
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN, // Ensure this is set in your .env file
-    environment: Environment.Production // Use Production for production
+    environment: Environment.Production // Use Production
 });
 
 // Payment processing route
@@ -126,7 +126,7 @@ app.post('/process-payment', async(req, res) => {
         req.session.cart = [];
 
         const responseData = {
-            inventoryCount: BigIntValue, // Ensure BigIntValue is defined and is a BigInt
+            inventoryCount: BigIntValue ? BigIntValue.toString() : '0', // Convert BigInt to string
             // ... other properties ...
         };
 
