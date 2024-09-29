@@ -54,6 +54,8 @@ header {
 
 main {
     padding: 20px;
+    text-align: center;
+    /* Centering the main content */
 }
 
 
@@ -169,6 +171,7 @@ h1,
 h2 {
     color: var(--primary-color);
     text-align: center;
+    /* Centering headings */
 }
 
 #intro,
