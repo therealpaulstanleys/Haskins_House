@@ -52,14 +52,17 @@ app.get('/api/inventory', async(req, res) => {
 
         const inventoryItems = await Promise.all(inventoryPromises);
 
-        // Use the custom replacer function for serialization
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({ items: inventoryItems }, (key, value) => {
+        // Custom replacer function to handle BigInt serialization
+        const replacer = (key, value) => {
             if (typeof value === 'bigint') {
                 return value.toString(); // Convert BigInt to string
             }
             return value;
-        })); // Use the replacer function
+        };
+
+        // Send the response using JSON.stringify with the replacer
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({ items: inventoryItems }, replacer));
     } catch (error) {
         console.error('Error fetching inventory:', error);
         res.status(500).json({ error: 'Failed to fetch inventory' });
