@@ -138,7 +138,10 @@ app.post('/process-payment', async(req, res) => {
     }
 });
 
-// Endpoint to get inventory
+// Import the fetchInventory function from updateInventory.js
+const { fetchInventory } = require('./updateInventory');
+
+// Update the inventory API endpoint
 app.get('/api/inventory', async(req, res) => {
     try {
         const items = await fetchInventory(); // Fetch live inventory from Square
