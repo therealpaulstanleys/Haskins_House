@@ -33,15 +33,28 @@ const squareClient = new Client({
 // Endpoint to get inventory
 app.get('/api/inventory', async(req, res) => {
     try {
-        const response = await squareClient.catalogApi.listCatalog();
-        const items = response.result.objects.filter(item => item.type === 'ITEM').map(item => {
+        const catalogResponse = await squareClient.catalogApi.listCatalog();
+        const items = catalogResponse.result.objects.filter(item => item.type === 'ITEM');
+
+        // Fetch inventory counts for each item
+        const inventoryPromises = items.map(async(item) => {
+            const inventoryResponse = await squareClient.inventoryApi.retrieveInventoryCount(item.id);
+            const stockQuantity = inventoryResponse.result.counts[0] ? inventoryResponse.result.counts[0].quantity : 0;
+
             return {
-                ...item,
+                id: item.id,
+                name: item.itemData.name,
                 price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Ensure price is a Number
-                stockQuantity: item.stockQuantity ? item.stockQuantity.toString() : '0', // Convert to string
+                stockQuantity: stockQuantity, // Use the fetched stock quantity
+                description: item.itemData.description || '',
+                imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
+                // Add any other properties you need
             };
         });
-        res.json({ items });
+
+        // Wait for all inventory counts to be fetched
+        const inventoryItems = await Promise.all(inventoryPromises);
+        res.json({ items: inventoryItems });
     } catch (error) {
         console.error('Error fetching inventory:', error);
         res.status(500).json({ error: 'Failed to fetch inventory' });
