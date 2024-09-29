@@ -44,7 +44,7 @@ app.get('/api/inventory', async(req, res) => {
                 id: item.id,
                 name: item.itemData.name,
                 price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Ensure price is a Number
-                stockQuantity: stockQuantity, // Keep as is for now
+                stockQuantity: stockQuantity.toString(), // Convert stockQuantity to string
                 description: item.itemData.description || '',
                 imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
             };
@@ -52,17 +52,14 @@ app.get('/api/inventory', async(req, res) => {
 
         const inventoryItems = await Promise.all(inventoryPromises);
 
-        // Custom replacer function to handle BigInt serialization
-        const replacer = (key, value) => {
+        // Send the response using JSON.stringify with the replacer
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({ items: inventoryItems }, (key, value) => {
             if (typeof value === 'bigint') {
                 return value.toString(); // Convert BigInt to string
             }
             return value;
-        };
-
-        // Send the response using JSON.stringify with the replacer
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({ items: inventoryItems }, replacer));
+        }));
     } catch (error) {
         console.error('Error fetching inventory:', error);
         res.status(500).json({ error: 'Failed to fetch inventory' });
