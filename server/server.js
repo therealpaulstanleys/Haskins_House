@@ -23,96 +23,16 @@ const session = require('express-session');
 
 const app = express();
 
-// Use helmet for additional security headers
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
-
-// CORS configuration
-const allowedOrigins = [
-    'http://localhost:3000',
-    'https://haskinshouserecords.com',
-    'https://www.haskinshouserecords.com'
-];
-
-app.use(cors({
-    origin: function(origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-}));
-
-// Rate limiting
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
-});
-app.use(limiter);
-
-app.use(express.json({ limit: '1mb' }));
-
-app.use((err, req, res, next) => {
-    if (err instanceof SyntaxError) {
-        console.error('Invalid JSON:', err);
-        return res.status(400).send({ error: 'Invalid JSON' });
-    }
-    next();
-});
-
-app.use(express.urlencoded({ extended: true, limit: '1mb' }));
-
-// Add session middleware
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'your-default-secret', // Ensure this is set in your .env file
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: process.env.NODE_ENV === 'production' } // Ensure secure cookies in production
-}));
-
-// Serve static files from the public directory
-app.use(express.static(path.join(__dirname, '..', 'public')));
 
 // Square client setup
 const squareClient = new Client({
-    accessToken: process.env.SQUARE_ACCESS_TOKEN, // Ensure this is set in your .env file
-    environment: Environment.Production // Use Production for production
-});
-
-// Payment processing route
-app.post('/process-payment', async(req, res) => {
-    const { token, customerDetails } = req.body;
-    const cart = req.session.cart || [];
-
-    if (cart.length === 0) {
-        return res.status(400).json({ success: false, error: 'Cart is empty' });
-    }
-
-    const totalAmount = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-
-    try {
-        const response = await squareClient.paymentsApi.createPayment({
-            sourceId: token,
-            amountMoney: {
-                amount: totalAmount,
-                currency: 'USD'
-            },
-            idempotencyKey: new Date().toISOString()
-        });
-
-        // Clear the cart after successful payment
-        req.session.cart = [];
-
-        const responseData = {
-            inventoryCount: totalAmount.toString(), // Convert totalAmount to string
-            // ... other properties ...
-        };
-
-        res.json(responseData); // Send the response
-    } catch (error) {
-        console.error('Payment processing error:', error);
-        res.status(500).json({ success: false, error: 'Payment processing failed. Please try again.' });
-    }
+    environment: Environment.Sandbox, // Change to Production when ready
+    accessToken: process.env.SQUARE_ACCESS_TOKEN,
 });
 
 // Endpoint to get inventory
@@ -123,7 +43,7 @@ app.get('/api/inventory', async(req, res) => {
             return {
                 ...item,
                 price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Convert BigInt to Number
-                // Ensure any BigInt values are converted to strings if necessary
+                stockQuantity: item.stockQuantity ? item.stockQuantity.toString() : '0', // Convert to string
             };
         });
         res.json({ items });
@@ -139,7 +59,7 @@ const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
-// WebSocket setup should come after the server is initialized
+// WebSocket setup
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
