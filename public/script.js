@@ -26,17 +26,39 @@ function displayInventory(items) {
     }
 
     inventoryList.innerHTML = items.length === 0 ? '<p>No items in inventory.</p>' :
-        items.map(item => `
-            <div class="inventory-item" data-id="${item.id}">
-                <img src="${item.imageUrl}" alt="${item.name}" class="item-image">
-                <h3>${item.name}</h3>
-                <p>Price: $${(item.price / 100).toFixed(2)}</p>
-                <p class="stock-quantity">In Stock: ${item.stockQuantity}</p>
-                <button onclick="addToCart('${item.id}')" ${item.stockQuantity === 0 ? 'disabled' : ''}>
-                    ${item.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart'}
-                </button>
-            </div>
-        `).join('');
+        items.map(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'inventory-item';
+            itemDiv.setAttribute('data-id', item.id);
+
+            const img = document.createElement('img');
+            img.src = item.imageUrl;
+            img.alt = item.name;
+            img.className = 'item-image';
+
+            const name = document.createElement('h3');
+            name.textContent = item.name;
+
+            const price = document.createElement('p');
+            price.textContent = `Price: $${(item.price / 100).toFixed(2)}`;
+
+            const stockQuantity = document.createElement('p');
+            stockQuantity.className = 'stock-quantity';
+            stockQuantity.textContent = `In Stock: ${item.stockQuantity}`;
+
+            const button = document.createElement('button');
+            button.textContent = item.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart';
+            button.disabled = item.stockQuantity === 0;
+            button.addEventListener('click', () => addToCart(item.id));
+
+            itemDiv.appendChild(img);
+            itemDiv.appendChild(name);
+            itemDiv.appendChild(price);
+            itemDiv.appendChild(stockQuantity);
+            itemDiv.appendChild(button);
+
+            return itemDiv.outerHTML;
+        }).join('');
 }
 
 async function addToCart(itemId) {

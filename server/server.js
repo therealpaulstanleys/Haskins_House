@@ -26,7 +26,7 @@ app.use(helmet());
 
 // Square client setup
 const squareClient = new Client({
-    environment: Environment.Sandbox, // Change to Production when ready
+    environment: Environment.Production, // Ensure this is set to Production
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
 });
 
@@ -61,8 +61,9 @@ app.get('/api/inventory', async(req, res) => {
             return value;
         }));
     } catch (error) {
-        console.error('Error fetching inventory:', error);
-        res.status(500).json({ error: 'Failed to fetch inventory' });
+        // Improved error handling
+        console.error('Error fetching inventory:', error.response ? error.response.body : error);
+        res.status(500).json({ error: 'Failed to fetch inventory', details: error.message });
     }
 });
 
