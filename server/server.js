@@ -31,13 +31,6 @@ const squareClient = new Client({
 });
 
 // Endpoint to get inventory
-function replacer(key, value) {
-    if (typeof value === 'bigint') {
-        return value.toString(); // Convert BigInt to string
-    }
-    return value;
-}
-
 app.get('/api/inventory', async(req, res) => {
     try {
         const catalogResponse = await squareClient.catalogApi.listCatalog();
@@ -58,7 +51,15 @@ app.get('/api/inventory', async(req, res) => {
         });
 
         const inventoryItems = await Promise.all(inventoryPromises);
-        res.json(JSON.stringify({ items: inventoryItems }, replacer)); // Use the replacer function
+
+        // Use the custom replacer function for serialization
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({ items: inventoryItems }, (key, value) => {
+            if (typeof value === 'bigint') {
+                return value.toString(); // Convert BigInt to string
+            }
+            return value;
+        })); // Use the replacer function
     } catch (error) {
         console.error('Error fetching inventory:', error);
         res.status(500).json({ error: 'Failed to fetch inventory' });
