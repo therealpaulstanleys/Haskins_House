@@ -5,7 +5,7 @@ const path = require('path');
 
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
-    environment: Environment.Production
+    environment: Environment.Production // Ensure this is set to Production
 });
 
 async function fetchInventory() {
@@ -38,14 +38,14 @@ async function fetchInventory() {
                     artist: item.itemData.name.split(' - ')[0]
                 };
             } catch (error) {
-                console.error(`Error processing item ${item.id}:`, error);
+                console.error(`Error processing item ${item.id}:`, error.response ? error.response.body : error);
                 return null;
             }
         }));
 
         return items.filter(item => item !== null);
     } catch (error) {
-        console.error('Error fetching inventory:', error);
+        console.error('Error fetching inventory:', error.response ? error.response.body : error);
         return [];
     }
 }
