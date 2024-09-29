@@ -175,3 +175,42 @@ const inventoryRoutes = require('./api/inventory'); // Import the inventory rout
 
 // Middleware to use the inventory routes
 app.use('/api/inventory', inventoryRoutes); // This will prefix all routes in inventory.js with /api/inventory
+
+let cart = []; // In-memory cart for demonstration
+let inventoryItems = []; // This should be populated with your inventory data
+
+// Endpoint to get inventory
+app.get('/api/inventory', async(req, res) => {
+    // Fetch inventory logic here
+    inventoryItems = await fetchInventory(); // Assuming fetchInventory is defined
+    res.json({ items: inventoryItems });
+});
+
+// Endpoint to get cart items
+app.get('/api/cart', (req, res) => {
+    res.json({ cart });
+});
+
+// Endpoint to add item to cart
+app.post('/api/cart/add', (req, res) => {
+    const { itemId } = req.body;
+    const item = inventoryItems.find(i => i.id === itemId);
+
+    if (item) {
+        const cartItem = cart.find(i => i.id === itemId);
+        if (cartItem) {
+            cartItem.quantity += 1;
+        } else {
+            cart.push({...item, quantity: 1 });
+        }
+        return res.json({ success: true });
+    }
+    res.status(404).json({ success: false, message: 'Item not found' });
+});
+
+// Endpoint to remove item from cart
+app.post('/api/cart/remove', (req, res) => {
+    const { itemId } = req.body;
+    cart = cart.filter(item => item.id !== itemId);
+    res.json({ success: true });
+});
