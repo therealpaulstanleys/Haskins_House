@@ -104,7 +104,7 @@ app.post('/process-payment', async(req, res) => {
         req.session.cart = [];
 
         const responseData = {
-            inventoryCount: BigInt(totalAmount).toString(), // Convert totalAmount to BigInt and then to string
+            inventoryCount: totalAmount.toString(), // Convert totalAmount to string
             // ... other properties ...
         };
 
@@ -123,6 +123,7 @@ app.get('/api/inventory', async(req, res) => {
             return {
                 ...item,
                 price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Convert BigInt to Number
+                // Ensure any BigInt values are converted to strings if necessary
             };
         });
         res.json({ items });
