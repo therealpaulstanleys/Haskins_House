@@ -15,6 +15,7 @@ const WebSocket = require('ws');
 const fs = require('fs').promises;
 const rateLimit = require('express-rate-limit');
 const session = require('express-session');
+const nodemailer = require('nodemailer');
 
 const app = express();
 
@@ -28,6 +29,15 @@ app.use(helmet());
 const squareClient = new Client({
     environment: Environment.Production, // Ensure this is set to Production
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
+});
+
+// Create a transporter for sending emails
+const transporter = nodemailer.createTransport({
+    service: 'Outlook', // Use Outlook as the email service
+    auth: {
+        user: process.env.EMAIL_USER, // Your Outlook email
+        pass: process.env.EMAIL_PASS, // Your Outlook email password
+    },
 });
 
 // Endpoint to get inventory
@@ -64,6 +74,31 @@ app.get('/api/inventory', async(req, res) => {
         // Improved error handling
         console.error('Error fetching inventory:', error.response ? error.response.body : error);
         res.status(500).json({ error: 'Failed to fetch inventory', details: error.message });
+    }
+});
+
+// Endpoint to handle newsletter subscription
+app.post('/subscribe', async(req, res) => {
+    const { email } = req.body;
+
+    // Validate email
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER, // Sender address
+        to: 'realpaulstanley@outlook.com', // Recipient address
+        subject: 'New Newsletter Subscription',
+        text: `New subscription: ${email}`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ success: true, message: 'Subscription successful!' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ error: 'Failed to send email' });
     }
 });
 
