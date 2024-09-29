@@ -73,28 +73,6 @@ app.use(session({
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Load inventory from JSON file
-let inventory = [];
-const inventoryPath = path.join(__dirname, 'inventory.json');
-
-async function loadInventory() {
-    try {
-        const data = await fs.readFile(inventoryPath, 'utf8');
-        inventory = JSON.parse(data).items;
-        console.log(`Loaded ${inventory.length} items from inventory.json`);
-    } catch (error) {
-        console.error('Error loading inventory:', error);
-        inventory = [];
-    }
-}
-
-loadInventory();
-
-// Routes
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-});
-
 // Square client setup
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN, // Ensure this is set in your .env file
@@ -126,7 +104,7 @@ app.post('/process-payment', async(req, res) => {
         req.session.cart = [];
 
         const responseData = {
-            inventoryCount: BigIntValue, // Ensure BigIntValue is defined and is a BigInt
+            inventoryCount: BigInt(totalAmount).toString(), // Convert totalAmount to BigInt and then to string
             // ... other properties ...
         };
 
@@ -209,8 +187,3 @@ app.post('/api/webhooks', (req, res) => {
     // Respond with a 200 status to acknowledge receipt
     res.status(200).send('Webhook received');
 });
-
-// Add this at the top of your server.js file
-BigInt.prototype.toJSON = function() {
-    return this.toString();
-};
