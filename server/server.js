@@ -3,13 +3,12 @@ BigInt.prototype.toJSON = function() {
     return this.toString();
 };
 
-require('dotenv').config({ path: './.env' }); // Adjust the path if necessary
-
 console.log("Script started");
 process.on('uncaughtException', (error) => {
     console.error('Uncaught Exception:', error);
 });
 
+require('dotenv').config();
 console.log('Session Secret:', process.env.SESSION_SECRET); // Debugging line
 
 const express = require('express');
@@ -74,32 +73,10 @@ app.use(session({
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Load inventory from JSON file
-let inventory = [];
-const inventoryPath = path.join(__dirname, 'inventory.json');
-
-async function loadInventory() {
-    try {
-        const data = await fs.readFile(inventoryPath, 'utf8');
-        inventory = JSON.parse(data).items;
-        console.log(`Loaded ${inventory.length} items from inventory.json`);
-    } catch (error) {
-        console.error('Error loading inventory:', error);
-        inventory = [];
-    }
-}
-
-loadInventory();
-
-// Routes
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-});
-
 // Square client setup
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN, // Ensure this is set in your .env file
-    environment: Environment.Production // Use Production
+    environment: Environment.Production // Use Production for production
 });
 
 // Payment processing route
@@ -127,7 +104,7 @@ app.post('/process-payment', async(req, res) => {
         req.session.cart = [];
 
         const responseData = {
-            inventoryCount: BigIntValue ? BigIntValue.toString() : '0', // Convert BigInt to string
+            inventoryCount: BigInt(totalAmount).toString(), // Convert totalAmount to BigInt and then to string
             // ... other properties ...
         };
 
@@ -138,13 +115,16 @@ app.post('/process-payment', async(req, res) => {
     }
 });
 
-// Import the fetchInventory function from updateInventory.js
-const { fetchInventory } = require('./updateInventory');
-
-// Update the inventory API endpoint
+// Endpoint to get inventory
 app.get('/api/inventory', async(req, res) => {
     try {
-        const items = await fetchInventory(); // Fetch live inventory from Square
+        const response = await squareClient.catalogApi.listCatalog();
+        const items = response.result.objects.filter(item => item.type === 'ITEM').map(item => {
+            return {
+                ...item,
+                price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Convert BigInt to Number
+            };
+        });
         res.json({ items });
     } catch (error) {
         console.error('Error fetching inventory:', error);
@@ -207,8 +187,3 @@ app.post('/api/webhooks', (req, res) => {
     // Respond with a 200 status to acknowledge receipt
     res.status(200).send('Webhook received');
 });
-
-// Add this at the top of your server.js file
-BigInt.prototype.toJSON = function() {
-    return this.toString();
-};
