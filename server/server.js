@@ -1,8 +1,3 @@
-// Add this at the top of your server.js file
-BigInt.prototype.toJSON = function() {
-    return this.toString();
-};
-
 console.log("Script started");
 process.on('uncaughtException', (error) => {
     console.error('Uncaught Exception:', error);
@@ -42,7 +37,7 @@ app.get('/api/inventory', async(req, res) => {
         const items = response.result.objects.filter(item => item.type === 'ITEM').map(item => {
             return {
                 ...item,
-                price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Convert BigInt to Number
+                price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Ensure price is a Number
                 stockQuantity: item.stockQuantity ? item.stockQuantity.toString() : '0', // Convert to string
             };
         });
