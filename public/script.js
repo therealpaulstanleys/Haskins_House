@@ -32,7 +32,7 @@ function displayInventory(items) {
             itemDiv.setAttribute('data-id', item.id);
 
             const img = document.createElement('img');
-            img.src = item.imageUrl;
+            img.src = item.imageUrl || '/images/default.png'; // Fallback image if none exists
             img.alt = item.name;
             img.className = 'item-image';
 

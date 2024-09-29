@@ -56,7 +56,7 @@ const transporter = nodemailer.createTransport({
 // Endpoint to get inventory
 app.get('/api/inventory', async(req, res) => {
     try {
-        const catalogResponse = await squareClient.catalogApi.listCatalog();
+        const catalogResponse = await squareClient.catalogApi.listCatalog(undefined, 'ITEM'); // Updated to use /catalog/list
         const items = catalogResponse.result.objects.filter(item => item.type === 'ITEM');
 
         const inventoryPromises = items.map(async(item) => {
