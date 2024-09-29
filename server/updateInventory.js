@@ -50,9 +50,5 @@ async function fetchInventory() {
     }
 }
 
-// Call this function to fetch and return the inventory
-fetchInventory().then(items => {
-    const inventoryPath = path.join(__dirname, 'inventory.json');
-    fs.writeFileSync(inventoryPath, JSON.stringify({ items }, null, 2));
-    console.log(`Saved ${items.length} items to inventory.json`);
-});
+// Export the fetchInventory function
+module.exports = { fetchInventory };
