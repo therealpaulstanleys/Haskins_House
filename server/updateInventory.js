@@ -28,24 +28,20 @@ async function fetchInventory() {
                 return {
                     id: item.id,
                     name: item.itemData.name,
-                    price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Convert to Number
+                    price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount),
                     description: item.itemData.description || '',
                     imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
                     stockQuantity,
-                    genre: item.itemData.categories ? item.itemData.categories[0] : '',
-                    releaseYear: item.itemData.releaseDate ? new Date(item.itemData.releaseDate).getFullYear() : '',
-                    format: 'Vinyl',
-                    artist: item.itemData.name.split(' - ')[0]
                 };
             } catch (error) {
-                console.error(`Error processing item ${item.id}:`, error.response ? error.response.body : error);
-                return null;
+                console.error(`Error processing item ${item.id}:`, error);
+                return null; // Return null for failed items
             }
         }));
 
-        return items.filter(item => item !== null);
+        return items.filter(item => item !== null); // Filter out nulls
     } catch (error) {
-        console.error('Error fetching inventory:', error.response ? error.response.body : error);
+        console.error('Error fetching inventory:', error);
         return [];
     }
 }
