@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', initializePageFunctionality);
 
 async function initializePageFunctionality() {
     try {
-        const response = await fetch('/api/inventory');
+        const response = await fetch('/api/inventory'); // This is correct
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
