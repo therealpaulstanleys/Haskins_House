@@ -170,3 +170,8 @@ app.post('/api/webhooks', (req, res) => {
     // Respond with a 200 status to acknowledge receipt
     res.status(200).send('Webhook received');
 });
+
+const inventoryRoutes = require('./api/inventory'); // Import the inventory routes
+
+// Middleware to use the inventory routes
+app.use('/api/inventory', inventoryRoutes); // This will prefix all routes in inventory.js with /api/inventory
