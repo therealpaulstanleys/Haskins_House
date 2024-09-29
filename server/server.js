@@ -146,7 +146,7 @@ app.post('/api/webhooks', (req, res) => {
     res.status(200).send('Webhook received');
 });
 
-const inventoryRoutes = require('./api/inventory'); // Import the inventory routes
+const inventoryRoutes = require('./api/inventory/inventory'); // Correct path to inventory.js
 
 // Endpoint to get cart items
 app.get('/api/cart', (req, res) => {
