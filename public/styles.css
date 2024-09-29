@@ -1,158 +1,186 @@
-                      :root {
-                         --primary-color: #C19A6B;
-                         /* Tannic Ochre */
-                         --secondary-color: #8B5B29;
-                         /* Dark Tan */
-                         --text-color: #333;
-                         /* Dark text for readability */
-                         --background-color: #F5F5DC;
-                         /* Light background */
-                         --link-color: #C19A6B;
-                         /* Tannic Ochre for links */
-                         --hover-color: #8B5B29;
-                         /* Dark Tan for hover effects */
-                     }
-                     /* Basic reset and typography */
-                     
-                     * {
-                         box-sizing: border-box;
-                         margin: 0;
-                         padding: 0;
-                     }
-                     
-                     html {
-                         scroll-behavior: smooth;
-                     }
-                     
-                     body {
-                         font-family: Arial, sans-serif;
-                         margin: 0;
-                         padding: 0;
-                     }
-                     
-                     header {
-                         background-color: #f8f8f8;
-                         padding: 20px;
-                         text-align: center;
-                     }
-                     
-                     main {
-                         padding: 20px;
-                     }
-                     /* Navigation Styles */
-                     
-                     nav ul {
-                         list-style-type: none;
-                         padding: 0;
-                         display: flex;
-                         justify-content: center;
-                         flex-wrap: wrap;
-                     }
-                     
-                     nav ul li {
-                         margin: 0 10px;
-                     }
-                     
-                     nav ul li a {
-                         color: var(--text-color);
-                         padding: 5px 10px;
-                         border-radius: 5px;
-                         transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-                         text-decoration: none;
-                         display: inline-block;
-                     }
-                     
-                     nav ul li a:hover,
-                     nav ul li a[aria-current="page"] {
-                         background-color: var(--secondary-color);
-                         color: #fff;
-                         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-                     }
-                     /* Store Specific Styles */
-                     
-                     .cta-button {
-                         display: inline-block;
-                         background-color: var(--primary-color);
-                         color: #fff;
-                         padding: 12px 24px;
-                         text-decoration: none;
-                         border-radius: 5px;
-                         transition: all 0.3s ease;
-                         margin-top: 20px;
-                     }
-                     
-                     .cta-button:hover {
-                         background-color: var(--secondary-color);
-                     }
-                     /* Footer Styles */
-                     
-                     footer {
-                         text-align: center;
-                         padding: 20px;
-                         background-color: #f8f8f8;
-                     }
-                     /* Form Styles */
-                     
-                     #newsletter-form {
-                         margin-top: 1rem;
-                         display: flex;
-                         justify-content: center;
-                         align-items: center;
-                         flex-wrap: wrap;
-                         gap: 10px;
-                     }
-                     
-                     #newsletter-form input[type="email"] {
-                         flex: 1;
-                         min-width: 200px;
-                         max-width: 400px;
-                         padding: 10px;
-                         margin: 0;
-                     }
-                     
-                     #newsletter-form button {
-                         padding: 10px 20px;
-                         background-color: #2ecc71;
-                         color: white;
-                         border: none;
-                         cursor: pointer;
-                         transition: background-color 0.3s ease;
-                         margin: 0;
-                     }
-                     
-                     #newsletter-form button:hover {
-                         background-color: var(--hover-color);
-                     }
-                     /* Responsive Styles */
-                     
-                     @media (max-width: 600px) {
-                         #newsletter-form {
-                             flex-direction: column;
-                         }
-                         #newsletter-form input[type="email"],
-                         #newsletter-form button {
-                             width: 100%;
-                             margin: 5px 0;
-                         }
-                     }
-                     /* Additional Styles for Modern Look */
-                     
-                     h1,
-                     h2 {
-                         color: var(--primary-color);
-                         text-align: center;
-                     }
-                     
-                     #intro,
-                     #saturday-drop,
-                     #store-hours,
-                     #newsletter-signup {
-                         text-align: center;
-                         margin: 20px 0;
-                     }
-                     
-                     #saturday-drop {
-                         background-color: #f0f0f0;
-                         padding: 20px;
-                         border-radius: 8px;
-                     }
+:root {
+    --primary-color: #000;
+    /* Changed to black */
+    --secondary-color: #808080;
+    /* Changed to grey */
+    --text-color: #333;
+    /* Dark text for readability */
+    --background-color: #FFFFFF;
+    /* Light background */
+    --link-color: #000;
+    /* Black for links */
+    --hover-color: #808080;
+    /* Grey for hover effects */
+}
+
+
+/* Basic reset and typography */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f8f8f8;
+    padding: 20px;
+    text-align: center;
+}
+
+.logo-container {
+    max-width: 200px;
+    /* Set a max width for the logo */
+    margin: 0 auto;
+    /* Center the logo */
+}
+
+.logo {
+    width: 100%;
+    /* Make the logo responsive */
+    height: auto;
+    /* Maintain aspect ratio */
+}
+
+main {
+    padding: 20px;
+}
+
+
+/* Navigation Styles */
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: var(--text-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+nav ul li a:hover,
+nav ul li a[aria-current="page"] {
+    background-color: var(--secondary-color);
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Store Specific Styles */
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-color);
+}
+
+
+/* Footer Styles */
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f8f8;
+}
+
+
+/* Form Styles */
+
+#newsletter-form {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#newsletter-form input[type="email"] {
+    flex: 1;
+    min-width: 200px;
+    max-width: 400px;
+    padding: 10px;
+    margin: 0;
+}
+
+#newsletter-form button {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0;
+}
+
+#newsletter-form button:hover {
+    background-color: var(--hover-color);
+}
+
+
+/* Responsive Styles */
+
+@media (max-width: 600px) {
+    #newsletter-form {
+        flex-direction: column;
+    }
+    #newsletter-form input[type="email"],
+    #newsletter-form button {
+        width: 100%;
+        margin: 5px 0;
+    }
+}
+
+
+/* Additional Styles for Modern Look */
+
+h1,
+h2 {
+    color: var(--primary-color);
+    text-align: center;
+}
+
+#intro,
+#saturday-drop,
+#store-hours,
+#newsletter-signup {
+    text-align: center;
+    margin: 20px 0;
+}
+
+#saturday-drop {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+}
