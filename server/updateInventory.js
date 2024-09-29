@@ -15,7 +15,7 @@ async function fetchInventory() {
 
         if (!response.result || !response.result.objects) {
             console.log('No catalog items found or unexpected response structure.');
-            return;
+            return [];
         }
 
         console.log(`Found ${response.result.objects.length} items in Square catalog`);
@@ -25,7 +25,7 @@ async function fetchInventory() {
                 const inventoryResponse = await squareClient.inventoryApi.retrieveInventoryCount(item.id);
                 const stockQuantity = inventoryResponse.result.counts[0] ? inventoryResponse.result.counts[0].quantity || 0 : 0;
 
-                return sanitizeItem({
+                return {
                     id: item.id,
                     name: item.itemData.name,
                     price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Convert to Number
@@ -36,30 +36,23 @@ async function fetchInventory() {
                     releaseYear: item.itemData.releaseDate ? new Date(item.itemData.releaseDate).getFullYear() : '',
                     format: 'Vinyl',
                     artist: item.itemData.name.split(' - ')[0]
-                });
+                };
             } catch (error) {
                 console.error(`Error processing item ${item.id}:`, error);
                 return null;
             }
         }));
 
-        const validItems = items.filter(item => item !== null);
-        const inventoryData = { items: validItems };
-        const inventoryPath = path.join(__dirname, 'inventory.json');
-        fs.writeFileSync(inventoryPath, JSON.stringify(inventoryData, null, 2));
-        console.log(`Saved ${validItems.length} items to inventory.json`);
+        return items.filter(item => item !== null);
     } catch (error) {
         console.error('Error fetching inventory:', error);
+        return [];
     }
 }
 
-function sanitizeItem(item) {
-    return {
-        ...item,
-        name: item.name.replace(/[<>&'"]/g, ''),
-        description: item.description.replace(/[<>&'"]/g, ''),
-        // Add more fields as needed
-    };
-}
-
-fetchInventory();
+// Call this function to fetch and return the inventory
+fetchInventory().then(items => {
+    const inventoryPath = path.join(__dirname, 'inventory.json');
+    fs.writeFileSync(inventoryPath, JSON.stringify({ items }, null, 2));
+    console.log(`Saved ${items.length} items to inventory.json`);
+});
