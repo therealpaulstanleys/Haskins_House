@@ -19,6 +19,9 @@ const nodemailer = require('nodemailer');
 
 const app = express();
 
+// Middleware to use the inventory routes
+const inventoryRoutes = require('./api/inventory/inventory'); // Correct path to inventory.js
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -62,7 +65,7 @@ const transporter = nodemailer.createTransport({
 // });
 
 // Middleware to use the inventory routes
-app.use('/api/inventory', inventoryRoutes); // This will prefix all routes in inventory.js with /api/inventory
+app.use('/api/inventory', inventoryRoutes); // This should be before other middleware that might handle requests
 
 // Endpoint to handle newsletter subscription
 app.post('/subscribe', async(req, res) => {
@@ -145,8 +148,6 @@ app.post('/api/webhooks', (req, res) => {
     // Respond with a 200 status to acknowledge receipt
     res.status(200).send('Webhook received');
 });
-
-const inventoryRoutes = require('./api/inventory/inventory'); // Correct path to inventory.js
 
 // Endpoint to get cart items
 app.get('/api/cart', (req, res) => {
