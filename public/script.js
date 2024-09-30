@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', initializePageFunctionality);
 
 async function initializePageFunctionality() {
     try {
-        const response = await fetch('/api/catalog'); // Updated to use /api/catalog
+        const response = await fetch('/api/inventory'); // Call the inventory endpoint
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        const { items } = await response.json();
-        displayInventory(items);
+        const items = await response.json();
+        displayInventory(items); // Call the function to display items
     } catch (error) {
         console.error('Error loading inventory:', error);
         const loadingMessage = document.getElementById('loading-message');
