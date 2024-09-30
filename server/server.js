@@ -24,7 +24,10 @@ let cart = []; // Initialize cart as an empty array
 let inventoryItems = []; // Initialize inventoryItems as an empty array
 
 // Middleware to use the inventory routes
-const inventoryRoutes = require('./api/inventory/inventory'); // This should be correct
+console.log('Before importing inventory routes');
+console.log('Current working directory:', process.cwd()); // Debugging line
+const inventoryRoutes = require(path.resolve(__dirname, '../api/inventory/inventory.js')); // Use absolute path
+console.log('After importing inventory routes');
 
 // Middleware
 app.use(cors());
@@ -161,6 +164,12 @@ app.get('/api/cart', (req, res) => {
 // Endpoint to add item to cart
 app.post('/api/cart/add', (req, res) => {
     const { itemId } = req.body;
+
+    // Validate itemId
+    if (!itemId) {
+        return res.status(400).json({ success: false, message: 'Item ID is required' });
+    }
+
     const item = inventoryItems.find(i => i.id === itemId);
 
     if (item) {
@@ -170,7 +179,7 @@ app.post('/api/cart/add', (req, res) => {
         } else {
             cart.push({...item, quantity: 1 });
         }
-        return res.json({ success: true });
+        return res.json({ success: true, cart }); // Return updated cart
     }
     res.status(404).json({ success: false, message: 'Item not found' });
 });
@@ -178,6 +187,12 @@ app.post('/api/cart/add', (req, res) => {
 // Endpoint to remove item from cart
 app.post('/api/cart/remove', (req, res) => {
     const { itemId } = req.body;
+
+    // Validate itemId
+    if (!itemId) {
+        return res.status(400).json({ success: false, message: 'Item ID is required' });
+    }
+
     cart = cart.filter(item => item.id !== itemId);
-    res.json({ success: true });
+    res.json({ success: true, cart }); // Return updated cart
 });
