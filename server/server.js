@@ -24,7 +24,7 @@ let cart = []; // Initialize cart as an empty array
 let inventoryItems = []; // Initialize inventoryItems as an empty array
 
 // Middleware to use the inventory routes
-const inventoryRoutes = require('./api/inventory/inventory'); // Ensure this path is correct
+const inventoryRoutes = require('./api/inventory/inventory'); // This should be correct
 
 // Middleware
 app.use(cors());
