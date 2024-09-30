@@ -64,12 +64,15 @@ const transporter = nodemailer.createTransport({
 });
 
 // Endpoint to get inventory
-// Removed duplicate inventory endpoint
-// app.get('/api/inventory', async(req, res) => {
-//     // Fetch inventory logic here
-//     inventoryItems = await fetchInventory(); // Assuming fetchInventory is defined
-//     res.json({ items: inventoryItems });
-// });
+app.get('/api/inventory', async(req, res) => {
+    try {
+        const response = await squareClient.catalogApi.listCatalog(undefined, 'ITEM');
+        res.json(response.result.objects);
+    } catch (error) {
+        console.error('Error fetching inventory:', error);
+        res.status(500).json({ error: 'Failed to fetch inventory' });
+    }
+});
 
 // Middleware to use the inventory routes
 app.use('/api/catalog', inventoryRoutes); // Changed from /api/inventory to /api/catalog
