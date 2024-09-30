@@ -19,8 +19,12 @@ const nodemailer = require('nodemailer');
 
 const app = express();
 
+// Initialize variables
+let cart = []; // Initialize cart as an empty array
+let inventoryItems = []; // Initialize inventoryItems as an empty array
+
 // Middleware to use the inventory routes
-const inventoryRoutes = require('./api/inventory/inventory'); // Correct path to inventory.js
+const inventoryRoutes = require('./api/inventory/inventory'); // Ensure this path is correct
 
 // Middleware
 app.use(cors());
