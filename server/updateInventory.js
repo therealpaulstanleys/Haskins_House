@@ -21,10 +21,10 @@ async function fetchInventory() {
         console.log(`Found ${response.result.objects.length} items in Square catalog`);
 
         const items = await Promise.all(response.result.objects.map(async(item) => {
-            // Check if the item is of type ITEM_VARIATION
-            if (item.type !== 'ITEM_VARIATION') {
-                console.warn(`Skipping item ${item.id}: not an ITEM_VARIATION`);
-                return null; // Skip non-variation items
+            // Process both ITEM and ITEM_VARIATION types
+            if (item.type !== 'ITEM' && item.type !== 'ITEM_VARIATION') {
+                console.warn(`Skipping item ${item.id}: not an ITEM or ITEM_VARIATION`);
+                return null; // Skip non-item types
             }
 
             try {
