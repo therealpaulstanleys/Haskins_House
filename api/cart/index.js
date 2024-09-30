@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { fetchInventory } = require('../updateInventory'); // Import the fetchInventory function
 
 // In-memory cart storage (for demonstration purposes)
 let cartItems = [];
@@ -10,9 +11,11 @@ router.get('/', (req, res) => {
 });
 
 // Endpoint to add item to cart
-router.post('/add', (req, res) => {
+router.post('/add', async(req, res) => {
     const { itemId } = req.body;
-    const item = inventoryItems.find(i => i.id === itemId); // Assuming inventoryItems is accessible
+    const inventoryItems = await fetchInventory(); // Fetch current inventory items
+
+    const item = inventoryItems.find(i => i.id === itemId); // Check against fetched inventory
 
     if (item) {
         const cartItem = cartItems.find(i => i.id === itemId);
