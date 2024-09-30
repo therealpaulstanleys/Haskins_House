@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load environment variables from .env file
 
 const express = require('express');
-const { fetchInventory } = require('../server/updateInventory'); // Updated import path
+const { fetchInventory } = require('../../server/updateInventory'); // Corrected import path
 const router = express.Router();
 
 // Improved error handling
