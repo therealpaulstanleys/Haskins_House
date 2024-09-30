@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', initializePageFunctionality);
 
 async function initializePageFunctionality() {
     try {
-        const response = await fetch('/api/inventory'); // This is correct
+        const response = await fetch('/api/catalog'); // Updated to use /api/catalog
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

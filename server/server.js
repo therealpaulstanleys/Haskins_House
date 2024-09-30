@@ -72,7 +72,7 @@ const transporter = nodemailer.createTransport({
 // });
 
 // Middleware to use the inventory routes
-app.use('/api/inventory', inventoryRoutes); // This should be before other middleware that might handle requests
+app.use('/api/catalog', inventoryRoutes); // Changed from /api/inventory to /api/catalog
 
 // Endpoint to handle newsletter subscription
 app.post('/subscribe', async(req, res) => {
