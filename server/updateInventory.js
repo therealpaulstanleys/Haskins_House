@@ -21,6 +21,12 @@ async function fetchInventory() {
         console.log(`Found ${response.result.objects.length} items in Square catalog`);
 
         const items = await Promise.all(response.result.objects.map(async(item) => {
+            // Check if the item is of type ITEM_VARIATION
+            if (item.type !== 'ITEM_VARIATION') {
+                console.warn(`Skipping item ${item.id}: not an ITEM_VARIATION`);
+                return null; // Skip non-variation items
+            }
+
             try {
                 const inventoryResponse = await squareClient.inventoryApi.retrieveInventoryCount(item.id);
                 const stockQuantity = inventoryResponse.result.counts[0] ? inventoryResponse.result.counts[0].quantity || 0 : 0;
