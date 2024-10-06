@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { fetchInventory } = require('../updateInventory'); // Import the fetchInventory function
+const { fetchInventory } = require('../../server/updateInventory'); // Import the fetchInventory function
 
 // In-memory cart storage (for demonstration purposes)
 let cartItems = [];
