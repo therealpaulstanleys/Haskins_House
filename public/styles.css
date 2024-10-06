@@ -224,11 +224,86 @@ h2 {
 .store-item {
     border: 1px solid #ccc;
     padding: 10px;
-    margin: 10px;
     text-align: center;
+    background-color: var(--secondary-color);
+    /* Light background for items */
+    border-radius: 8px;
+    /* Rounded corners */
+    transition: transform 0.3s;
+    /* Smooth scaling effect */
+}
+
+.store-item:hover {
+    transform: scale(1.05);
+    /* Slightly enlarge on hover */
 }
 
 .item-image {
     max-width: 100%;
     height: auto;
+    border-radius: 4px;
+    /* Rounded corners for images */
+}
+
+
+/* Store Item Grid Styles */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 items per row */
+    gap: 20px;
+    /* Space between items */
+    margin: 20px 0;
+    /* Margin around the grid */
+}
+
+#category-filter {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#category-select {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.glow-on-hover {
+    width: 200px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: white;
+    background: #000;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+.glow-on-hover:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #ffec00, #00ff00, #00ffec, #0000ff, #7300ff, #ff00ff);
+    filter: blur(10px);
+    z-index: -1;
+    animation: glowing 20s linear infinite;
+}
+
+.glow-on-hover:hover {
+    background: transparent;
+}
+
+@keyframes glowing {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 100% 0;
+    }
 }
