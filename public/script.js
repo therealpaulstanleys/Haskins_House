@@ -194,3 +194,50 @@ function flickerLights() {
         body.style.backgroundColor = '#fff'; // Final background color
     }, flickerCount * flickerDuration);
 }
+
+// Import and initialize Three.js
+import * as THREE from 'three';
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Create a 3D record model and animate it
+const recordGeometry = new THREE.CylinderGeometry(5, 5, 0.2, 32);
+const recordMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const record = new THREE.Mesh(recordGeometry, recordMaterial);
+scene.add(record);
+
+function animateRecord() {
+    requestAnimationFrame(animateRecord);
+    record.rotation.x += 0.01;
+    record.rotation.y += 0.01;
+    renderer.render(scene, camera);
+}
+animateRecord();
+
+// Import and initialize Anime.js
+import anime from 'animejs/lib/anime.es.js';
+
+// Animate record covers on hover
+const recordCovers = document.querySelectorAll('.record-cover');
+recordCovers.forEach(cover => {
+    cover.addEventListener('mouseenter', () => {
+        anime({
+            targets: cover,
+            scale: 1.1,
+            duration: 500,
+            easing: 'easeOutQuad'
+        });
+    });
+    cover.addEventListener('mouseleave', () => {
+        anime({
+            targets: cover,
+            scale: 1,
+            duration: 500,
+            easing: 'easeOutQuad'
+        });
+    });
+});
