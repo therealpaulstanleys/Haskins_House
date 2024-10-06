@@ -31,14 +31,21 @@ async function fetchInventory() {
                 const inventoryResponse = await squareClient.inventoryApi.retrieveInventoryCount(item.id);
                 const stockQuantity = inventoryResponse.result.counts[0] ? inventoryResponse.result.counts[0].quantity || 0 : 0;
 
-                return {
-                    id: item.id,
-                    name: item.itemData.name,
-                    price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Ensure this is a number
-                    description: item.itemData.description || '',
-                    imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
-                    stockQuantity: stockQuantity.toString(), // Convert BigInt to string
-                };
+                // Only return items that are in stock
+                if (stockQuantity > 0) {
+                    // Categorize items based on their type
+                    const category = determineCategory(item); // New function to determine category
+                    return {
+                        id: item.id,
+                        name: item.itemData.name,
+                        price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount),
+                        description: item.itemData.description || '',
+                        imageUrl: item.itemData.imageIds ? `https://example.com/images/${item.itemData.imageIds[0]}` : '',
+                        stockQuantity: stockQuantity.toString(),
+                        category: category // Add category to item
+                    };
+                }
+                return null; // Return null for out-of-stock items
             } catch (error) {
                 console.error(`Error processing item ${item.id}:`, error);
                 return null; // Return null for failed items
@@ -50,6 +57,19 @@ async function fetchInventory() {
         console.error('Error fetching inventory:', error);
         return [];
     }
+}
+
+// Function to determine the category of an item
+function determineCategory(item) {
+    // Example categorization logic based on item name or other properties
+    const name = item.itemData.name.toLowerCase();
+    if (name.includes('vinyl')) {
+        return 'Vinyl Records (New)'; // Example category
+    } else if (name.includes('cd')) {
+        return 'CDs (New)'; // Example category
+    }
+    // Add more conditions based on your categorization logic
+    return 'Other'; // Default category
 }
 
 // Export the fetchInventory function
