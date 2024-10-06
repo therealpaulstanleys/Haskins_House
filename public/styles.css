@@ -1,11 +1,11 @@
 :root {
     --primary-color: #000;
     /* Changed to black */
-    --secondary-color: #808080;
+    --secondary-color: #f8f8f8;
     /* Changed to grey */
     --text-color: #333;
     /* Dark text for readability */
-    --background-color: #FFFFFF;
+    --background-color: #ffffff;
     /* Light background */
     --link-color: #000;
     /* Black for links */
@@ -27,14 +27,16 @@ html {
 }
 
 body {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 header {
-    background-color: #f8f8f8;
+    background-color: var(--primary-color);
+    color: white;
     padding: 20px;
     text-align: center;
 }
@@ -71,11 +73,13 @@ nav ul {
 }
 
 nav ul li {
-    margin: 0 10px;
+    display: inline;
+    margin-right: 15px;
 }
 
 nav ul li a {
-    color: var(--text-color);
+    color: white;
+    text-decoration: none;
     padding: 5px 10px;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
@@ -88,6 +92,7 @@ nav ul li a[aria-current="page"] {
     background-color: var(--secondary-color);
     color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-decoration: underline;
 }
 
 
@@ -114,7 +119,8 @@ nav ul li a[aria-current="page"] {
 footer {
     text-align: center;
     padding: 20px;
-    background-color: #f8f8f8;
+    background-color: var(--primary-color);
+    color: white;
     padding: 20px;
 }
 
@@ -213,4 +219,16 @@ h2 {
     top: calc(50% - 25px);
     /* Center the heart */
     opacity: 0;
+}
+
+.store-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+}
+
+.item-image {
+    max-width: 100%;
+    height: auto;
 }
