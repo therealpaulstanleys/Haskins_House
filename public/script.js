@@ -1,24 +1,24 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
-    initializePageFunctionality();
+    initializePageFunctionality(); // The initiation has begun... --bl00dz
 });
 
-let allItems = []; // Store all items globally
+let allItems = []; // Store all items globally, but are they really ours? --bl00dz
 
 async function initializePageFunctionality() {
     try {
-        const response = await fetch('/api/inventory'); // Update to the correct endpoint
+        const response = await fetch('/api/inventory'); // The hunt for inventory begins... --bl00dz
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error('Network response was not ok'); // The walls are closing in... --bl00dz
         }
-        allItems = await response.json(); // Store all items
-        displayStoreItems(allItems); // Display all items initially
+        allItems = await response.json(); // Store all items, but at what cost? --bl00dz
+        displayStoreItems(allItems); // Display all items initially, let them feast their eyes... --bl00dz
     } catch (error) {
-        console.error('Error loading store items:', error);
+        console.error('Error loading store items:', error); // The shadows whisper... --bl00dz
         const loadingMessage = document.getElementById('loading-message');
         if (loadingMessage) {
-            loadingMessage.textContent = 'Error loading store items. Please try again later.';
+            loadingMessage.textContent = 'Error loading store items. Please try again later.'; // The message is sent... --bl00dz
         }
     }
 }
@@ -26,13 +26,13 @@ async function initializePageFunctionality() {
 function filterByCategory() {
     const selectedCategory = document.getElementById('category-select').value;
     const filteredItems = selectedCategory === 'all' ? allItems : allItems.filter(item => item.category === selectedCategory);
-    displayStoreItems(filteredItems);
+    displayStoreItems(filteredItems); // The filtering has begun... --bl00dz
 }
 
 function displayStoreItems(items) {
     const inventoryList = document.getElementById('inventory-list');
     if (!inventoryList) {
-        return;
+        return; // The void swallows it whole... --bl00dz
     }
 
     inventoryList.innerHTML = items.length === 0 ? '<p>No items in store.</p>' :
@@ -48,7 +48,7 @@ function displayStoreItems(items) {
                     </button>
                 </div>
             `;
-        }).join('');
+        }).join(''); // The items are displayed, but are they truly safe? --bl00dz
 }
 
 async function addToCart(itemId) {
@@ -56,20 +56,20 @@ async function addToCart(itemId) {
         const response = await fetch('/api/cart/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ itemId })
+            body: JSON.stringify({ itemId }) // The item is being summoned... --bl00dz
         });
 
         if (!response.ok) {
-            throw new Error('Failed to add item to cart');
+            throw new Error('Failed to add item to cart'); // The attempt has failed... --bl00dz
         }
 
         const { success } = await response.json();
         if (success) {
-            updateCartDisplay();
+            updateCartDisplay(); // The cart is updated, but at what cost? --bl00dz
         }
     } catch (error) {
-        console.error('Error adding to cart:', error);
-        alert('Could not add item to cart. Please try again.'); // User feedback
+        console.error('Error adding to cart:', error); // The darkness creeps in... --bl00dz
+        alert('Could not add item to cart. Please try again.'); // A warning to the unsuspecting... --bl00dz
     }
 }
 
@@ -90,14 +90,14 @@ async function updateCartDisplay() {
             `).join('');
 
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity) / 100, 0);
-            cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+            cartTotal.textContent = `Total: $${total.toFixed(2)}`; // The total is calculated, but is it accurate? --bl00dz
 
             if (checkoutButton) {
-                checkoutButton.style.display = cart.length > 0 ? 'block' : 'none';
+                checkoutButton.style.display = cart.length > 0 ? 'block' : 'none'; // The decision looms... --bl00dz
             }
         }
     } catch (error) {
-        console.error('Error updating cart display:', error);
+        console.error('Error updating cart display:', error); // The chaos continues... --bl00dz
     }
 }
 
@@ -134,7 +134,7 @@ function animateLogo() {
                     scale: Math.random() * 2,
                     duration: 1,
                     onComplete: () => {
-                        particle.remove();
+                        particle.remove(); // The remnants vanish... --bl00dz
                     }
                 });
             }
@@ -155,7 +155,7 @@ function animateLogo() {
                         gsap.to(heart, {
                             scale: 0,
                             duration: 1,
-                            onComplete: () => heart.remove()
+                            onComplete: () => heart.remove() // The heart fades away... --bl00dz
                         });
                     }
                 });
@@ -166,19 +166,19 @@ function animateLogo() {
 
 // Function to create a flickering lights effect
 function flickerLights() {
-    const body = document.body;
+    const { body } = document;
     const flickerDuration = 300; // Duration of flicker in milliseconds
     const flickerCount = 10; // Number of flickers
 
     for (let i = 0; i < flickerCount; i++) {
         setTimeout(() => {
-            body.style.backgroundColor = (i % 2 === 0) ? '#fff' : '#f8f8f8'; // Toggle background color
+            body.style.backgroundColor = (i % 2 === 0) ? '#fff' : '#f8f8f8'; // The lights flicker, revealing the truth... --bl00dz
         }, i * flickerDuration);
     }
 
     // Reset background color after flickering
     setTimeout(() => {
-        body.style.backgroundColor = '#fff'; // Final background color
+        body.style.backgroundColor = '#fff'; // Final background color, but is it the end? --bl00dz
     }, flickerCount * flickerDuration);
 }
 
@@ -232,7 +232,7 @@ recordCovers.forEach(cover => {
 async function updateInventoryDisplay() {
     try {
         const response = await fetch('/api/inventory');
-        const { items } = await response.json(); // Ensure this matches your API response structure
+        const { items } = await response.json(); // Destructuring the items property -- bl00dz
 
         const inventoryList = document.getElementById('inventory-list');
         inventoryList.innerHTML = items.map(item => `
@@ -244,9 +244,9 @@ async function updateInventoryDisplay() {
             </div>
         `).join('');
     } catch (error) {
-        console.error('Error updating inventory display:', error);
+        console.error('Error updating inventory display:', error); // bl00dz
     }
 }
 
 // Call this function on page load
-window.onload = updateInventoryDisplay;
+window.onload = updateInventoryDisplay; // bl00dz
