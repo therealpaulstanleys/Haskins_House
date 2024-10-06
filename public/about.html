@@ -5,41 +5,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Haskins House Records - Your Local Vinyl Community</title>
-    <meta name="description" content="Discover the story behind Haskins House Records, a community-driven vinyl store founded in 2023. We're dedicated to preserving analog sound and fostering local music scenes.">
+    <meta name="description" content="Discover the story behind Haskins House Records, a community-driven vinyl store founded in 2023.">
     <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Added Bootstrap -->
     <link rel="icon" href="/images/logo.png" type="image/png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" defer></script>
+    <!-- GSAP for animations -->
     <script src="/script.js" defer></script>
 </head>
 
 <body>
     <header>
         <div class="logo-container">
-            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="150">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="150" loading="lazy">
         </div>
         <nav aria-label="Main navigation">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html" aria-current="page">About Us</a></li>
-                <li><a href="/inventory.html">Vinyl Inventory</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-                <li><a href="/store.html">Vinyl Store</a></li>
-                <li><a href="/questions.html">FAQs</a></li>
-                <li><a href="/privacy-policy.html">Privacy Policy</a></li>
-                <li><a href="/terms-and-conditions.html">Terms and Conditions</a></li>
+            <ul class="nav justify-content-center">
+                <!-- Bootstrap navigation -->
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="/inventory.html">Vinyl Inventory</a></li>
+                <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="/store.html">Vinyl Store</a></li>
+                <li class="nav-item"><a class="nav-link" href="/questions.html">FAQs</a></li>
+                <li class="nav-item"><a class="nav-link" href="/privacy-policy.html">Privacy Policy</a></li>
+                <li class="nav-item"><a class="nav-link" href="/terms-and-conditions.html">Terms and Conditions</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
+    <main class="container text-center">
+        <!-- Added Bootstrap container -->
         <h1>About Haskins House Records: Your Local Vinyl Community</h1>
         <p>Founded in 2015, Haskins House Records is owned and operated by Travis Haskins. The store not only sells, but buys (and trades for) vinyl. If you have a large collection and are wanting to sell it, you can call the store directly at <b>(740)771-0017</b>.</p>
     </main>
 
-    <footer>
+    <footer class="text-center">
+        <!-- Added Bootstrap text-center -->
         <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
         <p>Location: 534 2nd Street, Portsmouth, OH 45662</p>
         <p>Phone: (740) 771-0017</p>
     </footer>
+
+    <script>
+        // Function to animate the logo into a beating heart with explosion effect
+        function animateLogo() {
+            const logo = document.querySelector('.logo');
+            gsap.fromTo(logo, {
+                scale: 0,
+                opacity: 0
+            }, {
+                scale: 1,
+                opacity: 1,
+                duration: 1,
+                ease: "bounce.out",
+                onComplete: () => {
+                    // Heart beating effect
+                    gsap.to(logo, {
+                        scale: 1.2,
+                        duration: 0.5,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "sine.inOut"
+                    });
+                    // Explosion effect
+                    setTimeout(() => {
+                        // Create colorful particles
+                        for (let i = 0; i < 100; i++) {
+                            const particle = document.createElement('div');
+                            particle.className = 'particle';
+                            document.body.appendChild(particle);
+                            gsap.set(particle, {
+                                x: Math.random() * window.innerWidth,
+                                y: Math.random() * window.innerHeight,
+                                backgroundColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                                position: 'absolute',
+                                width: '10px',
+                                height: '10px',
+                                borderRadius: '50%',
+                                opacity: 1
+                            });
+                            gsap.to(particle, {
+                                x: Math.random() * 200 - 100,
+                                y: Math.random() * 200 - 100,
+                                scale: Math.random() * 2,
+                                duration: 1,
+                                onComplete: () => {
+                                    particle.remove();
+                                }
+                            });
+                        }
+                    }, 2000); // Delay explosion after the heart animation
+                }
+            });
+        }
+
+        // Call animateLogo on page load
+        window.onload = animateLogo;
+    </script>
 </body>
 
 </html>
