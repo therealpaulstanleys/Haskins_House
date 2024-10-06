@@ -4,14 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     initializePageFunctionality();
 });
 
+let allItems = []; // Store all items globally
+
 async function initializePageFunctionality() {
     try {
-        const response = await fetch('/api/store'); // Update to the correct endpoint
+        const response = await fetch('/api/inventory'); // Update to the correct endpoint
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        const items = await response.json();
-        displayStoreItems(items); // Update function name
+        allItems = await response.json(); // Store all items
+        displayStoreItems(allItems); // Display all items initially
     } catch (error) {
         console.error('Error loading store items:', error);
         const loadingMessage = document.getElementById('loading-message');
@@ -19,6 +21,12 @@ async function initializePageFunctionality() {
             loadingMessage.textContent = 'Error loading store items. Please try again later.';
         }
     }
+}
+
+function filterByCategory() {
+    const selectedCategory = document.getElementById('category-select').value;
+    const filteredItems = selectedCategory === 'all' ? allItems : allItems.filter(item => item.category === selectedCategory);
+    displayStoreItems(filteredItems);
 }
 
 function displayStoreItems(items) {
