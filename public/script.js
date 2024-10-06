@@ -2,65 +2,44 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initializePageFunctionality();
-    flickerLights(); // Call flicker lights on page load
 });
 
 async function initializePageFunctionality() {
     try {
-        const response = await fetch('/api/inventory'); // Call the inventory endpoint
+        const response = await fetch('/api/store'); // Update to the correct endpoint
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         const items = await response.json();
-        displayInventory(items); // Call the function to display items
+        displayStoreItems(items); // Update function name
     } catch (error) {
-        console.error('Error loading inventory:', error);
+        console.error('Error loading store items:', error);
         const loadingMessage = document.getElementById('loading-message');
         if (loadingMessage) {
-            loadingMessage.textContent = 'Error loading inventory. Please try again later.';
+            loadingMessage.textContent = 'Error loading store items. Please try again later.';
         }
     }
 }
 
-function displayInventory(items) {
+function displayStoreItems(items) {
     const inventoryList = document.getElementById('inventory-list');
     if (!inventoryList) {
         return;
     }
 
-    inventoryList.innerHTML = items.length === 0 ? '<p>No items in inventory.</p>' :
+    inventoryList.innerHTML = items.length === 0 ? '<p>No items in store.</p>' :
         items.map(item => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'inventory-item';
-            itemDiv.setAttribute('data-id', item.id);
-
-            const img = document.createElement('img');
-            img.src = item.imageUrl || '/images/default.png'; // Fallback image if none exists
-            img.alt = item.name;
-            img.className = 'item-image';
-
-            const name = document.createElement('h3');
-            name.textContent = item.name;
-
-            const price = document.createElement('p');
-            price.textContent = `Price: $${(item.price / 100).toFixed(2)}`;
-
-            const stockQuantity = document.createElement('p');
-            stockQuantity.className = 'stock-quantity';
-            stockQuantity.textContent = `In Stock: ${item.stockQuantity}`;
-
-            const button = document.createElement('button');
-            button.textContent = item.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart';
-            button.disabled = item.stockQuantity === 0;
-            button.addEventListener('click', () => addToCart(item.id));
-
-            itemDiv.appendChild(img);
-            itemDiv.appendChild(name);
-            itemDiv.appendChild(price);
-            itemDiv.appendChild(stockQuantity);
-            itemDiv.appendChild(button);
-
-            return itemDiv.outerHTML;
+            return `
+                <div class="store-item">
+                    <img src="${item.imageUrl || '/images/default.png'}" alt="${item.name}" class="item-image">
+                    <h3>${item.name}</h3>
+                    <p>Price: $${(item.price / 100).toFixed(2)}</p>
+                    <p>In Stock: ${item.stockQuantity}</p>
+                    <button onclick="addToCart('${item.id}')" ${item.stockQuantity === 0 ? 'disabled' : ''}>
+                        ${item.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart'}
+                    </button>
+                </div>
+            `;
         }).join('');
 }
 
