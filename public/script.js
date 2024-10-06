@@ -241,3 +241,25 @@ recordCovers.forEach(cover => {
         });
     });
 });
+
+async function updateInventoryDisplay() {
+    try {
+        const response = await fetch('/api/inventory');
+        const { items } = await response.json(); // Ensure this matches your API response structure
+
+        const inventoryList = document.getElementById('inventory-list');
+        inventoryList.innerHTML = items.map(item => `
+            <div>
+                <h3>${item.name}</h3>
+                <p>Price: $${(item.price / 100).toFixed(2)}</p>
+                <p>Stock: ${item.stockQuantity}</p>
+                <button onclick="addToCart('${item.id}')">Add to Cart</button>
+            </div>
+        `).join('');
+    } catch (error) {
+        console.error('Error updating inventory display:', error);
+    }
+}
+
+// Call this function on page load
+window.onload = updateInventoryDisplay;
