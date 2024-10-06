@@ -67,13 +67,24 @@ const transporter = nodemailer.createTransport({
 app.get('/api/inventory', async(req, res) => {
     try {
         const response = await squareClient.catalogApi.listCatalog(undefined, 'ITEM');
-        const items = response.result.objects.map(item => ({
-            ...item,
-            // Ensure any BigInt values are converted to strings
-            price: item.itemData.variations[0].itemVariationData.priceMoney.amount.toString(),
-            stockQuantity: item.stockQuantity ? item.stockQuantity.toString() : '0',
-        }));
-        res.json(items);
+
+        // Map through the items and convert BigInt values to strings
+        const items = response.result.objects.map(item => {
+            const price = item.itemData.variations[0].itemVariationData.priceMoney.amount;
+            const stockQuantity = item.stockQuantity || 0; // Default to 0 if undefined
+
+            return {
+                id: item.id,
+                name: item.itemData.name,
+                price: price.toString(), // Convert BigInt to string
+                description: item.itemData.description || '',
+                imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
+                stockQuantity: stockQuantity.toString(), // Convert BigInt to string
+            };
+        });
+
+        console.log('Items to be sent:', items); // Log the items before sending
+        res.json(items); // Send the modified items array
     } catch (error) {
         console.error('Error fetching inventory:', error);
         res.status(500).json({ error: 'Failed to fetch inventory' });
