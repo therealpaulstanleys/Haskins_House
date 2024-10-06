@@ -67,7 +67,13 @@ const transporter = nodemailer.createTransport({
 app.get('/api/inventory', async(req, res) => {
     try {
         const response = await squareClient.catalogApi.listCatalog(undefined, 'ITEM');
-        res.json(response.result.objects);
+        const items = response.result.objects.map(item => ({
+            ...item,
+            // Ensure any BigInt values are converted to strings
+            price: item.itemData.variations[0].itemVariationData.priceMoney.amount.toString(),
+            stockQuantity: item.stockQuantity ? item.stockQuantity.toString() : '0',
+        }));
+        res.json(items);
     } catch (error) {
         console.error('Error fetching inventory:', error);
         res.status(500).json({ error: 'Failed to fetch inventory' });
