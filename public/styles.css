@@ -30,6 +30,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: var(--background-color);
 }
 
 header {
@@ -114,6 +115,7 @@ footer {
     text-align: center;
     padding: 20px;
     background-color: #f8f8f8;
+    padding: 20px;
 }
 
 
@@ -186,4 +188,29 @@ h2 {
     background-color: #f0f0f0;
     padding: 20px;
     border-radius: 8px;
+}
+
+
+/* Add this to your public/styles.css */
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    /* Prevent interaction */
+}
+
+.heart {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    /* Heart color */
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    /* Heart shape */
+    left: calc(50% - 25px);
+    /* Center the heart */
+    top: calc(50% - 25px);
+    /* Center the heart */
+    opacity: 0;
 }
