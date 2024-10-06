@@ -34,7 +34,7 @@ async function fetchInventory() {
                 return {
                     id: item.id,
                     name: item.itemData.name,
-                    price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount),
+                    price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Ensure this is a number
                     description: item.itemData.description || '',
                     imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
                     stockQuantity,
