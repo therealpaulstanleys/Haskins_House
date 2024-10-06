@@ -37,7 +37,7 @@ async function fetchInventory() {
                     price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Ensure this is a number
                     description: item.itemData.description || '',
                     imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
-                    stockQuantity,
+                    stockQuantity: stockQuantity.toString(), // Convert BigInt to string
                 };
             } catch (error) {
                 console.error(`Error processing item ${item.id}:`, error);
