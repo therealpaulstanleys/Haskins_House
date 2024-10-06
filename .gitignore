@@ -63,3 +63,26 @@ typings/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Ignore any local configuration files
+*.local
+
+# Ignore coverage reports
+coverage/
+
+# Ignore build artifacts
+dist/
+build/
+
+# Ignore temporary files
+*.tmp
+*.temp
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore npm package lock file if you want to use yarn
+package-lock.json
