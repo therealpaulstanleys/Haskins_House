@@ -1,6 +1,9 @@
 'use strict';
 
-document.addEventListener('DOMContentLoaded', initializePageFunctionality);
+document.addEventListener('DOMContentLoaded', () => {
+    initializePageFunctionality();
+    flickerLights(); // Call flicker lights on page load
+});
 
 async function initializePageFunctionality() {
     try {
@@ -109,4 +112,85 @@ async function updateCartDisplay() {
     } catch (error) {
         console.error('Error updating cart display:', error);
     }
+}
+
+// Function to animate the logo into an explosion effect, forming a beating heart
+function animateLogo() {
+    const logo = document.querySelector('.logo');
+    gsap.fromTo(logo, {
+        scale: 1,
+        opacity: 1
+    }, {
+        scale: 1.5,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power1.in",
+        onComplete: () => {
+            // Create particles for explosion effect
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                document.body.appendChild(particle);
+                gsap.set(particle, {
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2,
+                    backgroundColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    position: 'absolute',
+                    width: '10px',
+                    height: '10px',
+                    borderRadius: '50%',
+                    opacity: 1
+                });
+                gsap.to(particle, {
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    scale: Math.random() * 2,
+                    duration: 1,
+                    onComplete: () => {
+                        particle.remove();
+                    }
+                });
+            }
+            // Create heart shape after explosion
+            setTimeout(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                document.body.appendChild(heart);
+                gsap.fromTo(heart, {
+                    scale: 0,
+                    opacity: 0
+                }, {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "bounce.out",
+                    onComplete: () => {
+                        gsap.to(heart, {
+                            scale: 0,
+                            duration: 1,
+                            onComplete: () => heart.remove()
+                        });
+                    }
+                });
+            }, 1000); // Delay heart appearance
+        }
+    });
+}
+
+// Function to create a flickering lights effect
+function flickerLights() {
+    const body = document.body;
+    const flickerDuration = 300; // Duration of flicker in milliseconds
+    const flickerCount = 10; // Number of flickers
+
+    for (let i = 0; i < flickerCount; i++) {
+        setTimeout(() => {
+            body.style.backgroundColor = (i % 2 === 0) ? '#fff' : '#f8f8f8'; // Toggle background color
+        }, i * flickerDuration);
+    }
+
+    // Reset background color after flickering
+    setTimeout(() => {
+        body.style.backgroundColor = '#fff'; // Final background color
+    }, flickerCount * flickerDuration);
 }

@@ -18,7 +18,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="150" loading="lazy" onclick="animateLogo()">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="150" loading="lazy">
         </div>
         <nav aria-label="Main navigation">
             <ul class="nav justify-content-center">
@@ -47,71 +47,6 @@
         <p>Location: 534 2nd Street, Portsmouth, OH 45662</p>
         <p>Phone: (740) 771-0017</p>
     </footer>
-
-    <script>
-        // Function to animate the logo into an explosion effect, forming a beating heart
-        function animateLogo() {
-            const logo = document.querySelector('.logo');
-            gsap.fromTo(logo, {
-                scale: 1,
-                opacity: 1
-            }, {
-                scale: 1.5,
-                opacity: 0,
-                duration: 0.5,
-                ease: "power1.in",
-                onComplete: () => {
-                    // Create particles for explosion effect
-                    for (let i = 0; i < 100; i++) {
-                        const particle = document.createElement('div');
-                        particle.className = 'particle';
-                        document.body.appendChild(particle);
-                        gsap.set(particle, {
-                            x: window.innerWidth / 2,
-                            y: window.innerHeight / 2,
-                            backgroundColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                            position: 'absolute',
-                            width: '10px',
-                            height: '10px',
-                            borderRadius: '50%',
-                            opacity: 1
-                        });
-                        gsap.to(particle, {
-                            x: Math.random() * window.innerWidth,
-                            y: Math.random() * window.innerHeight,
-                            scale: Math.random() * 2,
-                            duration: 1,
-                            onComplete: () => {
-                                particle.remove();
-                            }
-                        });
-                    }
-                    // Create heart shape after explosion
-                    setTimeout(() => {
-                        const heart = document.createElement('div');
-                        heart.className = 'heart';
-                        document.body.appendChild(heart);
-                        gsap.fromTo(heart, {
-                            scale: 0,
-                            opacity: 0
-                        }, {
-                            scale: 1,
-                            opacity: 1,
-                            duration: 1,
-                            ease: "bounce.out",
-                            onComplete: () => {
-                                gsap.to(heart, {
-                                    scale: 0,
-                                    duration: 1,
-                                    onComplete: () => heart.remove()
-                                });
-                            }
-                        });
-                    }, 1000); // Delay heart appearance
-                }
-            });
-        }
-    </script>
 </body>
 
 </html>
