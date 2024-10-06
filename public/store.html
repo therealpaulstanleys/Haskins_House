@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Store Inventory</title>
+    <title>Vinyl Store</title>
     <link rel="stylesheet" href="/styles.css">
     <script src="/script.js" defer></script>
-    <!-- Ensure script.js is included -->
 </head>
 
 <body>
@@ -17,21 +16,27 @@
 
     <main>
         <div id="loading-message">Loading inventory...</div>
-        <div id="inventory-list"></div>
+
+        <!-- Category Filter -->
+        <div id="category-filter">
+            <label for="category-select">Filter by Category:</label>
+            <select id="category-select" onchange="filterByCategory()">
+                <option value="all">All</option>
+                <option value="Vinyl Records (New)">Vinyl Records (New)</option>
+                <option value="Vinyl Records (Used)">Vinyl Records (Used)</option>
+                <option value="CDs (New)">CDs (New)</option>
+                <option value="CDs (Used)">CDs (Used)</option>
+            </select>
+        </div>
+
+        <div id="inventory-list" class="grid-container"></div>
         <div id="cart-items"></div>
         <div id="cart-total"></div>
         <button id="checkout-button" style="display: none;">Checkout</button>
-
-        <!-- Add the image here -->
-        <div class="now-playing">
-            <img src="/images/haskins-house-5.jpg" alt="Now playing sign from old faux leather armadillo" class="now-playing-image">
-        </div>
     </main>
 
     <footer>
         <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
-        <p>Location: 534 2nd Street, Portsmouth, OH 45662</p>
-        <p>Phone: (740) 771-0017</p>
     </footer>
 </body>
 

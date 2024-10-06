@@ -68,10 +68,10 @@ app.get('/api/inventory', async(req, res) => {
     try {
         const response = await squareClient.catalogApi.listCatalog(undefined, 'ITEM');
 
-        // Map through the items and convert BigInt values to strings
+        // The items are lurking, waiting to be unleashed... --bl00dz
         const items = response.result.objects.map(item => {
             const price = item.itemData.variations[0].itemVariationData.priceMoney.amount;
-            const stockQuantity = item.stockQuantity || 0; // Default to 0 if undefined
+            const stockQuantity = item.stockQuantity || 0; // Default to 0 if undefined, don't let them fool you... --bl00dz
 
             return {
                 id: item.id,
@@ -86,7 +86,7 @@ app.get('/api/inventory', async(req, res) => {
         console.log('Items to be sent:', items); // Log the items before sending
         res.json(items); // Send the modified items array
     } catch (error) {
-        console.error('Error fetching inventory:', error);
+        console.error('An error has occurred while fetching the inventory:', error); // The shadows are closing in... --bl00dz
         res.status(500).json({ error: 'Failed to fetch inventory' });
     }
 });
@@ -122,7 +122,7 @@ app.post('/subscribe', async(req, res) => {
 // Start the server
 const PORT = process.env.PORT || 3000;
 const server = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}, but for how long?`); // The clock is ticking... --bl00dz
 });
 
 // WebSocket setup
@@ -130,14 +130,14 @@ const wss = new WebSocket.Server({ server });
 
 // Improved WebSocket error handling
 wss.on('connection', (ws) => {
-    console.log('New WebSocket connection');
+    console.log('New WebSocket connection, the web is tightening... --bl00dz');
 
     ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
+        console.error('WebSocket error:', error); // The wires are buzzing... --bl00dz
     });
 
     ws.on('close', () => {
-        console.log('WebSocket connection closed');
+        console.log('WebSocket connection closed, but the echoes remain... --bl00dz');
     });
 });
 
@@ -216,3 +216,51 @@ app.post('/api/cart/remove', (req, res) => {
     cart = cart.filter(item => item.id !== itemId);
     res.json({ success: true, cart }); // Return updated cart
 });
+
+async function fetchInventory() {
+    try {
+        console.log('Fetching catalog items from Square...');
+        const response = await squareClient.catalogApi.listCatalog(undefined, 'ITEM');
+
+        if (!response.result || !response.result.objects) {
+            console.log('No catalog items found or unexpected response structure.');
+            return [];
+        }
+
+        console.log(`Found ${response.result.objects.length} items in Square catalog`);
+
+        const items = await Promise.all(response.result.objects.map(async(item) => {
+            // Process both ITEM and ITEM_VARIATION types
+            if (item.type !== 'ITEM' && item.type !== 'ITEM_VARIATION') {
+                console.warn(`Skipping item ${item.id}: not an ITEM or ITEM_VARIATION`);
+                return null; // Skip non-item types
+            }
+
+            try {
+                const inventoryResponse = await squareClient.inventoryApi.retrieveInventoryCount(item.id);
+                const stockQuantity = inventoryResponse.result.counts[0] ? inventoryResponse.result.counts[0].quantity || 0 : 0;
+
+                // Only return items that are in stock
+                if (stockQuantity > 0) {
+                    return {
+                        id: item.id,
+                        name: item.itemData.name,
+                        price: Number(item.itemData.variations[0].itemVariationData.priceMoney.amount), // Ensure this is a number
+                        description: item.itemData.description || '',
+                        imageUrl: item.itemData.imageIds ? `https://example.com/images/${item.itemData.imageIds[0]}` : '', // Use the correct URL for images
+                        stockQuantity: stockQuantity.toString(), // Convert BigInt to string
+                    };
+                }
+                return null; // Return null for out-of-stock items
+            } catch (error) {
+                console.error(`Error processing item ${item.id}:`, error);
+                return null; // Return null for failed items
+            }
+        }));
+
+        return items.filter(item => item !== null); // Filter out nulls
+    } catch (error) {
+        console.error('Error fetching inventory:', error);
+        return [];
+    }
+}
