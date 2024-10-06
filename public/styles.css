@@ -226,9 +226,45 @@ h2 {
     padding: 10px;
     margin: 10px;
     text-align: center;
+    background-color: var(--secondary-color);
+    /* Light background for items */
+    border-radius: 8px;
+    /* Rounded corners */
+    transition: transform 0.3s;
+    /* Smooth scaling effect */
+}
+
+.store-item:hover {
+    transform: scale(1.05);
+    /* Slightly enlarge on hover */
 }
 
 .item-image {
     max-width: 100%;
     height: auto;
+    border-radius: 4px;
+    /* Rounded corners for images */
+}
+
+
+/* Store Item Grid Styles */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 items per row */
+    gap: 20px;
+    /* Space between items */
+    margin: 20px 0;
+    /* Margin around the grid */
+}
+
+#category-filter {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#category-select {
+    padding: 10px;
+    font-size: 16px;
 }
