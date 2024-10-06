@@ -17,7 +17,22 @@
 
     <main>
         <div id="loading-message">Loading inventory...</div>
-        <div id="inventory-list"></div>
+
+        <!-- Category Filter -->
+        <div id="category-filter">
+            <label for="category-select">Filter by Category:</label>
+            <select id="category-select" onchange="filterByCategory()">
+                <option value="all">All</option>
+                <option value="Vinyl Records (New)">Vinyl Records (New)</option>
+                <option value="Vinyl Records (Used)">Vinyl Records (Used)</option>
+                <option value="CDs (New)">CDs (New)</option>
+                <option value="CDs (Used)">CDs (Used)</option>
+                <!-- Add more categories as needed -->
+            </select>
+        </div>
+
+        <div id="inventory-list" class="grid-container"></div>
+        <!-- Added class for grid layout -->
         <div id="cart-items"></div>
         <div id="cart-total"></div>
         <button id="checkout-button" style="display: none;">Checkout</button>
