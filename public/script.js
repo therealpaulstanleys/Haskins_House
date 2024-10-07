@@ -24,7 +24,16 @@ async function initializePageFunctionality() {
 }
 
 function displayInventory(items) {
-    // Implementation for displayInventory function
+    const container = document.getElementById('featured-items-container');
+    if (!container) return;
+
+    container.innerHTML = items.map(item => `
+        <div class="item">
+            <h3>${item.name}</h3>
+            <p>Price: $${(item.price / 100).toFixed(2)}</p>
+            <button onclick="addToCart('${item.id}')">Add to Cart</button>
+        </div>
+    `).join('');
 }
 
 function displayFeaturedItems(items) {
