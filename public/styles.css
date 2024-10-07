@@ -96,6 +96,21 @@ nav ul li a:hover {
     text-align: center;
 }
 
+.featured-items .item {
+    display: inline-block;
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s;
+}
+
+.featured-items .item:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 
 /* Form styles */
 
@@ -127,3 +142,22 @@ nav ul li a:hover {
 
 
 /* Additional styles... */
+
+
+/* Social media links */
+
+.social-media {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.social-media a {
+    margin: 0 10px;
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-media a:hover {
+    color: var(--hover-color);
+}
