@@ -2,18 +2,19 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initializePageFunctionality();
-    flickerLights(); // Call flicker lights on page load
+    flickerLights();
+    animateLogo(); // Ensure this is called if needed
+    fetchInstagramImages(); // Fetch Instagram images if needed
 });
 
 async function initializePageFunctionality() {
     try {
-        const response = await fetch('/api/inventory'); // Call the inventory endpoint
+        const response = await fetch('/api/inventory');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         const items = await response.json();
-        displayInventory(items); // Call the function to display items
-        displayFeaturedItems(items); // Call the function to display featured items
+        displayInventory(items);
     } catch (error) {
         console.error('Error loading inventory:', error);
         const loadingMessage = document.getElementById('loading-message');
@@ -25,7 +26,9 @@ async function initializePageFunctionality() {
 
 function displayInventory(items) {
     const container = document.getElementById('featured-items-container');
-    if (!container) return;
+    if (!container) {
+        return;
+    }
 
     container.innerHTML = items.map(item => `
         <div class="item">
@@ -158,22 +161,21 @@ function animateLogo() {
 // Function to create a flickering lights effect
 function flickerLights() {
     const body = document.body;
-    const flickerDuration = 300; // Duration of flicker in milliseconds
-    const flickerCount = 10; // Number of flickers
+    const settings = {
+        flickerDuration: 300,
+        flickerCount: 10
+    };
+
+    const { flickerDuration, flickerCount } = settings;
 
     for (let i = 0; i < flickerCount; i++) {
         setTimeout(() => {
-            if (i % 2 === 0) {
-                body.style.backgroundColor = '#fff';
-            } else {
-                body.style.backgroundColor = '#f8f8f8';
-            }
+            body.style.backgroundColor = i % 2 === 0 ? '#fff' : '#f8f8f8';
         }, i * flickerDuration);
     }
 
-    // Reset background color after flickering
     setTimeout(() => {
-        body.style.backgroundColor = '#fff'; // Final background color
+        body.style.backgroundColor = '#fff';
     }, flickerCount * flickerDuration);
 }
 
