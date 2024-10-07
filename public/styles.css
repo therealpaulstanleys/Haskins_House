@@ -1,441 +1,97 @@
-                 :root {
-            --primary-color: #000;
-            /* Changed to black */
-            --secondary-color: #f8f8f8;
-            /* Changed to grey */
-            --primary-color: #000;
-            /* Changed to black */
-            --secondary-color: #f8f8f8;
-            /* Changed to grey */
-            --text-color: #333;
-            /* Dark text for readability */
-            --background-color: #ffffff;
-            /* Light background */
-            --link-color: #000;
-            /* Black for links */
-            --hover-color: #808080;
-            /* Grey for hover effects */
-            /* Dark text for readability */
-            --background-color: #ffffff;
-            /* Light background */
-            --link-color: #000;
-            /* Black for links */
-            --hover-color: #808080;
-            /* Grey for hover effects */
-        }
-        /* Basic reset and typography */
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            background-color: var(--background-color);
-            color: var(--text-color);
-        }
-        
-        header {
-            header {
-                background-color: var(--primary-color);
-                color: white;
-                padding: 20px;
-                text-align: center;
-            }
-            .logo-container {
-                max-width: 200px;
-                /* Set a max width for the logo */
-                /* Set a max width for the logo */
-                margin: 0 auto;
-                /* Center the logo */
-            }
-            .logo {
-                width: 100%;
-                /* Make the logo responsive */
-                height: auto;
-                /* Maintain aspect ratio */
-            }
-            main {
-                /* Center the logo */
-            }
-            .logo {
-                width: 100%;
-                /* Make the logo responsive */
-                height: auto;
-                /* Maintain aspect ratio */
-            }
-            main {
-                padding: 20px;
-                text-align: center;
-                /* Centering the main content */
-            }
-            /* Navigation Styles */
-            /* Centering the main content */
-        }
-        /* Navigation Styles */
-        
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        nav ul li {
-            display: inline;
-            margin-right: 15px;
-            display: inline;
-            margin-right: 15px;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            color: white;
-            text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        nav ul li a:hover,
-        nav ul li a[aria-current="page"] {
-            background-color: var(--secondary-color);
-            color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            text-decoration: underline;
-            text-decoration: underline;
-        }
-        /* Store Specific Styles */
-        /* Store Specific Styles */
-        
-        .cta-button {
-            .cta-button {
-                display: inline-block;
-                background-color: var(--primary-color);
-                color: #fff;
-                padding: 12px 24px;
-                text-decoration: none;
-                border-radius: 5px;
-                transition: all 0.3s ease;
-                margin-top: 20px;
-                margin-top: 20px;
-            }
-            .cta-button:hover {
-                .cta-button:hover {
-                    background-color: var(--secondary-color);
-                }
-                /* Footer Styles */
-                footer {}
-                /* Footer Styles */
-                footer {
-                    text-align: center;
-                    padding: 20px;
-                    padding: 20px;
-                    background-color: var(--primary-color);
-                    color: white;
-                    padding: 20px;
-                }
-                /* Form Styles */
-                /* Form Styles */
-                #newsletter-form {
-                    margin-top: 1rem;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    flex-wrap: wrap;
-                    gap: 10px;
-                }
-                #newsletter-form input[type="email"] {
-                    flex: 1;
-                    min-width: 200px;
-                    max-width: 400px;
-                    padding: 10px;
-                    margin: 0;
-                }
-                #newsletter-form button {
-                    padding: 10px 20px;
-                    background-color: #2ecc71;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease;
-                    margin: 0;
-                }
-                #newsletter-form button:hover {
-                    background-color: var(--hover-color);
-                }
-                /* Responsive Styles */
-                /* Responsive Styles */
-                @media (max-width: 600px) {
-                    #newsletter-form {
-                        #newsletter-form {
-                            flex-direction: column;
-                        }
-                        #newsletter-form input[type="email"],
-                        #newsletter-form button {
-                            width: 100%;
-                            margin: 5px 0;
-                        }
-                    }
-                    /* Additional Styles for Modern Look */
-                }
-                /* Additional Styles for Modern Look */
-                h1,
-                h2 {
-                    color: var(--primary-color);
-                    text-align: center;
-                    /* Centering headings */
-                }
-                /* Centering headings */
-            }
-            #intro,
-            #saturday-drop,
-            #store-hours,
-            #store-hours,
-            #newsletter-signup {
-                text-align: center;
-                margin: 20px 0;
-                margin: 20px 0;
-            }
-            #saturday-drop {
-                background-color: #f0f0f0;
-                #saturday-drop {
-                    background-color: #f0f0f0;
-                    padding: 20px;
-                    border-radius: 8px;
-                }
-                /* Add this to your public/styles.css */
-            }
-            /* Add this to your public/styles.css */
-            .particle {
-                position: absolute;
-                border-radius: 50%;
-                pointer-events: none;
-                /* Prevent interaction */
-                /* Prevent interaction */
-            }
-            .heart {
-                position: absolute;
-                width: 50px;
-                height: 50px;
-                background-color: red;
-                /* Heart color */
-                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-                /* Heart shape */
-                left: calc(50% - 25px);
-                /* Center the heart */
-                top: calc(50% - 25px);
-                /* Center the heart */
-                width: 50px;
-                height: 50px;
-                background-color: red;
-                /* Heart color */
-                clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-                /* Heart shape */
-                left: calc(50% - 25px);
-                /* Center the heart */
-                top: calc(50% - 25px);
-                /* Center the heart */
-                opacity: 0;
-            }
-            .store-item {
-                border: 1px solid #ccc;
-                padding: 10px;
-                .store-item {
-                    border: 1px solid #ccc;
-                    padding: 10px;
-                    text-align: center;
-                    background-color: var(--secondary-color);
-                    /* Light background for items */
-                    border-radius: 8px;
-                    /* Rounded corners */
-                    transition: transform 0.3s;
-                    /* Smooth scaling effect */
-                }
-                .store-item:hover {
-                    transform: scale(1.05);
-                    /* Slightly enlarge on hover */
-                }
-                .item-image {
-                    max-width: 100%;
-                    height: auto;
-                    border-radius: 4px;
-                    /* Rounded corners for images */
-                }
-                /* Store Item Grid Styles */
-                .grid-container {
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    /* 4 items per row */
-                    gap: 20px;
-                    /* Space between items */
-                    margin: 20px 0;
-                    /* Margin around the grid */
-                }
-                #category-filter {
-                    margin: 20px 0;
-                    text-align: center;
-                    background-color: var(--secondary-color);
-                    /* Light background for items */
-                    border-radius: 8px;
-                    /* Rounded corners */
-                    transition: transform 0.3s;
-                    /* Smooth scaling effect */
-                }
-                .store-item:hover {
-                    transform: scale(1.05);
-                    /* Slightly enlarge on hover */
-                }
-                .item-image {
-                    max-width: 100%;
-                    height: auto;
-                    border-radius: 4px;
-                    /* Rounded corners for images */
-                }
-                /* Store Item Grid Styles */
-                .grid-container {
-                    display: grid;
-                    grid-template-columns: repeat(4, 1fr);
-                    /* 4 items per row */
-                    gap: 20px;
-                    /* Space between items */
-                    margin: 20px 0;
-                    /* Margin around the grid */
-                }
-                #category-filter {
-                    margin: 20px 0;
-                }
-                #category-select {
-                    padding: 10px;
-                    font-size: 16px;
-                }
-                .glow-on-hover {
-                    width: 200px;
-                    height: 50px;
-                    border: none;
-                    outline: none;
-                    color: white;
-                    background: #000;
-                    cursor: pointer;
-                    position: relative;
-                    z-index: 0;
-                    border-radius: 10px;
-                    transition: 0.5s;
-                }
-                .glow-on-hover:before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    width: 100%;
-                    background: linear-gradient(45deg, #ff0000, #ff7300, #ffec00, #00ff00, #00ffec, #0000ff, #7300ff, #ff00ff);
-                    filter: blur(10px);
-                    z-index: -1;
-                    animation: glowing 20s linear infinite;
-                }
-                .glow-on-hover:hover {
-                    background: transparent;
-                }
-                @keyframes glowing {
-                    0% {
-                        background-position: 0 0;
-                    }
-                    100% {
-                        background-position: 100% 0;
-                    }
-                }
-                /* Hero Section Styles */
-                #hero {
-                    background: url('/images/hero-background.jpg') no-repeat center center/cover;
-                    /* Add a background image */
-                    color: white;
-                    text-align: center;
-                    padding: 50px 20px;
-                }
-                #hero h2 {
-                    font-size: 2.5em;
-                    margin-bottom: 20px;
-                }
-                #hero p {
-                    font-size: 1.2em;
-                    margin-bottom: 30px;
-                }
-                .cta-button {
-                    display: inline-block;
-                    background-color: var(--primary-color);
-                    color: #fff;
-                    padding: 12px 24px;
-                    text-decoration: none;
-                    border-radius: 5px;
-                    transition: all 0.3s ease;
-                }
-                .cta-button:hover {
-                    background-color: var(--secondary-color);
-                }
-                /* Featured Items Section */
-                #featured-items {
-                    padding: 20px;
-                    text-align: center;
-                }
-                #category-select {
-                    padding: 10px;
-                    font-size: 16px;
-                }
-                .glow-on-hover {
-                    width: 200px;
-                    height: 50px;
-                    border: none;
-                    outline: none;
-                    color: white;
-                    background: #000;
-                    cursor: pointer;
-                    position: relative;
-                    z-index: 0;
-                    border-radius: 10px;
-                    transition: 0.5s;
-                }
-                .glow-on-hover:before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    width: 100%;
-                    background: linear-gradient(45deg, #ff0000, #ff7300, #ffec00, #00ff00, #00ffec, #0000ff, #7300ff, #ff00ff);
-                    filter: blur(10px);
-                    z-index: -1;
-                    animation: glowing 20s linear infinite;
-                }
-                .glow-on-hover:hover {
-                    background: transparent;
-                }
-                @keyframes glowing {
-                    0% {
-                        background-position: 0 0;
-                    }
-                    100% {
-                        background-position: 100% 0;
-                    }
-                }
-                #featured-items h2 {
-                    margin-bottom: 20px;
-                }
-                /* Loading Message */
-                #loading-message {
-                    font-size: 1.2em;
-                    color: var(--text-color);
-                }
+:root {
+    --primary-color: #000;
+    --secondary-color: #f8f8f8;
+    --text-color: #333;
+    --background-color: #ffffff;
+    --link-color: #000;
+    --hover-color: #808080;
+}
+
+
+/* Basic reset and typography */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+
+/* Header styles */
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+
+/* Navigation styles */
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    margin-right: 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+nav ul li a:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+
+/* Form styles */
+
+#newsletter-form {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#newsletter-form input[type="email"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+}
+
+#newsletter-form button {
+    padding: 10px 20px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#newsletter-form button:hover {
+    background-color: var(--hover-color);
+}
+
+
+/* Additional styles... */
