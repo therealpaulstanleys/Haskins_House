@@ -12,24 +12,27 @@ async function initializePageFunctionality() {
             throw new Error('Network response was not ok');
         }
         const items = await response.json();
-        displayInventory(items); // Call the function to display items
+        displayFeaturedItems(items); // Call the function to display featured items
     } catch (error) {
         console.error('Error loading inventory:', error);
         const loadingMessage = document.getElementById('loading-message');
         if (loadingMessage) {
-            loadingMessage.textContent = 'Error loading inventory. Please try again later.';
+            loadingMessage.textContent = 'Error loading featured items. Please try again later.';
         }
     }
 }
 
-function displayInventory(items) {
+function displayFeaturedItems(items) {
     const inventoryList = document.getElementById('inventory-list');
     if (!inventoryList) {
         return;
     }
 
-    inventoryList.innerHTML = items.length === 0 ? '<p>No items in inventory.</p>' :
-        items.map(item => {
+    // Filter for featured items (you can define your own criteria)
+    const featuredItems = items.filter(item => item.isFeatured); // Assuming items have an isFeatured property
+
+    inventoryList.innerHTML = featuredItems.length === 0 ? '<p>No featured items available.</p>' :
+        featuredItems.map(item => {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'inventory-item';
             itemDiv.setAttribute('data-id', item.id);
@@ -45,10 +48,6 @@ function displayInventory(items) {
             const price = document.createElement('p');
             price.textContent = `Price: $${(item.price / 100).toFixed(2)}`;
 
-            const stockQuantity = document.createElement('p');
-            stockQuantity.className = 'stock-quantity';
-            stockQuantity.textContent = `In Stock: ${item.stockQuantity}`;
-
             const button = document.createElement('button');
             button.textContent = item.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart';
             button.disabled = item.stockQuantity === 0;
@@ -57,7 +56,6 @@ function displayInventory(items) {
             itemDiv.appendChild(img);
             itemDiv.appendChild(name);
             itemDiv.appendChild(price);
-            itemDiv.appendChild(stockQuantity);
             itemDiv.appendChild(button);
 
             return itemDiv.outerHTML; // Return the outer HTML of the item div
@@ -89,7 +87,7 @@ async function addToCart(itemId) {
 async function updateCartDisplay() {
     try {
         const response = await fetch('/api/cart');
-        const { cart } = await response.json();
+        const { cart } = await response.json(); // Destructuring the response
 
         const cartItems = document.getElementById('cart-items');
         const cartTotal = document.getElementById('cart-total');
@@ -117,7 +115,10 @@ async function updateCartDisplay() {
 // Function to animate the logo into an explosion effect, forming a beating heart
 function animateLogo() {
     const logo = document.querySelector('.logo');
-    if (!logo) return; // Ensure logo exists
+    if (!logo) {
+        return;
+    }
+
 
     gsap.fromTo(logo, {
         scale: 1,

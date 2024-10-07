@@ -1,1 +1,1 @@
-This is a simple wenbsite I am working on. It's a demo to a rtecord store. 
+This is a simple website I am working on. It's a demo to a record store. 

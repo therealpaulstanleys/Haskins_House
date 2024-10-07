@@ -307,3 +307,58 @@ h2 {
         background-position: 100% 0;
     }
 }
+
+
+/* Hero Section Styles */
+
+#hero {
+    background: url('/images/hero-background.jpg') no-repeat center center/cover;
+    /* Add a background image */
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+#hero h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+#hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--secondary-color);
+}
+
+
+/* Featured Items Section */
+
+#featured-items {
+    padding: 20px;
+    text-align: center;
+}
+
+#featured-items h2 {
+    margin-bottom: 20px;
+}
+
+
+/* Loading Message */
+
+#loading-message {
+    font-size: 1.2em;
+    color: var(--text-color);
+}
