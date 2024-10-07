@@ -89,6 +89,14 @@ nav ul li a:hover {
 }
 
 
+/* Featured items styles */
+
+.featured-items {
+    padding: 20px;
+    text-align: center;
+}
+
+
 /* Form styles */
 
 #newsletter-form {
