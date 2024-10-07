@@ -117,7 +117,9 @@ async function updateCartDisplay() {
 // Function to animate the logo into an explosion effect, forming a beating heart
 function animateLogo() {
     const logo = document.querySelector('.logo');
-    if (!logo) return; // Ensure logo exists
+    if (!logo) {
+        return;
+    } // Ensure logo exists
 
     gsap.fromTo(logo, {
         scale: 1,
@@ -181,7 +183,7 @@ function animateLogo() {
 
 // Function to create a flickering lights effect
 function flickerLights() {
-    const body = document.body;
+    const { body } = document;
     const flickerDuration = 300; // Duration of flicker in milliseconds
     const flickerCount = 10; // Number of flickers
 
