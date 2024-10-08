@@ -4,7 +4,36 @@ document.addEventListener('DOMContentLoaded', () => {
     initializePageFunctionality();
     flickerLights();
     animateLogo();
-    fetchInstagramImages();
+    // Commented out until you have a valid Instagram API token
+    // fetchInstagramImages();
+
+    // Newsletter subscription form handling
+    const newsletterForm = document.getElementById('newsletter-form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', async(e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            try {
+                const response = await fetch('/subscribe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email }),
+                });
+                const data = await response.json();
+                if (data.success) {
+                    alert('Subscription successful!');
+                    newsletterForm.reset();
+                } else {
+                    alert('Subscription failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            }
+        });
+    }
 });
 
 async function initializePageFunctionality() {
@@ -175,6 +204,8 @@ function flickerLights() {
     }, flickerCount * flickerDuration);
 }
 
+// Comment out or remove this function until you have a valid Instagram API token
+/*
 async function fetchInstagramImages() {
     try {
         const response = await fetch('https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url&access_token=YOUR_ACCESS_TOKEN');
@@ -187,6 +218,7 @@ async function fetchInstagramImages() {
         console.error('Error fetching Instagram images:', error);
     }
 }
+*/
 
 function displayInstagramImages(images) {
     const instagramContainer = document.getElementById('instagram-images');
