@@ -3,8 +3,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     initializePageFunctionality();
     flickerLights();
-    animateLogo(); // Ensure this is called if needed
-    fetchInstagramImages(); // Fetch Instagram images if needed
+    animateLogo();
+    fetchInstagramImages();
 });
 
 async function initializePageFunctionality() {
@@ -39,10 +39,6 @@ function displayInventory(items) {
     `).join('');
 }
 
-function displayFeaturedItems(items) {
-    // Implementation for displayFeaturedItems function
-}
-
 async function addToCart(itemId) {
     try {
         const response = await fetch('/api/cart/add', {
@@ -55,7 +51,7 @@ async function addToCart(itemId) {
             throw new Error('Failed to add item to cart');
         }
 
-        const { success } = await response.json(); // Destructuring response
+        const { success } = await response.json();
         if (success) {
             updateCartDisplay();
         }
@@ -68,7 +64,7 @@ async function addToCart(itemId) {
 async function updateCartDisplay() {
     try {
         const response = await fetch('/api/cart');
-        const { cart } = await response.json(); // Destructuring response
+        const { cart } = await response.json();
 
         const cartItems = document.getElementById('cart-items');
         const cartTotal = document.getElementById('cart-total');
@@ -93,11 +89,11 @@ async function updateCartDisplay() {
     }
 }
 
-// Function to animate the logo into an explosion effect, forming a beating heart
+// Animate the logo into an explosion effect, forming a beating heart
 function animateLogo() {
     const logo = document.querySelector('.logo');
     if (!logo) {
-        return; // Ensure logo exists
+        return;
     }
 
     gsap.fromTo(logo, {
@@ -158,7 +154,7 @@ function animateLogo() {
     });
 }
 
-// Function to create a flickering lights effect
+// Create a flickering lights effect
 function flickerLights() {
     const body = document.body;
     const settings = {
@@ -187,7 +183,7 @@ async function fetchInstagramImages() {
         if (!response.ok) {
             throw new Error('Failed to fetch Instagram images');
         }
-        const { data } = await response.json(); // Use object destructuring
+        const { data } = await response.json();
         displayInstagramImages(data);
     } catch (error) {
         console.error('Error fetching Instagram images:', error);
