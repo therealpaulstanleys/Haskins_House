@@ -1,16 +1,10 @@
 :root {
     --primary-color: #000;
-    /* Changed to black */
     --secondary-color: #f8f8f8;
-    /* Changed to grey */
     --text-color: #333;
-    /* Dark text for readability */
     --background-color: #ffffff;
-    /* Light background */
     --link-color: #000;
-    /* Black for links */
     --hover-color: #808080;
-    /* Grey for hover effects */
 }
 
 
@@ -28,11 +22,12 @@ html {
 
 body {
     font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
     background-color: var(--background-color);
     color: var(--text-color);
 }
+
+
+/* Header styles */
 
 header {
     background-color: var(--primary-color);
@@ -41,28 +36,8 @@ header {
     text-align: center;
 }
 
-.logo-container {
-    max-width: 200px;
-    /* Set a max width for the logo */
-    margin: 0 auto;
-    /* Center the logo */
-}
 
-.logo {
-    width: 100%;
-    /* Make the logo responsive */
-    height: auto;
-    /* Maintain aspect ratio */
-}
-
-main {
-    padding: 20px;
-    text-align: center;
-    /* Centering the main content */
-}
-
-
-/* Navigation Styles */
+/* Navigation styles */
 
 nav ul {
     list-style-type: none;
@@ -73,7 +48,6 @@ nav ul {
 }
 
 nav ul li {
-    display: inline;
     margin-right: 15px;
 }
 
@@ -83,65 +57,75 @@ nav ul li a {
     padding: 5px 10px;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-    text-decoration: none;
-    display: inline-block;
 }
 
-nav ul li a:hover,
-nav ul li a[aria-current="page"] {
+nav ul li a:hover {
     background-color: var(--secondary-color);
     color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    text-decoration: underline;
 }
 
 
-/* Store Specific Styles */
+/* Hero section styles */
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: var(--secondary-color);
+}
 
 .cta-button {
     display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
     background-color: var(--primary-color);
-    color: #fff;
-    padding: 12px 24px;
+    color: white;
     text-decoration: none;
     border-radius: 5px;
-    transition: all 0.3s ease;
-    margin-top: 20px;
+    transition: background-color 0.3s;
 }
 
 .cta-button:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--hover-color);
 }
 
 
-/* Footer Styles */
+/* Featured items styles */
 
-footer {
+.featured-items {
+    padding: 20px;
     text-align: center;
-    padding: 20px;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 20px;
+}
+
+.featured-items .item {
+    display: inline-block;
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: box-shadow 0.3s;
+}
+
+.featured-items .item:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 
-/* Form Styles */
+/* Form styles */
 
 #newsletter-form {
     margin-top: 1rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     gap: 10px;
 }
 
 #newsletter-form input[type="email"] {
     flex: 1;
     min-width: 200px;
-    max-width: 400px;
     padding: 10px;
-    margin: 0;
 }
 
 #newsletter-form button {
@@ -150,8 +134,6 @@ footer {
     color: white;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 0;
 }
 
 #newsletter-form button:hover {
@@ -159,151 +141,23 @@ footer {
 }
 
 
-/* Responsive Styles */
-
-@media (max-width: 600px) {
-    #newsletter-form {
-        flex-direction: column;
-    }
-    #newsletter-form input[type="email"],
-    #newsletter-form button {
-        width: 100%;
-        margin: 5px 0;
-    }
-}
+/* Additional styles... */
 
 
-/* Additional Styles for Modern Look */
+/* Social media links */
 
-h1,
-h2 {
-    color: var(--primary-color);
-    text-align: center;
-    /* Centering headings */
-}
-
-#intro,
-#saturday-drop,
-#store-hours,
-#newsletter-signup {
-    text-align: center;
-    margin: 20px 0;
-}
-
-#saturday-drop {
-    background-color: #f0f0f0;
-    padding: 20px;
-    border-radius: 8px;
-}
-
-
-/* Add this to your public/styles.css */
-
-.particle {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    /* Prevent interaction */
-}
-
-.heart {
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    /* Heart color */
-    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-    /* Heart shape */
-    left: calc(50% - 25px);
-    /* Center the heart */
-    top: calc(50% - 25px);
-    /* Center the heart */
-    opacity: 0;
-}
-
-.store-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-    background-color: var(--secondary-color);
-    /* Light background for items */
-    border-radius: 8px;
-    /* Rounded corners */
-    transition: transform 0.3s;
-    /* Smooth scaling effect */
-}
-
-.store-item:hover {
-    transform: scale(1.05);
-    /* Slightly enlarge on hover */
-}
-
-.item-image {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    /* Rounded corners for images */
-}
-
-
-/* Store Item Grid Styles */
-
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    /* 4 items per row */
-    gap: 20px;
-    /* Space between items */
-    margin: 20px 0;
-    /* Margin around the grid */
-}
-
-#category-filter {
-    margin: 20px 0;
+.social-media {
+    margin-top: 10px;
     text-align: center;
 }
 
-#category-select {
-    padding: 10px;
-    font-size: 16px;
+.social-media a {
+    margin: 0 10px;
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.3s;
 }
 
-.glow-on-hover {
-    width: 200px;
-    height: 50px;
-    border: none;
-    outline: none;
-    color: white;
-    background: #000;
-    cursor: pointer;
-    position: relative;
-    z-index: 0;
-    border-radius: 10px;
-    transition: 0.5s;
-}
-
-.glow-on-hover:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(45deg, #ff0000, #ff7300, #ffec00, #00ff00, #00ffec, #0000ff, #7300ff, #ff00ff);
-    filter: blur(10px);
-    z-index: -1;
-    animation: glowing 20s linear infinite;
-}
-
-.glow-on-hover:hover {
-    background: transparent;
-}
-
-@keyframes glowing {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 100% 0;
-    }
+.social-media a:hover {
+    color: var(--hover-color);
 }

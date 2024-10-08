@@ -2,66 +2,45 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     initializePageFunctionality();
-    flickerLights(); // Call flicker lights on page load
+    flickerLights();
+    animateLogo(); // Ensure this is called if needed
+    fetchInstagramImages(); // Fetch Instagram images if needed
 });
 
 async function initializePageFunctionality() {
     try {
-        const response = await fetch('/api/inventory'); // Call the inventory endpoint
+        const response = await fetch('/api/inventory');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
         const items = await response.json();
-        displayInventory(items); // Call the function to display items
+        displayInventory(items);
     } catch (error) {
         console.error('Error loading inventory:', error);
         const loadingMessage = document.getElementById('loading-message');
         if (loadingMessage) {
-            loadingMessage.textContent = 'Error loading inventory. Please try again later.';
+            loadingMessage.textContent = 'Error loading featured items. Please try again later.';
         }
     }
 }
 
 function displayInventory(items) {
-    const inventoryList = document.getElementById('inventory-list');
-    if (!inventoryList) {
+    const container = document.getElementById('featured-items-container');
+    if (!container) {
         return;
     }
 
-    inventoryList.innerHTML = items.length === 0 ? '<p>No items in inventory.</p>' :
-        items.map(item => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'inventory-item';
-            itemDiv.setAttribute('data-id', item.id);
+    container.innerHTML = items.map(item => `
+        <div class="item">
+            <h3>${item.name}</h3>
+            <p>Price: $${(item.price / 100).toFixed(2)}</p>
+            <button onclick="addToCart('${item.id}')">Add to Cart</button>
+        </div>
+    `).join('');
+}
 
-            const img = document.createElement('img');
-            img.src = item.imageUrl || '/images/default.png'; // Fallback image if none exists
-            img.alt = item.name;
-            img.className = 'item-image';
-
-            const name = document.createElement('h3');
-            name.textContent = item.name;
-
-            const price = document.createElement('p');
-            price.textContent = `Price: $${(item.price / 100).toFixed(2)}`;
-
-            const stockQuantity = document.createElement('p');
-            stockQuantity.className = 'stock-quantity';
-            stockQuantity.textContent = `In Stock: ${item.stockQuantity}`;
-
-            const button = document.createElement('button');
-            button.textContent = item.stockQuantity === 0 ? 'Out of Stock' : 'Add to Cart';
-            button.disabled = item.stockQuantity === 0;
-            button.addEventListener('click', () => addToCart(item.id));
-
-            itemDiv.appendChild(img);
-            itemDiv.appendChild(name);
-            itemDiv.appendChild(price);
-            itemDiv.appendChild(stockQuantity);
-            itemDiv.appendChild(button);
-
-            return itemDiv.outerHTML; // Return the outer HTML of the item div
-        }).join('');
+function displayFeaturedItems(items) {
+    // Implementation for displayFeaturedItems function
 }
 
 async function addToCart(itemId) {
@@ -76,20 +55,20 @@ async function addToCart(itemId) {
             throw new Error('Failed to add item to cart');
         }
 
-        const { success } = await response.json();
+        const { success } = await response.json(); // Destructuring response
         if (success) {
             updateCartDisplay();
         }
     } catch (error) {
         console.error('Error adding to cart:', error);
-        alert('Could not add item to cart. Please try again.'); // User feedback
+        alert('Could not add item to cart. Please try again.');
     }
 }
 
 async function updateCartDisplay() {
     try {
         const response = await fetch('/api/cart');
-        const { cart } = await response.json();
+        const { cart } = await response.json(); // Destructuring response
 
         const cartItems = document.getElementById('cart-items');
         const cartTotal = document.getElementById('cart-total');
@@ -118,8 +97,8 @@ async function updateCartDisplay() {
 function animateLogo() {
     const logo = document.querySelector('.logo');
     if (!logo) {
-        return;
-    } // Ensure logo exists
+        return; // Ensure logo exists
+    }
 
     gsap.fromTo(logo, {
         scale: 1,
@@ -130,7 +109,6 @@ function animateLogo() {
         duration: 0.5,
         ease: "power1.in",
         onComplete: () => {
-            // Create particles for explosion effect
             for (let i = 0; i < 100; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -155,7 +133,6 @@ function animateLogo() {
                     }
                 });
             }
-            // Create heart shape after explosion
             setTimeout(() => {
                 const heart = document.createElement('div');
                 heart.className = 'heart';
@@ -176,26 +153,56 @@ function animateLogo() {
                         });
                     }
                 });
-            }, 1000); // Delay heart appearance
+            }, 1000);
         }
     });
 }
 
 // Function to create a flickering lights effect
 function flickerLights() {
-    const { body } = document;
-    const flickerDuration = 300; // Duration of flicker in milliseconds
-    const flickerCount = 10; // Number of flickers
+    const body = document.body;
+    const settings = {
+        flickerDuration: 300,
+        flickerCount: 10
+    };
+
+    const { flickerDuration, flickerCount } = settings;
 
     for (let i = 0; i < flickerCount; i++) {
         setTimeout(() => {
-            body.style.backgroundColor = (i % 2 === 0) ? '#fff' : '#f8f8f8'; // Toggle background color
+            body.style.backgroundColor = i % 2 === 0 ? '#fff' : '#f8f8f8';
         }, i * flickerDuration);
     }
 
-    // Reset background color after flickering
     setTimeout(() => {
-        body.style.backgroundColor = '#fff'; // Final background color
+        body.style.backgroundColor = '#fff';
     }, flickerCount * flickerDuration);
 }
+
 window.onload = updateInventoryDisplay;
+
+async function fetchInstagramImages() {
+    try {
+        const response = await fetch('https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url&access_token=YOUR_ACCESS_TOKEN');
+        if (!response.ok) {
+            throw new Error('Failed to fetch Instagram images');
+        }
+        const { data } = await response.json(); // Use object destructuring
+        displayInstagramImages(data);
+    } catch (error) {
+        console.error('Error fetching Instagram images:', error);
+    }
+}
+
+function displayInstagramImages(images) {
+    const instagramContainer = document.getElementById('instagram-images');
+    if (!instagramContainer) {
+        return;
+    }
+
+    instagramContainer.innerHTML = images.map(image => `
+        <div class="instagram-image">
+            <img src="${image.media_url}" alt="${image.caption}" />
+        </div>
+    `).join('');
+}
