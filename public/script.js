@@ -175,8 +175,6 @@ function flickerLights() {
     }, flickerCount * flickerDuration);
 }
 
-window.onload = updateInventoryDisplay;
-
 async function fetchInstagramImages() {
     try {
         const response = await fetch('https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,thumbnail_url&access_token=YOUR_ACCESS_TOKEN');
