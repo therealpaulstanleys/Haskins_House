@@ -88,14 +88,22 @@ async function initializePageFunctionality() {
 
 function displayInventory(items) {
     const container = document.getElementById('featured-items-container');
-    if (!container) {
+    if (!container) return;
+
+    // Add loading state
+    container.innerHTML = '<div>Loading...</div>';
+
+    // If no items, show message
+    if (!items || items.length === 0) {
+        container.innerHTML = '<div>No items available at this time.</div>';
         return;
     }
 
+    // Display items
     container.innerHTML = items.map(item => `
         <div class="item">
-            <h3>${item.name}</h3>
-            <p>Price: $${(item.price / 100).toFixed(2)}</p>
+            <h3>${item.name || 'Unnamed Item'}</h3>
+            <p>Price: $${((item.price || 0) / 100).toFixed(2)}</p>
             <button onclick="addToCart('${item.id}')">Add to Cart</button>
         </div>
     `).join('');
@@ -151,69 +159,67 @@ async function updateCartDisplay() {
     }
 }
 
-// Animate the logo into an explosion effect, forming a beating heart
+// Replace the GSAP-dependent animateLogo function with vanilla JS
 function animateLogo() {
     const logo = document.querySelector('.logo');
-    if (!logo) {
-        return;
+    if (!logo) return;
+
+    // Create particle effect
+    function createParticle() {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        document.body.appendChild(particle);
+
+        particle.style.cssText = `
+            position: absolute;
+            left: ${window.innerWidth / 2}px;
+            top: ${window.innerHeight / 2}px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: hsl(${Math.random() * 360}, 100%, 50%);
+            pointer-events: none;
+        `;
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 5 + Math.random() * 5;
+        const dx = Math.cos(angle) * velocity;
+        const dy = Math.sin(angle) * velocity;
+
+        let opacity = 1;
+
+        function animate() {
+            const rect = particle.getBoundingClientRect();
+            particle.style.left = rect.left + dx + 'px';
+            particle.style.top = rect.top + dy + 'px';
+            opacity -= 0.02;
+            particle.style.opacity = opacity;
+
+            if (opacity > 0) {
+                requestAnimationFrame(animate);
+            } else {
+                particle.remove();
+            }
+        }
+        requestAnimationFrame(animate);
     }
 
-    gsap.fromTo(logo, {
-        scale: 1,
-        opacity: 1
-    }, {
-        scale: 1.5,
-        opacity: 0,
-        duration: 0.5,
-        ease: "power1.in",
-        onComplete: () => {
-            for (let i = 0; i < 100; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                document.body.appendChild(particle);
-                gsap.set(particle, {
-                    x: window.innerWidth / 2,
-                    y: window.innerHeight / 2,
-                    backgroundColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
-                    position: 'absolute',
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '50%',
-                    opacity: 1
-                });
-                gsap.to(particle, {
-                    x: Math.random() * window.innerWidth,
-                    y: Math.random() * window.innerHeight,
-                    scale: Math.random() * 2,
-                    duration: 1,
-                    onComplete: () => {
-                        particle.remove();
-                    }
-                });
-            }
-            setTimeout(() => {
-                const heart = document.createElement('div');
-                heart.className = 'heart';
-                document.body.appendChild(heart);
-                gsap.fromTo(heart, {
-                    scale: 0,
-                    opacity: 0
-                }, {
-                    scale: 1,
-                    opacity: 1,
-                    duration: 1,
-                    ease: "bounce.out",
-                    onComplete: () => {
-                        gsap.to(heart, {
-                            scale: 0,
-                            duration: 1,
-                            onComplete: () => heart.remove()
-                        });
-                    }
-                });
-            }, 1000);
+    // Animate logo
+    logo.style.transform = 'scale(1.5)';
+    logo.style.opacity = '0';
+
+    // Create particles
+    setTimeout(() => {
+        for (let i = 0; i < 50; i++) {
+            createParticle();
         }
-    });
+    }, 500);
+
+    // Reset logo
+    setTimeout(() => {
+        logo.style.transform = 'scale(1)';
+        logo.style.opacity = '1';
+    }, 2000);
 }
 
 // Create a flickering lights effect
