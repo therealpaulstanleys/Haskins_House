@@ -204,3 +204,49 @@ nav ul li a:hover {
 .social-media a:hover {
     color: var(--hover-color);
 }
+
+
+/* Logo styling */
+
+.logo-container {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.logo {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+
+/* Basic layout and styling */
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    margin: 1rem 0;
+}
+
+main {
+    padding: 2rem 0;
+    min-height: calc(100vh - 300px);
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 2rem 0;
+    margin-top: 2rem;
+}
