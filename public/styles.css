@@ -403,3 +403,32 @@ footer {
         height: 100px;
     }
 }
+
+nav {
+    background-color: black;
+    padding: 1rem;
+    width: 100%;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #ff6b6b;
+}
+
+.logo {
+    transition: all 0.5s ease;
+    cursor: pointer;
+}

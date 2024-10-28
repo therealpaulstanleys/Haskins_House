@@ -44,6 +44,29 @@ document.addEventListener('DOMContentLoaded', () => {
             this.classList.remove('explode');
         }, 1500);
     });
+
+    document.querySelector('.logo').addEventListener('click', function() {
+        // First make the logo bigger
+        this.style.transform = 'scale(1.5)';
+
+        // Then change it to a heart shape
+        setTimeout(() => {
+            this.src = '/images/heart.png'; // Make sure you have a heart.png image!
+        }, 500);
+
+        // Make it float away
+        setTimeout(() => {
+            this.style.transform = 'scale(1.5) translateY(-100vh)';
+            this.style.opacity = '0';
+        }, 1000);
+
+        // Reset the logo after animation
+        setTimeout(() => {
+            this.src = '/images/logo.png';
+            this.style.transform = 'scale(1)';
+            this.style.opacity = '1';
+        }, 2000);
+    });
 });
 
 async function initializePageFunctionality() {
