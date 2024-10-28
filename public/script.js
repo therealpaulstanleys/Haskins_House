@@ -34,6 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // Add this JavaScript
+    document.getElementById('exploding-logo').addEventListener('click', function() {
+        this.classList.add('explode');
+
+        // Reset animation after it completes
+        setTimeout(() => {
+            this.classList.remove('explode');
+        }, 1500);
+    });
 });
 
 async function initializePageFunctionality() {
