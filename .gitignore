@@ -8,6 +8,8 @@
 /server/*.pub
 /server/key.pem
 /server/cert.pem
+fullchain.pem
+privkey.pem
 
 # Node modules
 node_modules/
