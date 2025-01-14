@@ -9,7 +9,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
     <script src="/script.js" defer></script>
 </head>
@@ -17,6 +22,7 @@
 <body>
     <header>
         <div class="logo-container">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" id="exploding-logo" loading="lazy">
             <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" id="exploding-logo" loading="lazy">
         </div>
         <nav>
@@ -37,34 +43,51 @@
             <h1>Welcome to Haskins House</h1>
             <p>Est. 2015</p>
             <img src="/images/haskins-house-3.jpg" alt="Haskins House Records" class="hero-image">
-        </section>
+            <section class="hero">
+                <h1>Welcome to Haskins House</h1>
+                <p>Est. 2015</p>
+                <img src="/images/haskins-house-3.jpg" alt="Haskins House Records" class="hero-image">
+            </section>
 
-        <section class="instagram-feed">
-            <h2>Saturday Drop</h2>
-            <p>Every Saturday our owner spends all week to scour the globe finding you the best deals on the rarest wax!</p>
-            <div id="instagram-images">
-                <!-- Instagram images will be dynamically loaded here -->
-            </div>
-        </section>
+            <section class="instagram-feed">
+                <h2>Saturday Drop</h2>
+                <p>Every Saturday our owner spends all week to scour the globe finding you the best deals on the rarest wax!</p>
+                <div id="instagram-images">
+                    <!-- Instagram images will be dynamically loaded here -->
+                </div>
+            </section>
 
-        <section class="about">
-            <h2>About Haskins House Records</h2>
-            <p>Haskins House Records is your go-to destination for vinyl records and a vibrant music community. Established in 2015, we've been dedicated to providing music enthusiasts with a curated selection of vinyl records and fostering a shared love
-                for music.</p>
-            <p>Visit our store to explore our extensive collection of vinyl records spanning various genres and eras. From classic albums to the latest releases, we have something for every music lover.</p>
-        </section>
+            <section class="about">
+                <h2>About Haskins House Records</h2>
+                <p>Haskins House Records is your go-to destination for vinyl records and a vibrant music community. Established in 2015, we've been dedicated to providing music enthusiasts with a curated selection of vinyl records and fostering a shared
+                    love for music.</p>
+                <p>Visit our store to explore our extensive collection of vinyl records spanning various genres and eras. From classic albums to the latest releases, we have something for every music lover.</p>
+                <section class="about">
+                    <h2>About Haskins House Records</h2>
+                    <p>Haskins House Records is your go-to destination for vinyl records and a vibrant music community. Established in 2015, we've been dedicated to providing music enthusiasts with a curated selection of vinyl records and fostering a shared
+                        love for music.</p>
+                    <p>Visit our store to explore our extensive collection of vinyl records spanning various genres and eras. From classic albums to the latest releases, we have something for every music lover.</p>
+                </section>
 
-        <section class="newsletter">
-            <h2>Subscribe to Our Newsletter</h2>
-            <form id="newsletter-form">
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
-            </form>
-        </section>
+                <section class="newsletter">
+                    <h2>Subscribe to Our Newsletter</h2>
+                    <form id="newsletter-form">
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        <section class="newsletter">
+                            <h2>Subscribe to Our Newsletter</h2>
+                            <form id="newsletter-form">
+                                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                                <button type="submit">Subscribe</button>
+                            </form>
+                        </section>
     </main>
 
     <footer>
         <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
+        <div class="social-media">
+            <a href="https://www.instagram.com/HaskinsHouse" target="_blank">Instagram</a>
+            <a href="https://www.facebook.com/HaskinsHouse" target="_blank">Facebook</a>
+        </div>
         <div class="social-media">
             <a href="https://www.instagram.com/HaskinsHouse" target="_blank">Instagram</a>
             <a href="https://www.facebook.com/HaskinsHouse" target="_blank">Facebook</a>
