@@ -7,6 +7,7 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
+const crypto = require('crypto');
 const { Client, Environment } = require('square');
 const path = require('path');
 const helmet = require('helmet');
@@ -16,8 +17,13 @@ const session = require('express-session');
 const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
 const { body, validationResult } = require('express-validator');
+const generateSecureSecret = require('./utils/generateSecret');
 
 const app = express();
+
+// Generate secure secrets if not in environment
+const sessionSecret = process.env.SESSION_SECRET || generateSecureSecret();
+const cookieSecret = process.env.COOKIE_SECRET || generateSecureSecret();
 
 // Initialize Square client
 const squareClient = new Client({
@@ -57,7 +63,7 @@ app.use((req, res, next) => {
 
 // Session configuration
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -87,8 +93,8 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// Add cookie parser with secure options
-app.use(cookieParser(process.env.COOKIE_SECRET, {
+// Cookie parser with secure options
+app.use(cookieParser(cookieSecret, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict'
