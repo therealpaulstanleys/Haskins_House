@@ -164,62 +164,53 @@ function animateLogo() {
     const logo = document.querySelector('.logo');
     if (!logo) return;
 
-    // Create particle effect
-    function createParticle() {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        document.body.appendChild(particle);
-
-        particle.style.cssText = `
-            position: absolute;
-            left: ${window.innerWidth / 2}px;
-            top: ${window.innerHeight / 2}px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: hsl(${Math.random() * 360}, 100%, 50%);
-            pointer-events: none;
-        `;
-
-        const angle = Math.random() * Math.PI * 2;
-        const velocity = 5 + Math.random() * 5;
-        const dx = Math.cos(angle) * velocity;
-        const dy = Math.sin(angle) * velocity;
-
-        let opacity = 1;
-
-        function animate() {
-            const rect = particle.getBoundingClientRect();
-            particle.style.left = rect.left + dx + 'px';
-            particle.style.top = rect.top + dy + 'px';
-            opacity -= 0.02;
-            particle.style.opacity = opacity;
-
-            if (opacity > 0) {
-                requestAnimationFrame(animate);
-            } else {
-                particle.remove();
-            }
+    gsap.fromTo(logo, {
+        scale: 0,
+        opacity: 0
+    }, {
+        scale: 1,
+        opacity: 1,
+        duration: 1,
+        ease: "bounce.out",
+        onComplete: () => {
+            // Heart beating effect
+            gsap.to(logo, {
+                scale: 1.2,
+                duration: 0.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut"
+            });
+            // Explosion effect
+            setTimeout(() => {
+                // Create colorful particles
+                for (let i = 0; i < 100; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    document.body.appendChild(particle);
+                    gsap.set(particle, {
+                        x: Math.random() * window.innerWidth,
+                        y: Math.random() * window.innerHeight,
+                        backgroundColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                        position: 'absolute',
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        opacity: 1
+                    });
+                    gsap.to(particle, {
+                        x: Math.random() * 200 - 100,
+                        y: Math.random() * 200 - 100,
+                        scale: Math.random() * 2,
+                        duration: 1,
+                        onComplete: () => {
+                            particle.remove();
+                        }
+                    });
+                }
+            }, 2000);
         }
-        requestAnimationFrame(animate);
-    }
-
-    // Animate logo
-    logo.style.transform = 'scale(1.5)';
-    logo.style.opacity = '0';
-
-    // Create particles
-    setTimeout(() => {
-        for (let i = 0; i < 50; i++) {
-            createParticle();
-        }
-    }, 500);
-
-    // Reset logo
-    setTimeout(() => {
-        logo.style.transform = 'scale(1)';
-        logo.style.opacity = '1';
-    }, 2000);
+    });
 }
 
 // Create a flickering lights effect
