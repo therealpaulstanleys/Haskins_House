@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
 async function handleNewsletterSubmit(e) {
     e.preventDefault();
     const email = document.getElementById('email').value;
+    const submitButton = e.target.querySelector('button');
+    const originalText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = 'Subscribing...';
+
     try {
         const response = await fetch('/subscribe', {
             method: 'POST',
@@ -31,14 +36,26 @@ async function handleNewsletterSubmit(e) {
         });
         const data = await response.json();
         if (data.success) {
-            alert('Thank you for subscribing to our newsletter!');
+            submitButton.textContent = 'Subscribed!';
+            setTimeout(() => {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }, 2000);
             e.target.reset();
         } else {
-            alert('Subscription failed. Please try again.');
+            submitButton.textContent = 'Error - Try Again';
+            setTimeout(() => {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }, 2000);
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred. Please try again later.');
+        submitButton.textContent = 'Error - Try Again';
+        setTimeout(() => {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }, 2000);
     }
 }
 

@@ -133,7 +133,7 @@ app.post('/subscribe', [
 
     const mailOptions = {
         from: process.env.EMAIL_USER,
-        to: 'realpaulstanley@outlook.com',
+        to: 'support@haskinshouserecords.com',
         subject: 'New Newsletter Subscription',
         text: `New subscription: ${email}`,
     };
