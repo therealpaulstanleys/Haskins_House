@@ -14,6 +14,7 @@ const WebSocket = require('ws');
 const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const nodemailer = require('nodemailer');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -36,22 +37,43 @@ app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+        styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com"],
         imgSrc: ["'self'", "data:"],
-        connectSrc: ["'self'", "https://your-api-endpoint.com"],
+        connectSrc: ["'self'", "https://connect.squareup.com"],
+        frameSrc: ["'none'"],
+        objectSrc: ["'none'"]
     },
 }));
 app.use((req, res, next) => {
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+    res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' https:; style-src 'self' https://stackpath.bootstrapcdn.com; script-src 'self' https://cdnjs.cloudflare.com");
     next();
 });
 
-// Rate limiting
+// Session configuration
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        secure: process.env.NODE_ENV === 'production',
+        httpOnly: true,
+        sameSite: 'strict',
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
+// Rate limiting with more secure configuration
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
+    skipSuccessfulRequests: false
 });
 app.use(limiter);
 
@@ -63,6 +85,13 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS,
     },
 });
+
+// Add cookie parser with secure options
+app.use(cookieParser(process.env.COOKIE_SECRET, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict'
+}));
 
 // Inventory endpoint
 app.get('/api/inventory', async(req, res) => {

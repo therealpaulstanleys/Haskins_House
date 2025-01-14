@@ -65,3 +65,6 @@ typings/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Package lock file
+package-lock.json
