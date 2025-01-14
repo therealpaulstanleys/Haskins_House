@@ -44,12 +44,14 @@ app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://www.instagram.com", "https://platform.instagram.com"],
-        styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com"],
-        imgSrc: ["'self'", "data:", "https:", "https://*.cdninstagram.com"],
-        connectSrc: ["'self'", "https://connect.squareup.com"],
+        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://www.instagram.com", "https://platform.instagram.com", "'unsafe-inline'"],
+        styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:", "https://*.cdninstagram.com", "https://scontent.cdninstagram.com"],
+        connectSrc: ["'self'", "https://connect.squareup.com", "https://api.instagram.com"],
         frameSrc: ["'self'", "https://www.instagram.com"],
-        objectSrc: ["'none'"]
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'", "https://*.cdninstagram.com"],
+        childSrc: ["'self'", "https://www.instagram.com"]
     },
 }));
 app.use((req, res, next) => {
