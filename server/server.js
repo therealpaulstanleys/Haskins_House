@@ -15,6 +15,7 @@ const rateLimit = require('express-rate-limit');
 const session = require('express-session');
 const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
+const { body, validationResult } = require('express-validator');
 
 const app = express();
 
@@ -39,7 +40,7 @@ app.use(helmet.contentSecurityPolicy({
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "https://cdnjs.cloudflare.com"],
         styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com"],
-        imgSrc: ["'self'", "data:"],
+        imgSrc: ["'self'", "data:", "https:"],
         connectSrc: ["'self'", "https://connect.squareup.com"],
         frameSrc: ["'none'"],
         objectSrc: ["'none'"]
@@ -113,11 +114,15 @@ app.get('/api/inventory', async(req, res) => {
 });
 
 // Newsletter subscription endpoint
-app.post('/subscribe', async(req, res) => {
-    const { email } = req.body;
-    if (!email) {
-        return res.status(400).json({ error: 'Email is required' });
+app.post('/subscribe', [
+    body('email').isEmail().normalizeEmail()
+], async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
+
+    const { email } = req.body;
 
     const mailOptions = {
         from: process.env.EMAIL_USER,

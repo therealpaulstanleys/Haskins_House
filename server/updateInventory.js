@@ -5,16 +5,16 @@ const path = require('path');
 
 const squareClient = new Client({
     accessToken: process.env.SQUARE_ACCESS_TOKEN,
-    environment: Environment.Production // The gateway to the Square realm... --bl00dz
+    environment: Environment.Production
 });
 
 async function fetchInventory() {
     try {
-        console.log('Fetching catalog items from Square...'); // The hunt begins... --bl00dz
+        console.log('Fetching catalog items from Square...');
         const response = await squareClient.catalogApi.listCatalog(undefined, 'ITEM');
 
         if (!response.result || !response.result.objects) {
-            console.log('No catalog items found or unexpected response structure.'); // The void is empty... --bl00dz
+            console.log('No catalog items found or unexpected response structure.');
             return [];
         }
 
