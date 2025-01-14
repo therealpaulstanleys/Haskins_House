@@ -46,7 +46,7 @@ app.use(helmet.contentSecurityPolicy({
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://www.instagram.com", "https://platform.instagram.com", "'unsafe-inline'"],
         styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "https:", "https://*.cdninstagram.com", "https://scontent.cdninstagram.com"],
+        imgSrc: ["'self'", "data:", "https:", "https://*.cdninstagram.com", "https://scontent.cdninstagram.com", "https://instagram.com", "https://www.instagram.com"],
         connectSrc: ["'self'", "https://connect.squareup.com", "https://api.instagram.com"],
         frameSrc: ["'self'", "https://www.instagram.com"],
         objectSrc: ["'none'"],
@@ -59,7 +59,6 @@ app.use((req, res, next) => {
     res.setHeader('X-Frame-Options', 'DENY');
     res.setHeader('X-XSS-Protection', '1; mode=block');
     res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-    res.setHeader('Content-Security-Policy', "default-src 'self'; img-src 'self' https:; style-src 'self' https://stackpath.bootstrapcdn.com; script-src 'self' https://cdnjs.cloudflare.com");
     next();
 });
 
