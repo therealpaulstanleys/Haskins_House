@@ -1,6 +1,7 @@
 # Environment variables
 /server/.env
 /server/.env.test
+/server/.env.*
 
 # Keys and certificates
 /server/*.key
