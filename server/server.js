@@ -18,6 +18,7 @@ const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
 const { body, validationResult } = require('express-validator');
 const generateSecureSecret = require('./utils/generateSecret');
+const instagramService = require('./services/instagram');
 
 const app = express();
 
@@ -217,6 +218,17 @@ app.post('/api/webhooks', (req, res) => {
     }
 
     res.status(200).send('Webhook received');
+});
+
+// Instagram feed endpoint
+app.get('/api/instagram-feed', async(req, res) => {
+    try {
+        const posts = await instagramService.getLatestPosts();
+        res.json(posts);
+    } catch (error) {
+        console.error('Error fetching Instagram feed:', error);
+        res.status(500).json({ error: 'Failed to fetch Instagram feed' });
+    }
 });
 
 // Error handling middleware
