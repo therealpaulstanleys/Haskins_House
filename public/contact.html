@@ -29,9 +29,51 @@
         </nav>
     </header>
 
-    <main>
-        <h1>Contact Haskins House Records</h1>
-        <p>We'd love to hear from you!...</p>
+    <main class="container">
+        <div class="hero-banner">
+            <img src="/images/haskins-house-5.jpg" alt="Haskins House Records Store Front" class="hero-image">
+            <h1>Contact Us</h1>
+        </div>
+
+        <section class="contact-intro">
+            <h2>Get in Touch</h2>
+            <p>Looking to sell your collection? Want to special order a record? We're here to help!</p>
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <h3>📞 Call Us</h3>
+                    <p>For immediate assistance: <a href="tel:7407710017">(740) 771-0017</a></p>
+                </div>
+                <div class="contact-method">
+                    <h3>🏪 Visit Us</h3>
+                    <p>534 2nd Street, Portsmouth, OH 45662</p>
+                    <p>Mon-Sat: 10AM-7PM</p>
+                    <p>Sunday: 12PM-5PM</p>
+                </div>
+            </div>
+        </section>
+
+        <form id="contact-form" class="contact-form">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <div class="store-info">
+            <h2>Visit Our Store</h2>
+            <p>534 2nd Street, Portsmouth, OH 45662</p>
+            <p>Phone: (740) 771-0017</p>
+            <p>Hours: Mon-Sat 10AM-7PM, Sun 12PM-5PM</p>
+        </div>
     </main>
 
     <footer>

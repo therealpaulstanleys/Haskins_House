@@ -4,35 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinyl Store</title>
+    <title>Vinyl Store - Haskins House Records</title>
+    <meta name="description" content="Shop our curated collection of new and used vinyl records, CDs, and audio equipment.">
     <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="/images/logo.png" type="image/png">
     <script src="/script.js" defer></script>
 </head>
 
 <body>
     <header>
-        <h1>Vinyl Store</h1>
+        <div class="logo-container">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" loading="lazy">
+        </div>
+        <nav aria-label="Main navigation">
+            <ul class="nav-list">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About Us</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+                <li><a href="/store.html" aria-current="page">Vinyl Store</a></li>
+                <li><a href="/questions.html">FAQs</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-        <div id="loading-message">Loading inventory...</div>
+    <main class="store-container">
+        <div class="hero-banner">
+            <img src="/images/haskins-house-3.jpg" alt="Inside Haskins House Records" class="hero-image">
+            <h1>Vinyl & More</h1>
+        </div>
 
-        <!-- Category Filter -->
-        <div id="category-filter">
-            <label for="category-select">Filter by Category:</label>
+        <section class="store-intro">
+            <h2>New Arrivals Every Saturday!</h2>
+            <p>From rare first pressings to new releases, we've got your vinyl needs covered. Browse our carefully curated collection of records, CDs, and audio equipment.</p>
+        </section>
+
+        <div class="store-filters">
+            <label for="category-select">Browse by Category:</label>
             <select id="category-select" onchange="filterByCategory()">
-                <option value="all">All</option>
-                <option value="Vinyl Records (New)">Vinyl Records (New)</option>
-                <option value="Vinyl Records (Used)">Vinyl Records (Used)</option>
-                <option value="CDs (New)">CDs (New)</option>
-                <option value="CDs (Used)">CDs (Used)</option>
+                <option value="all">All Items</option>
+                <option value="Vinyl Records (New)">New Vinyl</option>
+                <option value="Vinyl Records (Used)">Used Vinyl</option>
+                <option value="CDs (New)">New CDs</option>
+                <option value="CDs (Used)">Used CDs</option>
+                <option value="Equipment">Audio Equipment</option>
+                <option value="Accessories">Record Care & Accessories</option>
             </select>
         </div>
 
-        <div id="inventory-list" class="grid-container"></div>
-        <div id="cart-items"></div>
-        <div id="cart-total"></div>
-        <button id="checkout-button" style="display: none;">Checkout</button>
+        <div class="featured-section">
+            <h2>Staff Picks</h2>
+            <div class="featured-items">
+                <div class="item">
+                    <img src="/images/haskins-house-4.jpg" alt="Featured Vinyl" loading="lazy">
+                    <h3>Vintage Collection</h3>
+                    <p>Check out our hand-picked classics</p>
+                </div>
+                <div class="item">
+                    <img src="/images/haskins-house-5.jpg" alt="New Arrivals" loading="lazy">
+                    <h3>New Arrivals</h3>
+                    <p>Fresh stock every week</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="featured-items-container" class="items-grid">
+            <!-- Items will be loaded here -->
+        </div>
+
+        <div class="cart-section">
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+            <button id="checkout-button" class="checkout-btn">Proceed to Checkout</button>
+        </div>
     </main>
 
     <footer>

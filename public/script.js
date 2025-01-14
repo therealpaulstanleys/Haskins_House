@@ -77,8 +77,10 @@ function displayInventory(items) {
 
     container.innerHTML = items.map(item => `
         <div class="item">
+            <img src="${item.image || '/images/haskins-house-4.jpg'}" alt="${item.name}" loading="lazy">
             <h3>${item.name || 'Unnamed Item'}</h3>
             <p class="price">$${((item.price || 0) / 100).toFixed(2)}</p>
+            <p class="condition">${item.condition || 'New'}</p>
             <button onclick="addToCart('${item.id}')" class="add-to-cart">Add to Cart</button>
         </div>
     `).join('');
