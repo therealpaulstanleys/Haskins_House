@@ -16,8 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (explodingLogo) {
         explodingLogo.addEventListener('click', handleLogoClick);
     }
-
-    loadInstagramFeed();
 });
 
 async function handleNewsletterSubmit(e) {
@@ -152,25 +150,4 @@ function flickerLights() {
     setTimeout(() => {
         body.style.backgroundColor = '#fff';
     }, flickerCount * flickerDuration);
-}
-
-async function loadInstagramFeed() {
-    const container = document.getElementById('instagram-images');
-    if (!container) return;
-
-    try {
-        const response = await fetch('/api/instagram-feed');
-        const posts = await response.json();
-
-        container.innerHTML = posts.map(post => `
-            <div class="instagram-post">
-                <a href="${post.permalink}" target="_blank">
-                    <img src="${post.media_url}" alt="${post.caption || 'Instagram post'}" loading="lazy">
-                </a>
-            </div>
-        `).join('');
-    } catch (error) {
-        console.error('Error loading Instagram feed:', error);
-        container.innerHTML = '<p>Follow us on Instagram for the latest updates!</p>';
-    }
 }

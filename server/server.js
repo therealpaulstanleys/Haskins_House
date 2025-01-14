@@ -18,7 +18,6 @@ const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
 const { body, validationResult } = require('express-validator');
 const generateSecureSecret = require('./utils/generateSecret');
-const instagramService = require('./services/instagram');
 
 const app = express();
 
@@ -45,11 +44,11 @@ app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+        scriptSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://www.instagram.com", "https://platform.instagram.com"],
         styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com"],
-        imgSrc: ["'self'", "data:", "https:"],
+        imgSrc: ["'self'", "data:", "https:", "https://*.cdninstagram.com"],
         connectSrc: ["'self'", "https://connect.squareup.com"],
-        frameSrc: ["'none'"],
+        frameSrc: ["'self'", "https://www.instagram.com"],
         objectSrc: ["'none'"]
     },
 }));
@@ -218,17 +217,6 @@ app.post('/api/webhooks', (req, res) => {
     }
 
     res.status(200).send('Webhook received');
-});
-
-// Instagram feed endpoint
-app.get('/api/instagram-feed', async(req, res) => {
-    try {
-        const posts = await instagramService.getLatestPosts();
-        res.json(posts);
-    } catch (error) {
-        console.error('Error fetching Instagram feed:', error);
-        res.status(500).json({ error: 'Failed to fetch Instagram feed' });
-    }
 });
 
 // Error handling middleware
