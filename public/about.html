@@ -7,7 +7,10 @@
     <title>About Haskins House Records - Your Local Vinyl Community</title>
     <meta name="description" content="Discover the story behind Haskins House Records, a community-driven vinyl store founded in 2023.">
     <link rel="stylesheet" href="/styles.css">
-    <link rel="icon" href="/images/logo.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" defer></script>
     <script src="/script.js" defer></script>
 
@@ -16,55 +19,83 @@
 <body>
     <header>
         <div class="logo-container">
-            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" loading="lazy">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="150">
         </div>
         <nav aria-label="Main navigation">
-            <ul class="nav justify-content-center">
-                <!-- Bootstrap navigation -->
-                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-                <li class="nav-item"><a class="nav-link active" href="#">About Us</a></li>
-                <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="/store.html">Vinyl Store</a></li>
-                <li class="nav-item"><a class="nav-link" href="/questions.html">FAQs</a></li>
-                <li class="nav-item"><a class="nav-link" href="/privacy-policy.html">Privacy Policy</a></li>
-                <li class="nav-item"><a class="nav-link" href="/terms-and-conditions.html">Terms and Conditions</a></li>
+            <ul>
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/about.html" class="nav-link active">About Us</a></li>
+                <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                <li><a href="/store.html" class="nav-link">Shop</a></li>
+                <li><a href="/questions.html" class="nav-link">FAQs</a></li>
+                <li><a href="/privacy-policy.html" class="nav-link">Privacy</a></li>
+                <li><a href="/terms-and-conditions.html" class="nav-link">Terms</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="container text-center">
-        <!-- Added Bootstrap container -->
+    <main class="container">
         <div class="hero-banner">
-            <img src="/images/haskins-house-4.jpg" alt="Inside our store" class="hero-image">
+            <img src="/images/store-front.jpg" alt="Haskins House Records Storefront" class="hero-image">
             <h1>Our Story</h1>
         </div>
 
         <section class="about-content">
             <h2>About Haskins House Records</h2>
-            <p>Founded in 2015, Haskins House Records is owned and operated by Travis Haskins. The store was literally built on the owner's father's record collection. Those were the first records we sold, and some may still be in the shop today.</p>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>Founded in 2015, Haskins House Records is owned and operated by Travis Haskins. The store was literally built on the owner's father's record collection. Those were the first records we sold, and some may still be in the shop today.</p>
+                    <p>We've grown from a small collection to Portsmouth's premier destination for vinyl enthusiasts, offering thousands of carefully curated records across all genres.</p>
+                </div>
+                <div class="about-image">
+                    <img src="/images/store-interior.jpg" alt="Inside Haskins House Records" loading="lazy">
+                </div>
+            </div>
 
             <div class="about-features">
                 <div class="feature">
                     <h3>Vast Selection</h3>
+                    <img src="/images/vinyl-collection.jpg" alt="Vinyl Collection" loading="lazy">
                     <p>From rare vinyl to new releases, we carry everything a music lover could want.</p>
                 </div>
                 <div class="feature">
                     <h3>We Buy Sell & Trade</h3>
-                    <p>Looking to sell your collection? Give us a call at <a href="tel:7407710017">(740) 771-0017</a> We also do trades for items as well.</p>
+                    <img src="/images/record-trading.jpg" alt="Record Trading" loading="lazy">
+                    <p>Looking to sell your collection? Give us a call at <a href="tel:7407710017">(740) 771-0017</a>. We also do trades for items as well.</p>
                 </div>
                 <div class="feature">
                     <h3>Audio Equipment</h3>
+                    <img src="/images/audio-equipment.jpg" alt="Audio Equipment" loading="lazy">
                     <p>Browse our selection of quality used audio equipment and accessories.</p>
                 </div>
+            </div>
+
+            <div class="store-hours">
+                <h3>Store Hours</h3>
+                <ul>
+                    <li>Monday - Saturday: 10:00 AM - 7:00 PM</li>
+                    <li>Sunday: 12:00 PM - 5:00 PM</li>
+                </ul>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
-        <div class="social-media ">
-            <a href="https://www.instagram.com/HaskinsHouse " target="_blank ">Instagram</a>
-            <a href="https://www.facebook.com/HaskinsHouse " target="_blank ">Facebook</a>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
+                <p>Location: <a href="https://maps.google.com/?q=534+2nd+Street,+Portsmouth,+OH+45662" target="_blank">534 2nd Street, Portsmouth, OH 45662</a></p>
+                <p>Phone: <a href="tel:7407710017">(740) 771-0017</a></p>
+                <p>Email: <a href="mailto:support@haskinshouserecords.com">support@haskinshouserecords.com</a></p>
+            </div>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">Privacy Policy</a>
+                <a href="/terms-and-conditions.html">Terms & Conditions</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/haskinshouserecords" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.facebook.com/haskinshouserecords" target="_blank" rel="noopener">Facebook</a>
+            </div>
         </div>
     </footer>
 </body>

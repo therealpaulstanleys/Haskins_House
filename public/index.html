@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haskins House Records - Your Local Vinyl Community</title>
+    <title>Haskins House Records - Portsmouth's Premier Vinyl Store</title>
+    <meta name="description" content="Discover vinyl records, CDs, and audio equipment at Haskins House Records in Portsmouth, OH. New arrivals every Saturday!">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -15,33 +16,41 @@
 </head>
 
 <body>
-    <header>
-        <div class="logo-container">
-            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" id="exploding-logo" loading="lazy">
-        </div>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About Us</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-                <li><a href="/store.html">Vinyl Store</a></li>
-                <li><a href="/questions.html">FAQs</a></li>
-                <li><a href="/privacy-policy.html">Privacy Policy</a></li>
-                <li><a href="/terms-and-conditions.html">Terms and Conditions</a></li>
-            </ul>
-        </nav>
-    </header>
+    <div id="header"></div>
 
     <main>
         <section class="hero">
-            <h1>Welcome to Haskins House</h1>
-            <p>Est. 2015</p>
+            <h1>Portsmouth's Premier Vinyl Store</h1>
+            <p>Serving Music Lovers Since 2015</p>
             <img src="/images/haskins-house-3.jpg" alt="Haskins House Records" class="hero-image">
+            <div class="hero-cta">
+                <a href="/store.html" class="btn btn-primary">Shop Now</a>
+                <a href="/about.html" class="btn btn-secondary">Our Story</a>
+            </div>
+        </section>
+
+        <section class="featured-releases">
+            <h2>Latest Arrivals</h2>
+            <div class="featured-grid">
+                <div class="featured-item">
+                    <h3>New Vinyl</h3>
+                    <p>Fresh pressings of your favorite albums</p>
+                </div>
+                <div class="featured-item">
+                    <h3>Used Vinyl</h3>
+                    <p>Carefully curated pre-loved records</p>
+                </div>
+                <div class="featured-item">
+                    <h3>Equipment</h3>
+                    <p>Turntables, speakers, and accessories</p>
+                </div>
+            </div>
         </section>
 
         <section class="instagram-feed">
             <h2>Saturday Drops</h2>
-            <p>Check out our latest arrivals and upcoming releases!</p>
+            <p>Every Saturday at 12 PM - New inventory hits the shelves!</p>
+            <p>Follow us on Instagram for sneak peeks and announcements</p>
             <div class="instagram-embed">
                 <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DEqeaSRJ3t6/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" data-instgrm-version="14" data-instgrm-captioned data-instgrm-theme="dark" style="width: 100%; max-width: 540px; margin: 1rem auto !important;">
                     <div style="padding:16px;">
@@ -101,27 +110,24 @@
 
         <section class="about">
             <h2>About Haskins House Records</h2>
-            <p>Haskins House Records is your go-to destination for vinyl records and a vibrant music community. Established in 2015, we've been dedicated to providing music enthusiasts with a curated selection of vinyl records and fostering a shared love
-                for music.</p>
-            <p>Visit our store to explore our extensive collection of vinyl records spanning various genres and eras. From classic albums to the latest releases, we have something for every music lover.</p>
+            <p>Founded in 2015, Haskins House Records has become Portsmouth's destination for vinyl enthusiasts. Our carefully curated collection spans genres and decades, offering both new releases and rare finds.</p>
+            <p>We don't just sell records - we build community. Stop by to talk music, get recommendations, or sell your collection.</p>
+            <div class="about-cta">
+                <a href="/about.html" class="btn btn-secondary">Learn More</a>
+            </div>
         </section>
 
         <section class="newsletter">
-            <h2>Subscribe to Our Newsletter</h2>
+            <h2>Stay in the Loop</h2>
+            <p>Subscribe for exclusive deals and first dibs on new arrivals</p>
             <form id="newsletter-form">
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
-                <button type="submit">Subscribe</button>
+                <button type="submit" class="btn btn-primary">Subscribe</button>
             </form>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
-        <div class="social-media">
-            <a href="https://www.instagram.com/HaskinsHouse" target="_blank">Instagram</a>
-            <a href="https://www.facebook.com/HaskinsHouse" target="_blank">Facebook</a>
-        </div>
-    </footer>
+    <div id="footer"></div>
 </body>
 
 </html>

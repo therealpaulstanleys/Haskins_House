@@ -1,6 +1,8 @@
-console.log("Script started");
+console.log("Haskins House Records Server Starting...");
 process.on('uncaughtException', (error) => {
-    console.error('Uncaught Exception:', error);
+    console.error('Critical Error:', error);
+    // Notify admin
+    process.exit(1);
 });
 
 require('dotenv').config();
@@ -104,16 +106,8 @@ app.use(cookieParser(cookieSecret, {
 // Inventory endpoint
 app.get('/api/inventory', async(req, res) => {
     try {
-        const response = await squareClient.catalogApi.listCatalog(undefined, 'ITEM');
-        const items = response.result.objects.map(item => ({
-            id: item.id,
-            name: item.itemData.name,
-            price: item.itemData.variations[0].itemVariationData.priceMoney.amount.toString(),
-            description: item.itemData.description || '',
-            imageUrl: item.itemData.imageIds ? `/images/${item.itemData.imageIds[0]}` : '',
-            stockQuantity: (item.stockQuantity || 0).toString(),
-        }));
-        res.json(items);
+        const items = await fetchInventory();
+        res.json({ items });
     } catch (error) {
         console.error('Error fetching inventory:', error);
         res.status(500).json({ error: 'Failed to fetch inventory' });
@@ -148,38 +142,24 @@ app.post('/subscribe', [
 });
 
 // Cart endpoints
-let cart = [];
-app.get('/api/cart', (req, res) => {
-    res.json({ cart });
-});
-
 app.post('/api/cart/add', (req, res) => {
-    const { itemId } = req.body;
-    if (!itemId) {
-        return res.status(400).json({ success: false, message: 'Item ID is required' });
+    const { itemId, quantity = 1 } = req.body;
+    if (!req.session.cart) {
+        req.session.cart = [];
     }
 
-    const item = inventoryItems.find(i => i.id === itemId);
-    if (item) {
-        const cartItem = cart.find(i => i.id === itemId);
-        if (cartItem) {
-            cartItem.quantity += 1;
-        } else {
-            cart.push({...item, quantity: 1 });
-        }
-        return res.json({ success: true, cart });
+    const existingItem = req.session.cart.find(item => item.id === itemId);
+    if (existingItem) {
+        existingItem.quantity += quantity;
+    } else {
+        req.session.cart.push({ id: itemId, quantity });
     }
-    res.status(404).json({ success: false, message: 'Item not found' });
+
+    res.json({ success: true, cart: req.session.cart });
 });
 
-app.post('/api/cart/remove', (req, res) => {
-    const { itemId } = req.body;
-    if (!itemId) {
-        return res.status(400).json({ success: false, message: 'Item ID is required' });
-    }
-
-    cart = cart.filter(item => item.id !== itemId);
-    res.json({ success: true, cart });
+app.get('/api/cart', (req, res) => {
+    res.json({ cart: req.session.cart || [] });
 });
 
 // WebSocket setup
@@ -224,4 +204,58 @@ app.post('/api/webhooks', (req, res) => {
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Something went wrong!');
+});
+
+// Environment validation
+if (!process.env.SQUARE_ACCESS_TOKEN) {
+    throw new Error('Square access token is required');
+}
+
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    throw new Error('Email credentials are required');
+}
+
+// Contact form endpoint
+app.post('/api/contact', [
+    body('email').isEmail().normalizeEmail(),
+    body('name').trim().notEmpty(),
+    body('subject').trim().notEmpty(),
+    body('message').trim().notEmpty()
+], async(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, email, subject, message } = req.body;
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: 'support@haskinshouserecords.com',
+        subject: `Contact Form: ${subject}`,
+        text: `
+            Name: ${name}
+            Email: ${email}
+            Subject: ${subject}
+
+            Message:
+            ${message}
+        `,
+        html: `
+            <h2>New Contact Form Submission</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Subject:</strong> ${subject}</p>
+            <p><strong>Message:</strong></p>
+            <p>${message.replace(/\n/g, '<br>')}</p>
+        `
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        res.json({ success: true, message: 'Message sent successfully!' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ success: false, message: 'Failed to send message' });
+    }
 });
