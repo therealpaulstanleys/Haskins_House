@@ -4,39 +4,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinyl Store</title>
+    <title>Shop Vinyl Records & Equipment - Haskins House Records</title>
+    <meta name="description" content="Shop our curated collection of new and used vinyl records, CDs, and audio equipment.">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="/styles.css">
     <script src="/script.js" defer></script>
 </head>
 
 <body>
     <header>
-        <h1>Vinyl Store</h1>
+        <div class="logo-container">
+            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="150">
+        </div>
+        <nav aria-label="Main navigation">
+            <ul>
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/about.html" class="nav-link">About Us</a></li>
+                <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                <li><a href="/store.html" class="nav-link active">Shop</a></li>
+                <li><a href="/questions.html" class="nav-link">FAQs</a></li>
+                <li><a href="/privacy-policy.html" class="nav-link">Privacy</a></li>
+                <li><a href="/terms-and-conditions.html" class="nav-link">Terms</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-        <div id="loading-message">Loading inventory...</div>
-
-        <!-- Category Filter -->
-        <div id="category-filter">
-            <label for="category-select">Filter by Category:</label>
-            <select id="category-select" onchange="filterByCategory()">
-                <option value="all">All</option>
-                <option value="Vinyl Records (New)">Vinyl Records (New)</option>
-                <option value="Vinyl Records (Used)">Vinyl Records (Used)</option>
-                <option value="CDs (New)">CDs (New)</option>
-                <option value="CDs (Used)">CDs (Used)</option>
-            </select>
+    <main class="store-container">
+        <div class="hero-banner">
+            <img src="/images/store-records.jpg" alt="Vinyl Records Collection" class="hero-image">
+            <h1>Vinyl & More</h1>
         </div>
 
-        <div id="inventory-list" class="grid-container"></div>
-        <div id="cart-items"></div>
-        <div id="cart-total"></div>
-        <button id="checkout-button" style="display: none;">Checkout</button>
+        <section class="store-intro">
+            <h2>New Arrivals Every Saturday!</h2>
+            <p>From rare first pressings to new releases, we've got your vinyl needs covered.</p>
+            <div class="store-notice">
+                <p>🎵 Next Drop: Saturday at 12 PM</p>
+                <p>Follow us on Instagram for sneak peeks of upcoming inventory!</p>
+            </div>
+        </section>
+
+        <div class="store-filters">
+            <div class="filter-group">
+                <label for="category-select">Browse by Category:</label>
+                <select id="category-select" onchange="filterByCategory()">
+                    <option value="all">All Items</option>
+                    <option value="Vinyl Records (New)">New Vinyl</option>
+                    <option value="Vinyl Records (Used)">Used Vinyl</option>
+                    <option value="CDs (New)">New CDs</option>
+                    <option value="CDs (Used)">Used CDs</option>
+                    <option value="Equipment">Audio Equipment</option>
+                    <option value="Accessories">Record Care & Accessories</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="sort-select">Sort By:</label>
+                <select id="sort-select" onchange="sortItems()">
+                    <option value="newest">Newest Arrivals</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="name">Alphabetical</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="loading-spinner" id="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading inventory...</p>
+        </div>
+
+        <div id="featured-items-container" class="items-grid">
+            <!-- Items will be loaded here -->
+        </div>
+
+        <div class="cart-section" id="cart-section">
+            <h2>Your Cart</h2>
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+            <div class="cart-actions">
+                <button id="update-cart" class="btn btn-secondary">Update Cart</button>
+                <button id="checkout-button" class="btn btn-primary">Checkout</button>
+            </div>
+            <div class="cart-notice">
+                <p>🔒 Secure checkout powered by Square</p>
+                <p>Free local pickup available</p>
+            </div>
+        </div>
     </main>
 
     <footer>
-        <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
+                <p>Location: <a href="https://maps.google.com/?q=534+2nd+Street,+Portsmouth,+OH+45662" target="_blank">534 2nd Street, Portsmouth, OH 45662</a></p>
+                <p>Phone: <a href="tel:7407710017">(740) 771-0017</a></p>
+                <p>Email: <a href="mailto:support@haskinshouserecords.com">support@haskinshouserecords.com</a></p>
+            </div>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">Privacy Policy</a>
+                <a href="/terms-and-conditions.html">Terms & Conditions</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/haskinshouserecords" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.facebook.com/haskinshouserecords" target="_blank" rel="noopener">Facebook</a>
+            </div>
+        </div>
     </footer>
 </body>
 

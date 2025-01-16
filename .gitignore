@@ -1,6 +1,7 @@
 # Environment variables
 /server/.env
 /server/.env.test
+/server/.env.*
 
 # Keys and certificates
 /server/*.key
@@ -8,6 +9,8 @@
 /server/*.pub
 /server/key.pem
 /server/cert.pem
+fullchain.pem
+privkey.pem
 
 # Node modules
 node_modules/
@@ -63,3 +66,6 @@ typings/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Package lock file
+package-lock.json

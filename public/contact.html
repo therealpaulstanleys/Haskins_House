@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Haskins House Records - Vinyl Inquiries and Support</title>
-    <meta name="description" content="Contact Haskins House Records for inquiries about our vinyl collection.">
+    <title>Contact Haskins House Records - Get in Touch</title>
+    <meta name="description" content="Contact Haskins House Records for inquiries about vinyl records, trading, or general questions. We're here to help!">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <link rel="stylesheet" href="/styles.css">
-    <link rel="icon" href="/images/logo.png" type="image/png">
     <script src="/script.js" defer></script>
 </head>
 
@@ -18,26 +21,99 @@
         </div>
         <nav aria-label="Main navigation">
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About Us</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-                <li><a href="/store.html">Vinyl Store</a></li>
-                <li><a href="/questions.html">FAQs</a></li>
-                <li><a href="/privacy-policy.html">Privacy Policy</a></li>
-                <li><a href="/terms-and-conditions.html">Terms and Conditions</a></li>
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/about.html" class="nav-link">About Us</a></li>
+                <li><a href="/contact.html" class="nav-link active">Contact</a></li>
+                <li><a href="/store.html" class="nav-link">Shop</a></li>
+                <li><a href="/questions.html" class="nav-link">FAQs</a></li>
+                <li><a href="/privacy-policy.html" class="nav-link">Privacy</a></li>
+                <li><a href="/terms-and-conditions.html" class="nav-link">Terms</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <h1>Contact Haskins House Records</h1>
-        <p>We'd love to hear from you!...</p>
+    <main class="contact-container">
+        <div class="hero-banner">
+            <img src="/images/store-front.jpg" alt="Haskins House Records Storefront" class="hero-image">
+            <h1>Get in Touch</h1>
+        </div>
+
+        <section class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-card">
+                    <h2>Visit Our Store</h2>
+                    <p><strong>Address:</strong></p>
+                    <p><a href="https://maps.google.com/?q=534+2nd+Street,+Portsmouth,+OH+45662" target="_blank">
+                        534 2nd Street<br>
+                        Portsmouth, OH 45662
+                    </a></p>
+
+                    <p><strong>Hours:</strong></p>
+                    <ul class="hours-list">
+                        <li>Monday - Saturday: 10:00 AM - 7:00 PM</li>
+                        <li>Sunday: 12:00 PM - 5:00 PM</li>
+                    </ul>
+
+                    <p><strong>Phone:</strong></p>
+                    <p><a href="tel:7407710017">(740) 771-0017</a></p>
+
+                    <p><strong>Email:</strong></p>
+                    <p><a href="mailto:support@haskinshouserecords.com">support@haskinshouserecords.com</a></p>
+                </div>
+            </div>
+
+            <div class="contact-form-container">
+                <h2>Send Us a Message</h2>
+                <form id="contact-form" class="contact-form" onsubmit="handleContactSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a topic...</option>
+                            <option value="Selling Records">Selling Records</option>
+                            <option value="Trading Records">Trading Records</option>
+                            <option value="Special Order">Special Order Request</option>
+                            <option value="General Question">General Question</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </section>
     </main>
 
     <footer>
-        <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
-        <p>Location: 534 2nd Street, Portsmouth, OH 45662</p>
-        <p>Phone: (740) 771-0017</p>
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>&copy; 2024 Haskins House Records. All rights reserved.</p>
+                <p>Location: <a href="https://maps.google.com/?q=534+2nd+Street,+Portsmouth,+OH+45662" target="_blank">534 2nd Street, Portsmouth, OH 45662</a></p>
+                <p>Phone: <a href="tel:7407710017">(740) 771-0017</a></p>
+                <p>Email: <a href="mailto:support@haskinshouserecords.com">support@haskinshouserecords.com</a></p>
+            </div>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">Privacy Policy</a>
+                <a href="/terms-and-conditions.html">Terms & Conditions</a>
+            </div>
+            <div class="social-links">
+                <a href="https://www.instagram.com/haskinshouserecords" target="_blank" rel="noopener">Instagram</a>
+                <a href="https://www.facebook.com/haskinshouserecords" target="_blank" rel="noopener">Facebook</a>
+            </div>
+        </div>
     </footer>
 </body>
 
