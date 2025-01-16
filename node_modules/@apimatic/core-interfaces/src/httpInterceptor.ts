@@ -37,3 +37,19 @@ export function passThroughInterceptor<T>(
 ): Promise<HttpContext> {
   return next(request, requestOptions);
 }
+
+/**
+ * Combine multiple HTTP interceptors into one.
+ */
+export function combineHttpInterceptors<T>(
+  interceptors: Array<HttpInterceptorInterface<T | undefined>>
+): HttpInterceptorInterface<T | undefined> {
+  return (firstRequest, firstOptions, next) => {
+    for (let index = interceptors.length - 1; index >= 0; index--) {
+      const current = interceptors[index];
+      const last = next;
+      next = (request, options) => current(request, options, last);
+    }
+    return next(firstRequest, firstOptions);
+  };
+}

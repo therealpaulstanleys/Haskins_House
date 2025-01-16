@@ -10,7 +10,7 @@ export class ResponseValidationError
   public request: HttpRequest;
   public statusCode: number;
   public headers: Record<string, string>;
-  public result: never;
+  public result!: never;
   public body: string | Blob | NodeJS.ReadableStream;
   public errors: SchemaValidationError[];
 

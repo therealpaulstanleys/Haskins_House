@@ -1,13 +1,17 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import {
+  AxiosHeaders,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosResponseHeaders,
+  RawAxiosResponseHeaders,
+} from 'axios';
+import axios from 'axios';
 import isNode from 'detect-node';
 import FormData from 'form-data';
-import { isFileWrapper } from '@apimatic/file-wrapper';
 import {
   CONTENT_TYPE_HEADER,
   FORM_URLENCODED_CONTENT_TYPE,
-  mergeHeaders,
-  setHeader,
-  setHeaderIfNotSet,
 } from '@apimatic/http-headers';
 import {
   HttpRequest,
@@ -15,6 +19,7 @@ import {
   RetryConfiguration,
 } from '@apimatic/core-interfaces';
 import { urlEncodeKeyValuePairs } from '@apimatic/http-query';
+import { isFileWrapper } from '@apimatic/file-wrapper';
 
 export const DEFAULT_AXIOS_CONFIG_OVERRIDES: AxiosRequestConfig = {
   transformResponse: [],
@@ -64,6 +69,10 @@ export class HttpClient {
       headers: { ...req.headers },
     };
 
+    let headers = new AxiosHeaders({
+      ...req.headers,
+    });
+
     if (req.auth) {
       // Set basic auth credentials if provided
       newRequest.auth = {
@@ -99,17 +108,14 @@ export class HttpClient {
       }
 
       newRequest.data = form;
-      mergeHeaders(newRequest.headers, form.getHeaders());
+      headers = headers.concat(form.getHeaders());
     } else if (
       requestBody?.type === 'form-data' ||
       requestBody?.type === 'form'
     ) {
       // Create form-urlencoded request
-      setHeader(
-        newRequest.headers,
-        CONTENT_TYPE_HEADER,
-        FORM_URLENCODED_CONTENT_TYPE
-      );
+      headers = headers.set(CONTENT_TYPE_HEADER, FORM_URLENCODED_CONTENT_TYPE);
+
       newRequest.data = urlEncodeKeyValuePairs(requestBody.content);
     } else if (requestBody?.type === 'stream') {
       let contentType = 'application/octet-stream';
@@ -120,7 +126,7 @@ export class HttpClient {
         // Otherwise, use the content type if available.
         contentType = requestBody.content.options.contentType;
       }
-      setHeaderIfNotSet(newRequest.headers, CONTENT_TYPE_HEADER, contentType);
+      headers = headers.set(CONTENT_TYPE_HEADER, contentType, false);
       newRequest.data = requestBody.content.file;
     }
 
@@ -134,6 +140,9 @@ export class HttpClient {
     // Set 30 seconds timeout
     newRequest.timeout = this._timeout;
 
+    // set headers
+    newRequest.headers = headers;
+
     return newRequest;
   }
 
@@ -141,9 +150,30 @@ export class HttpClient {
   public convertHttpResponse(resp: AxiosResponse): HttpResponse {
     return {
       body: resp.data,
-      headers: resp.headers,
+      headers: this.convertAxiosResponseHeadersToHttpResponseHeaders(
+        resp.headers
+      ),
       statusCode: resp.status,
     };
+  }
+
+  public convertAxiosResponseHeadersToHttpResponseHeaders(
+    axiosHeaders: RawAxiosResponseHeaders | AxiosResponseHeaders
+  ): Record<string, string> {
+    const httpResponseHeaders: Record<string, string> = {};
+
+    // Iterate through each property of AxiosResponseHeaders
+    for (const key in axiosHeaders) {
+      // Check if the property is not a function (AxiosHeaders may have methods)
+      if (typeof axiosHeaders[key] !== 'function') {
+        // Convert property key to lowercase as HTTP headers are case-insensitive
+        const lowercaseKey = key.toLowerCase();
+        // Assign the value to HttpResponse headers
+        httpResponseHeaders[lowercaseKey] = String(axiosHeaders[key]);
+      }
+    }
+
+    return httpResponseHeaders;
   }
 
   /**

@@ -1,16 +1,18 @@
 :root {
-    --primary-color: #1a1a1a;
-    --secondary-color: #f4f4f4;
-    --accent-color: #d32f2f;
+    --primary-color: #121212;
+    --secondary-color: #f8f8f8;
+    --accent-color: #e63946;
+    --accent-hover: #c1121f;
     --text-color: #212121;
-    --light-text: #ffffff;
+    --light-text: #fafafa;
     --border-color: #e0e0e0;
-    --success-color: #4CAF50;
-    --error-color: #f44336;
+    --card-bg: #ffffff;
+    --vinyl-black: #0a0a0a;
+    --vinyl-shine: #1a1a1a;
     --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --hover-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     --transition: all 0.3s ease;
-    --background-color: #ffffff;
-    --hover-color: #cc3d3d;
 }
 
 
@@ -51,6 +53,8 @@ header {
 nav {
     width: 100%;
     padding: 1rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 nav ul {
@@ -68,11 +72,27 @@ nav ul {
     padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: var(--transition);
+    position: relative;
 }
 
 .nav-link:hover {
     background: var(--accent-color);
     color: var(--light-text);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: var(--transition);
+}
+
+.nav-link:hover::after {
+    width: 100%;
 }
 
 
@@ -82,6 +102,9 @@ nav ul {
     text-align: center;
     padding: 50px 20px;
     background-color: var(--secondary-color);
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem;
 }
 
 .hero h1 {
@@ -99,6 +122,8 @@ nav ul {
     height: auto;
     aspect-ratio: 16/9;
     object-fit: cover;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
 }
 
 
@@ -579,4 +604,113 @@ footer {
     /* More accessible red */
     --text-color: #212121;
     /* Darker text for better contrast */
+}
+
+
+/* Add vinyl-inspired card styling */
+
+.featured-item,
+.faq-item,
+.contact-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.featured-item:hover,
+.faq-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--hover-shadow);
+}
+
+
+/* Add vinyl record spin animation */
+
+.featured-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(45deg, var(--vinyl-black), var(--vinyl-shine));
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: -1;
+}
+
+.featured-item:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.1;
+}
+
+
+/* Modern button styling */
+
+.btn {
+    padding: 0.8rem 1.6rem;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: var(--light-text);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+
+
+/* Hero section enhancement */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+    padding: 4rem 2rem;
+}
+
+.hero-image {
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+}
+
+
+/* Navigation enhancement */
+
+nav {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: var(--transition);
+}
+
+.nav-link:hover::after {
+    width: 100%;
 }

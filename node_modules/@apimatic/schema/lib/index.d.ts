@@ -1,4 +1,5 @@
 export * from './schema';
+export * from './types/anyOf';
 export * from './types/array';
 export * from './types/bigint';
 export * from './types/boolean';
@@ -12,6 +13,7 @@ export * from './types/nullable';
 export * from './types/number';
 export * from './types/numberEnum';
 export * from './types/object';
+export * from './types/oneOf';
 export * from './types/optional';
 export * from './types/string';
 export * from './types/stringEnum';

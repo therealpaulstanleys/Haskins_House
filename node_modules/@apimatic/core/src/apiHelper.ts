@@ -150,7 +150,14 @@ function replaceBodyPlaceholders(
   body: string,
   bodyPlaceholders?: string[]
 ): string {
-  const parsed = JSON.parse(body);
+  let parsed = '';
+
+  try {
+    parsed = JSON.parse(body);
+  } catch (error) {
+    // Handle the error if needed, or you can leave the catch block empty
+  }
+
   bodyPlaceholders?.forEach((element) => {
     if (element.includes('#')) {
       const [, ...rest] = element?.split('#');

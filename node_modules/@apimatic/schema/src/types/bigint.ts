@@ -5,12 +5,12 @@ import {
   toValidator,
 } from '../utils';
 
-function isValidBigIntValue(value: unknown): value is bigint {
-  return (
-    typeof value === 'bigint' ||
-    typeof value === 'number' ||
-    (typeof value === 'string' && /^-?\d+$/.test(value))
-  );
+function isValidBigIntValue(value: unknown, strict: boolean): value is bigint {
+  return strict
+    ? typeof value === 'bigint'
+    : typeof value === 'bigint' ||
+        typeof value === 'number' ||
+        (typeof value === 'string' && /^-?\d+$/.test(value));
 }
 
 /** Create a bigint schema */

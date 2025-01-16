@@ -13,6 +13,11 @@ export * from './http/httpInterceptor';
 export * from './http/requestBuilder';
 export * from './http/pathTemplate';
 export { RequestRetryOption } from './http/retryConfiguration';
+export * from './logger/apiLogger';
+export * from './logger/defaultLogger';
+export * from './logger/nullLogger';
+export * from './logger/defaultLoggingConfiguration';
+export * from './logger/loggingOptions';
 export {
   indexedPrefix,
   unindexedPrefix,

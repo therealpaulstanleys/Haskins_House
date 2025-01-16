@@ -3,13 +3,10 @@ import {
   passThroughInterceptor,
 } from '@apimatic/core-interfaces';
 
-export const basicAuthenticationProvider = ({
-  basicAuthUserName,
-  basicAuthPassword,
-}: {
-  basicAuthUserName: string;
-  basicAuthPassword: string;
-}): AuthenticatorInterface<boolean> => {
+export const basicAuthenticationProvider = (
+  basicAuthUserName: string,
+  basicAuthPassword: string
+): AuthenticatorInterface<boolean> => {
   return (requiresAuth?: boolean) => {
     if (!requiresAuth) {
       return passThroughInterceptor;

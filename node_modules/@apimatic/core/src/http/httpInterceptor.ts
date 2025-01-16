@@ -1,6 +1,7 @@
 import {
   HttpInterceptorInterface,
   HttpCallExecutor,
+  combineHttpInterceptors,
 } from '@apimatic/core-interfaces';
 /**
  * Calls HTTP interceptor chain
@@ -12,11 +13,6 @@ export function callHttpInterceptors<T>(
   interceptors: Array<HttpInterceptorInterface<T>>,
   client: HttpCallExecutor<T>
 ): HttpCallExecutor<T> {
-  let next = client;
-  for (let index = interceptors.length - 1; index >= 0; index--) {
-    const current = interceptors[index];
-    const last = next;
-    next = (request, options) => current(request, options, last);
-  }
-  return next;
+  return (request, options) =>
+    combineHttpInterceptors(interceptors)(request, options, client);
 }

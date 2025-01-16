@@ -3,13 +3,9 @@ import {
   passThroughInterceptor,
 } from '@apimatic/core-interfaces';
 
-export const customQueryAuthenticationProvider = ({
-  token,
-  apiKey,
-}: {
-  token: string;
-  apiKey: string;
-}): AuthenticatorInterface<boolean> => {
+export const customQueryAuthenticationProvider = (
+  customQueryParams: Record<string, string>
+): AuthenticatorInterface<boolean> => {
   return (requiresAuth?: boolean) => {
     if (!requiresAuth) {
       return passThroughInterceptor;
@@ -18,7 +14,7 @@ export const customQueryAuthenticationProvider = ({
     return (request, options, next) => {
       request.url +=
         (request.url.indexOf('?') === -1 ? '?' : '&') +
-        encodeQueryParams({ token, 'api-key': apiKey });
+        encodeQueryParams(customQueryParams);
       return next(request, options);
     };
   };

@@ -1,4 +1,10 @@
-import { Schema, SchemaMappedType, SchemaType } from '../schema';
+import {
+  Schema,
+  SchemaContextCreator,
+  SchemaMappedType,
+  SchemaType,
+  SchemaValidationError,
+} from '../schema';
 import { objectEntries } from '../utils';
 import { ObjectXmlOptions } from './object';
 
@@ -14,10 +20,10 @@ export function discriminatedObject<
   defaultDiscriminator: keyof TDiscrimMap,
   xmlOptions?: ObjectXmlOptions
 ): Schema<any, any> {
-  const schemaSelector = (
+  const selectSchemaWithDisc = (
     value: unknown,
     discriminatorProp: string | TDiscrimProp | TDiscrimMappedProp,
-    isAttr: boolean = false
+    isAttr?: boolean
   ) => {
     if (
       typeof value === 'object' &&
@@ -39,43 +45,64 @@ export function discriminatedObject<
         return discriminatorMap[discriminatorValue];
       }
     }
+    return undefined;
+  };
+  const allSchemas = Object.values(discriminatorMap).reverse();
+  const selectSchema = (
+    value: unknown,
+    discriminatorProp: string | TDiscrimProp | TDiscrimMappedProp,
+    validater: (schema: TSchema) => SchemaValidationError[],
+    isAttr?: boolean
+  ) => {
+    const schema = selectSchemaWithDisc(value, discriminatorProp, isAttr);
+    if (typeof schema !== 'undefined') {
+      return schema;
+    }
+    // Try checking with discriminator matching
+    for (const key in allSchemas) {
+      if (validater(allSchemas[key]).length === 0) {
+        return allSchemas[key];
+      }
+    }
+    // Fallback to default schema
     return discriminatorMap[defaultDiscriminator];
   };
+
+  const mapJsonSchema = (value: unknown, ctxt: SchemaContextCreator) =>
+    selectSchema(value, discriminatorPropName, (schema) =>
+      schema.validateBeforeMap(value, ctxt)
+    );
+
+  const mapXmlSchema = (value: unknown, ctxt: SchemaContextCreator) =>
+    selectSchema(
+      value,
+      xmlOptions?.xmlName ?? discriminatorPropName,
+      (schema) => schema.validateBeforeMapXml(value, ctxt),
+      xmlOptions?.isAttr
+    );
+
+  const unmapSchema = (value: unknown, ctxt: SchemaContextCreator) =>
+    selectSchema(value, discriminatorMappedPropName, (schema) =>
+      schema.validateBeforeUnmap(value, ctxt)
+    );
+
   return {
     type: () =>
-      `DiscriminatedUnion<${discriminatorPropName},[${objectEntries(
+      `DiscriminatedUnion<${discriminatorPropName as string},[${objectEntries(
         discriminatorMap
       )
         .map(([_, v]) => v.type)
         .join(',')}]>`,
-    map: (value, ctxt) =>
-      schemaSelector(value, discriminatorPropName).map(value, ctxt),
-    unmap: (value, ctxt) =>
-      schemaSelector(value, discriminatorMappedPropName).unmap(value, ctxt),
+    map: (value, ctxt) => mapJsonSchema(value, ctxt).map(value, ctxt),
+    unmap: (value, ctxt) => unmapSchema(value, ctxt).unmap(value, ctxt),
     validateBeforeMap: (value, ctxt) =>
-      schemaSelector(value, discriminatorPropName).validateBeforeMap(
-        value,
-        ctxt
-      ),
+      mapJsonSchema(value, ctxt).validateBeforeMap(value, ctxt),
     validateBeforeUnmap: (value, ctxt) =>
-      schemaSelector(value, discriminatorMappedPropName).validateBeforeUnmap(
-        value,
-        ctxt
-      ),
-    mapXml: (value, ctxt) =>
-      schemaSelector(
-        value,
-        xmlOptions?.xmlName ?? discriminatorPropName,
-        xmlOptions?.isAttr
-      ).mapXml(value, ctxt),
-    unmapXml: (value, ctxt) =>
-      schemaSelector(value, discriminatorMappedPropName).unmapXml(value, ctxt),
+      unmapSchema(value, ctxt).validateBeforeUnmap(value, ctxt),
+    mapXml: (value, ctxt) => mapXmlSchema(value, ctxt).mapXml(value, ctxt),
+    unmapXml: (value, ctxt) => unmapSchema(value, ctxt).unmapXml(value, ctxt),
     validateBeforeMapXml: (value, ctxt) =>
-      schemaSelector(
-        value,
-        xmlOptions?.xmlName ?? discriminatorPropName,
-        xmlOptions?.isAttr
-      ).validateBeforeMapXml(value, ctxt),
+      mapXmlSchema(value, ctxt).validateBeforeMapXml(value, ctxt),
   };
 }
 
