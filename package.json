@@ -1,17 +1,17 @@
 {
-    "name": "haskins-house-records-server",
+    "name": "haskins-house-records",
     "version": "1.0.0",
-    "main": "server/server.js",
+    "description": "Haskins House Records E-commerce Site",
     "scripts": {
-        "test": "jest",
         "start": "node server/server.js",
-        "dev": "nodemon server/server.js"
+        "dev": "nodemon server/server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "description": "Server for Haskins House Records website",
     "dependencies": {
+        "@apimatic/authentication-adapters": "^0.5.0",
+        "@apimatic/axios-client-adapter": "^0.3.0",
+        "@apimatic/core": "^0.10.0",
+        "@apimatic/schema": "^0.7.0",
         "axios": "^1.6.7",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
@@ -26,5 +26,8 @@
     },
     "devDependencies": {
         "nodemon": "^3.0.3"
+    },
+    "engines": {
+        "node": ">=20.0.0"
     }
 }
