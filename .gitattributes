@@ -1,5 +1,16 @@
-# Auto detect text files and perform LF normalization
+# Set default behavior to automatically normalize line endings
 * text=auto eol=lf
+
+# Force batch scripts to use CRLF
 *.{cmd,[cC][mM][dD]} text eol=crlf
 *.{bat,[bB][aA][tT]} text eol=crlf
-*.{png,jpg,jpeg,gif,webp,svg} binary
+
+# Force specific files to use LF
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# Denote all files that are truly binary and should not be modified
+*.{png,jpg,jpeg,gif,webp,svg,ico,woff,woff2} binary
