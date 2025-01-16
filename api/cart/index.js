@@ -2,31 +2,32 @@ const express = require('express');
 const router = express.Router();
 const { fetchInventory } = require('../../server/updateInventory'); // Import the fetchInventory function
 
-// In-memory cart storage (for demonstration purposes)
-let cartItems = [];
-
 // Endpoint to get cart items
 router.get('/', (req, res) => {
-    res.json({ cart: cartItems });
+    res.json({ cart: req.session.cart || [] });
 });
 
 // Endpoint to add item to cart
 router.post('/add', async(req, res) => {
-    const { itemId } = req.body;
-    const inventoryItems = await fetchInventory(); // Fetch current inventory items
+    try {
+        const { itemId, quantity = 1 } = req.body;
+        const inventory = await fetchInventory();
+        const item = inventory.find(i => i.id === itemId);
 
-    const item = inventoryItems.find(i => i.id === itemId); // Check against fetched inventory
+        if (!item) return res.status(404).json({ error: 'Item not found' });
+        if (!req.session.cart) req.session.cart = [];
 
-    if (item) {
-        const cartItem = cartItems.find(i => i.id === itemId);
+        const cartItem = req.session.cart.find(i => i.id === itemId);
         if (cartItem) {
-            cartItem.quantity += 1; // Increment quantity if item already in cart
+            cartItem.quantity += quantity;
         } else {
-            cartItems.push({...item, quantity: 1 }); // Add new item to cart
+            req.session.cart.push({...item, quantity });
         }
-        return res.json({ success: true });
+
+        res.json({ success: true, cart: req.session.cart });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to add item' });
     }
-    res.status(404).json({ success: false, message: 'Item not found' });
 });
 
 // Endpoint to remove item from cart

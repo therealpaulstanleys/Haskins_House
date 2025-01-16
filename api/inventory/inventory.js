@@ -7,14 +7,12 @@ const router = express.Router();
 // Improved error handling
 router.get('/', async(req, res) => {
     try {
-        const items = await fetchInventory(); // Use the fetchInventory function // bl00dz
-        if (!items || items.length === 0) {
-            return res.status(404).json({ error: 'No items found' }); // bl00dz
-        }
-        res.json({ items }); // Return the fetched items // bl00dz
+        const items = await fetchInventory();
+        if (!items || !items.length) return res.status(404).json({ error: 'No items found' });
+        res.json({ items });
     } catch (error) {
-        console.error('Error fetching inventory:', error); // bl00dz
-        res.status(500).json({ error: 'Failed to fetch inventory' }); // bl00dz
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Failed to fetch inventory' });
     }
 });
 

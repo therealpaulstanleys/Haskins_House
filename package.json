@@ -1,28 +1,32 @@
 {
-    "name": "haskins_house",
+    "name": "haskins-house-records-server",
     "version": "1.0.0",
-    "main": "script.js",
+    "main": "server/server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "jest",
         "start": "node server/server.js",
         "dev": "nodemon server/server.js"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "description": "",
+    "description": "Server for Haskins House Records website",
     "dependencies": {
         "body-parser": "^1.20.2",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
-        "dotenv": "^16.4.5",
+        "dotenv": "^16.0.3",
         "express": "^4.18.2",
-        "express-rate-limit": "^7.4.0",
-        "express-session": "^1.18.0",
+        "express-rate-limit": "^6.7.0",
+        "express-session": "^1.17.3",
         "express-validator": "^7.0.1",
-        "helmet": "^7.1.0",
-        "nodemailer": "^6.9.15",
-        "square": "^38.1.0",
-        "ws": "^8.16.0"
+        "helmet": "^6.1.5",
+        "nodemailer": "^6.9.1",
+        "square": "^25.1.0",
+        "ws": "^8.13.0",
+        "morgan": "^1.10.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.22"
     }
 }

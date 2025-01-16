@@ -1,8 +1,8 @@
 :root {
     --primary-color: #1a1a1a;
     --secondary-color: #f4f4f4;
-    --accent-color: #ff4d4d;
-    --text-color: #333333;
+    --accent-color: #d32f2f;
+    --text-color: #212121;
     --light-text: #ffffff;
     --border-color: #e0e0e0;
     --success-color: #4CAF50;
@@ -95,10 +95,10 @@ nav ul {
 }
 
 .hero-image {
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    aspect-ratio: 16/9;
+    object-fit: cover;
 }
 
 
@@ -490,30 +490,93 @@ footer {
 }
 
 @media (max-width: 768px) {
+    .hero h1 {
+        font-size: 1.8rem;
+        padding: 0 1rem;
+    }
     .nav ul {
         flex-direction: column;
-        align-items: center;
+        padding: 1rem;
     }
-    .hero h1 {
-        font-size: 2rem;
+    .nav-link {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 0.5rem 0;
     }
-    .contact-grid,
-    .about-grid,
-    .featured-grid {
-        grid-template-columns: 1fr;
+    .store-container {
+        padding: 1rem;
     }
     .cart-section {
         position: static;
         width: 100%;
         margin: 1rem 0;
     }
+    .featured-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
 }
 
 @media (max-width: 480px) {
-    .store-filters {
-        flex-direction: column;
+    .hero-image {
+        height: 200px;
+        object-fit: cover;
     }
-    .filter-group {
+    .instagram-embed {
+        margin: 1rem 0;
         width: 100%;
     }
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1rem;
+    }
+}
+
+.hero-image,
+.about-image img,
+.feature img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .hero-image {
+        aspect-ratio: 4/3;
+    }
+}
+
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--accent-color);
+    color: white;
+    padding: 8px;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+
+/* Improve focus visibility */
+
+:focus {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+
+/* Improve color contrast */
+
+:root {
+    --accent-color: #d32f2f;
+    /* More accessible red */
+    --text-color: #212121;
+    /* Darker text for better contrast */
 }
