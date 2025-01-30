@@ -18,6 +18,11 @@
             <a href="/" class="logo-link">
                 <img src="/images/logo.png" alt="Haskins House Records" class="logo">
             </a>
+            <button class="mobile-nav-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="/" class="nav-link active">Home</a></li>
                 <li><a href="/about.html" class="nav-link">About</a></li>
@@ -103,58 +108,20 @@
         </div>
     </footer>
 
-    <button class="hamburger" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('header');
-            const hamburger = document.querySelector('.hamburger');
-            const navLinks = document.querySelector('.nav-links');
+        const navToggle = document.querySelector('.mobile-nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
 
-            // Handle scroll - immediate response
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 10) {
-                    header.classList.add('scrolled');
-                    hamburger.style.display = 'block';
-                } else {
-                    header.classList.remove('scrolled');
-                    hamburger.style.display = 'none';
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                }
-            });
+        navToggle.addEventListener('click', () => {
+            navToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
 
-            // Initial check for page load position
-            if (window.scrollY > 10) {
-                header.classList.add('scrolled');
-                hamburger.style.display = 'block';
-            }
-
-            // Handle hamburger click
-            hamburger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                this.classList.toggle('active');
-                navLinks.classList.toggle('active');
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                }
-            });
-
-            // Close menu when clicking a link
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navLinks.classList.remove('active');
             });
         });
     </script>
