@@ -1,8 +1,10 @@
 :root {
     --primary-color: #ffffff;
     --secondary-color: #f8f8f8;
-    --accent-color: #d32f2f;
-    --accent-hover: #c1121f;
+    --accent-color: #7c2855;
+    /* Rich burgundy */
+    --accent-hover: #5c1f40;
+    /* Darker burgundy */
     --text-color: #212121;
     --light-text: #fafafa;
     --border-color: #e0e0e0;
@@ -15,8 +17,8 @@
     --transition: all 0.3s ease;
     --nav-bg: #ffffff;
     --nav-text: #212121;
-    --button-bg: #d32f2f;
-    --button-hover: #b71c1c;
+    --button-bg: #7c2855;
+    --button-hover: #5c1f40;
 }
 
 
@@ -602,7 +604,7 @@ footer {
 /* Improve color contrast */
 
 :root {
-    --accent-color: #d32f2f;
+    --accent-color: #7c2855;
     /* More accessible red */
     --text-color: #212121;
     /* Darker text for better contrast */
