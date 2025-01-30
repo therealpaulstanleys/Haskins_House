@@ -58,7 +58,7 @@ header {
 nav {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0.5rem 1rem;
+    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -985,14 +985,14 @@ header.scrolled .logo {
 
 @media (max-width: 768px) {
     body {
-        padding-top: 70px;
+        padding-top: 80px;
     }
     .mobile-nav-toggle {
         display: block;
         position: absolute;
         right: 1rem;
-        top: 1.2rem;
-        z-index: 9999;
+        top: 1.5rem;
+        z-index: 1001;
         background: none;
         border: none;
         padding: 0.5rem;
@@ -1017,18 +1017,78 @@ header.scrolled .logo {
         padding: 5rem 2rem 2rem;
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        gap: 2rem;
     }
-    .nav-links.active {
+    .nav-links.show {
         display: flex;
     }
     .mobile-nav-toggle.active span:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
+        transform: rotate(-45deg) translate(-5px, 6px);
     }
     .mobile-nav-toggle.active span:nth-child(2) {
         opacity: 0;
     }
     .mobile-nav-toggle.active span:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+}
+
+
+/* Mobile Menu Button */
+
+#menuBtn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+#menuBtn div {
+    width: 25px;
+    height: 3px;
+    background-color: var(--accent-color);
+    margin: 5px 0;
+    transition: 0.3s;
+}
+
+
+/* Mobile Styles */
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 80px;
+    }
+    #menuBtn {
+        display: block;
+        position: absolute;
+        right: 1rem;
+        top: 1.5rem;
+        z-index: 1001;
+    }
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--nav-bg);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+    }
+    .nav-links.show {
+        display: flex;
+    }
+    #menuBtn.active div:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+    #menuBtn.active div:nth-child(2) {
+        opacity: 0;
+    }
+    #menuBtn.active div:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
     }
 }

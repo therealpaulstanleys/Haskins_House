@@ -18,12 +18,12 @@
             <a href="/" class="logo-link">
                 <img src="/images/logo.png" alt="Haskins House Records" class="logo">
             </a>
-            <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button id="menuBtn" aria-label="Toggle menu">
+                <div></div>
+                <div></div>
+                <div></div>
             </button>
-            <ul class="nav-links" id="nav-links">
+            <ul class="nav-links" id="navLinks">
                 <li><a href="/" class="nav-link active">Home</a></li>
                 <li><a href="/about.html" class="nav-link">About</a></li>
                 <li><a href="/store.html" class="nav-link">Shop</a></li>
@@ -109,20 +109,24 @@
     </footer>
 
     <script>
-        function toggleMenu() {
-            const navToggle = document.querySelector('.mobile-nav-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            navToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        }
+        // Wait for DOM to load
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuBtn = document.getElementById('menuBtn');
+            const navLinks = document.getElementById('navLinks');
 
-        // Close menu when clicking links
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                const navToggle = document.querySelector('.mobile-nav-toggle');
-                const navLinks = document.querySelector('.nav-links');
-                navToggle.classList.remove('active');
-                navLinks.classList.remove('active');
+            // Toggle menu
+            menuBtn.addEventListener('click', function() {
+                menuBtn.classList.toggle('active');
+                navLinks.classList.toggle('show');
+            });
+
+            // Close menu when clicking a link
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(link => {
+                link.addEventListener('click', function() {
+                    menuBtn.classList.remove('active');
+                    navLinks.classList.remove('show');
+                });
             });
         });
     </script>
