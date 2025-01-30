@@ -43,21 +43,24 @@ body {
 /* Header styles */
 
 header {
-    background: var(--nav-bg);
-    box-shadow: var(--shadow);
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid #eee;
 }
 
-.logo-container {
-    text-align: center;
-    padding: 1rem;
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .logo {
-    max-height: 80px;
+    height: 60px;
     width: auto;
     transition: transform 0.2s ease;
 }
@@ -66,25 +69,15 @@ header {
     transform: scale(1.02);
 }
 
-
-/* Navigation */
-
-nav {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-nav ul {
+.nav-links {
     display: flex;
-    justify-content: center;
-    gap: 3rem;
+    gap: 2rem;
     list-style: none;
-    padding: 1rem 0;
+    align-items: center;
 }
 
 .nav-link {
-    color: var(--nav-text);
+    color: #212121;
     text-decoration: none;
     font-weight: 500;
     font-size: 1.1rem;
@@ -99,7 +92,7 @@ nav ul {
     left: 0;
     width: 0;
     height: 2px;
-    background: var(--accent-color);
+    background: #d32f2f;
     transition: width 0.3s ease;
 }
 
