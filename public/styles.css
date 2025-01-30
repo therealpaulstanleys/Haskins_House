@@ -46,20 +46,26 @@ body {
 /* Header styles */
 
 header {
-    background: #ffffff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: var(--nav-bg);
+    box-shadow: var(--shadow);
     position: sticky;
     top: 0;
     z-index: 1000;
+    width: 100%;
 }
 
 nav {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0.5rem 2rem;
+    padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
 }
 
 .logo {
@@ -74,28 +80,31 @@ nav {
 
 .nav-links {
     display: flex;
+    align-items: center;
     gap: 2rem;
     list-style: none;
-    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-link {
-    color: #212121;
+    color: var(--nav-text);
     text-decoration: none;
     font-weight: 500;
-    font-size: 1.1rem;
+    font-size: 1rem;
     padding: 0.5rem 0;
     position: relative;
+    white-space: nowrap;
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: 0;
     left: 0;
     width: 0;
     height: 2px;
-    background: #d32f2f;
+    background: var(--accent-color);
     transition: width 0.3s ease;
 }
 
@@ -368,22 +377,40 @@ footer {
 
 @media (max-width: 768px) {
     nav {
+        flex-direction: column;
         padding: 0.5rem;
     }
     .logo {
         height: 50px;
+        margin-bottom: 0.5rem;
     }
     .nav-links {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        width: 100%;
         justify-content: center;
         gap: 1rem;
-        padding: 0.5rem;
+        padding: 0.5rem 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Firefox */
+    }
+    .nav-links::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Edge */
     }
     .nav-link {
         font-size: 0.9rem;
-        padding: 0.3rem 0.6rem;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-links {
+        gap: 0.75rem;
+    }
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.6rem;
     }
 }
 
