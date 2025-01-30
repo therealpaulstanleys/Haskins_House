@@ -115,24 +115,29 @@
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
 
-            // Handle scroll
-            let lastScroll = 0;
+            // Handle scroll - immediate response
             window.addEventListener('scroll', () => {
-                const currentScroll = window.pageYOffset;
-                if (currentScroll > 100) {
+                if (window.scrollY > 10) {
                     header.classList.add('scrolled');
+                    hamburger.style.display = 'block';
                 } else {
                     header.classList.remove('scrolled');
+                    hamburger.style.display = 'none';
                     hamburger.classList.remove('active');
                     navLinks.classList.remove('active');
                 }
-                lastScroll = currentScroll;
             });
+
+            // Initial check for page load position
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+                hamburger.style.display = 'block';
+            }
 
             // Handle hamburger click
             hamburger.addEventListener('click', function(e) {
                 e.stopPropagation();
-                hamburger.classList.toggle('active');
+                this.classList.toggle('active');
                 navLinks.classList.toggle('active');
             });
 
