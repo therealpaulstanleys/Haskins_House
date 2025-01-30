@@ -984,11 +984,14 @@ header.scrolled .logo {
 }
 
 @media (max-width: 768px) {
+    body {
+        padding-top: 70px;
+    }
     .mobile-nav-toggle {
         display: block;
         position: absolute;
         right: 1rem;
-        top: 1rem;
+        top: 1.2rem;
         z-index: 9999;
         background: none;
         border: none;
@@ -1001,12 +1004,15 @@ header.scrolled .logo {
         height: 3px;
         margin: 5px;
         background: var(--accent-color);
-        transition: 0.3s;
+        transition: transform 0.3s ease-in-out;
     }
     .nav-links {
         display: none;
         position: fixed;
-        inset: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: var(--nav-bg);
         padding: 5rem 2rem 2rem;
         flex-direction: column;
@@ -1017,12 +1023,12 @@ header.scrolled .logo {
         display: flex;
     }
     .mobile-nav-toggle.active span:nth-child(1) {
-        transform: rotate(45deg) translate(6px, 6px);
+        transform: translateY(8px) rotate(45deg);
     }
     .mobile-nav-toggle.active span:nth-child(2) {
         opacity: 0;
     }
     .mobile-nav-toggle.active span:nth-child(3) {
-        transform: rotate(-45deg) translate(6px, -6px);
+        transform: translateY(-8px) rotate(-45deg);
     }
 }

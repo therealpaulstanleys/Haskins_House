@@ -18,12 +18,12 @@
             <a href="/" class="logo-link">
                 <img src="/images/logo.png" alt="Haskins House Records" class="logo">
             </a>
-            <button class="mobile-nav-toggle" aria-label="Menu">
+            <button class="mobile-nav-toggle" aria-label="Menu" onclick="toggleMenu()">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-links">
+            <ul class="nav-links" id="nav-links">
                 <li><a href="/" class="nav-link active">Home</a></li>
                 <li><a href="/about.html" class="nav-link">About</a></li>
                 <li><a href="/store.html" class="nav-link">Shop</a></li>
@@ -109,17 +109,18 @@
     </footer>
 
     <script>
-        const navToggle = document.querySelector('.mobile-nav-toggle');
-        const navLinks = document.querySelector('.nav-links');
-
-        navToggle.addEventListener('click', () => {
+        function toggleMenu() {
+            const navToggle = document.querySelector('.mobile-nav-toggle');
+            const navLinks = document.querySelector('.nav-links');
             navToggle.classList.toggle('active');
             navLinks.classList.toggle('active');
-        });
+        }
 
-        // Close menu when clicking a link
+        // Close menu when clicking links
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
+                const navToggle = document.querySelector('.mobile-nav-toggle');
+                const navLinks = document.querySelector('.nav-links');
                 navToggle.classList.remove('active');
                 navLinks.classList.remove('active');
             });
