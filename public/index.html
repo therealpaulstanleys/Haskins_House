@@ -111,10 +111,27 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('header');
             const hamburger = document.querySelector('.hamburger');
             const navLinks = document.querySelector('.nav-links');
 
-            hamburger.addEventListener('click', function() {
+            // Handle scroll
+            let lastScroll = 0;
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                if (currentScroll > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+                lastScroll = currentScroll;
+            });
+
+            // Handle hamburger click
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
                 hamburger.classList.toggle('active');
                 navLinks.classList.toggle('active');
             });
