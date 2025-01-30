@@ -28,18 +28,22 @@
 
 <body>
     <header>
-        <div class="logo-container">
-            <img src="/images/logo.png" alt="Haskins House Records Logo" class="logo" width="150" height="150">
-        </div>
-        <nav aria-label="Main navigation">
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about.html">About Us</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-                <li><a href="/store.html">Shop</a></li>
-                <li><a href="/questions.html">FAQs</a></li>
-                <li><a href="/privacy-policy.html" aria-current="page">Privacy</a></li>
-                <li><a href="/terms-and-conditions.html">Terms</a></li>
+        <nav>
+            <a href="/" class="logo-link">
+                <img src="/images/logo.png" alt="Haskins House Records" class="logo">
+            </a>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/about.html" class="nav-link">About</a></li>
+                <li><a href="/store.html" class="nav-link">Shop</a></li>
+                <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                <li><a href="/questions.html" class="nav-link">FAQs</a></li>
+                <li><a href="/privacy-policy.html" class="nav-link active">Privacy</a></li>
             </ul>
         </nav>
     </header>
@@ -122,6 +126,20 @@
         <p>Location: 534 2nd Street, Portsmouth, OH 45662</p>
         <p>Phone: (740) 771-0017</p>
     </footer>
+
+    <script>
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.hamburger').classList.remove('active');
+                document.querySelector('.nav-links').classList.remove('active');
+            });
+        });
+    </script>
 </body>
 
 </html>

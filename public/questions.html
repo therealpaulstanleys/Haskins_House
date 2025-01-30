@@ -32,6 +32,11 @@
             <a href="/" class="logo-link">
                 <img src="/images/logo.png" alt="Haskins House Records" class="logo">
             </a>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <ul class="nav-links">
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="/about.html" class="nav-link">About</a></li>
@@ -82,36 +87,16 @@
         </div>
     </footer>
 
-    <button class="hamburger" aria-label="Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const hamburger = document.querySelector('.hamburger');
-            const navLinks = document.querySelector('.nav-links');
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
 
-            hamburger.addEventListener('click', function() {
-                hamburger.classList.toggle('active');
-                navLinks.classList.toggle('active');
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                }
-            });
-
-            // Close menu when clicking a link
-            navLinks.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburger.classList.remove('active');
-                    navLinks.classList.remove('active');
-                });
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.hamburger').classList.remove('active');
+                document.querySelector('.nav-links').classList.remove('active');
             });
         });
     </script>
