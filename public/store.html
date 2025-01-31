@@ -1,57 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+</header>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Vinyl Records &amp; Equipment - Haskins House Records</title>
-    <meta name="description" content="Shop our curated collection of new and used vinyl records, CDs, and audio equipment.">
-    <link rel="preconnect" href="https://connect.squareup.com">
-    <link rel="preconnect" href="https://web.squarecdn.com">
-    <link rel="stylesheet" href="/styles.css">
-    <script src="/script.js" defer></script>
-</head>
+<main class="store-container">
+    <div class="hero-banner">
+        <img src="/images/store-records.jpg" alt="Vinyl Records Collection" class="hero-image" loading="lazy">
+        <h1>Vinyl &amp; More</h1>
+    </div>
 
-<body>
-    <header>
-        <nav>
-            <a href="/" class="logo-link">
-                <img src="/images/logo.png" alt="Haskins House Records" class="logo">
-            </a>
-            <button class="hamburger" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-            <ul class="nav-links">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="/about.html" class="nav-link">About</a></li>
-                <li><a href="/store.html" class="nav-link active">Shop</a></li>
-                <li><a href="/contact.html" class="nav-link">Contact</a></li>
-                <li><a href="/questions.html" class="nav-link">FAQs</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main class="store-container">
-        <div class="hero-banner">
-            <img src="/images/store-records.jpg" alt="Vinyl Records Collection" class="hero-image" loading="lazy">
-            <h1>Vinyl &amp; More</h1>
+    <section class="store-intro">
+        <h2>New Arrivals Every Saturday!</h2>
+        <p>From rare first pressings to new releases, we've got your vinyl needs covered.</p>
+        <div class="store-notice">
+            <p>Next Drop: Saturday at 12 PM</p>
+            <p>Follow us on <a href="https://www.instagram.com/haskinshouserecords" target="_blank" rel="noopener">Instagram</a> for sneak peeks of upcoming inventory!</p>
         </div>
+    </section>
 
-        <section class="store-intro">
-            <h2>New Arrivals Every Saturday!</h2>
-            <p>From rare first pressings to new releases, we've got your vinyl needs covered.</p>
-            <div class="store-notice">
-                <p>Next Drop: Saturday at 12 PM</p>
-                <p>Follow us on <a href="https://www.instagram.com/haskinshouserecords" target="_blank" rel="noopener">Instagram</a> for sneak peeks of upcoming inventory!</p>
-            </div>
-        </section>
-
-        <div class="store-filters">
-            <div class="filter-group">
-                <label for="category-select">Browse by Category:</label>
-                <select id="category-select" onchange="filterByCategory()">
+    <div class="store-filters">
+        <div class="filter-group">
+            <label for="category-select">Browse by Category:</label>
+            <select id="category-select" onchange="filterByCategory()">
                     <option value="all">All Items</option>
                     <option value="Vinyl Records (New)">New Vinyl</option>
                     <option value="Vinyl Records (Used)">Used Vinyl</option>
@@ -60,69 +27,107 @@
                     <option value="Equipment">Audio Equipment</option>
                     <option value="Accessories">Record Care &amp; Accessories</option>
                 </select>
-            </div>
-            <div class="filter-group">
-                <label for="sort-select">Sort By:</label>
-                <select id="sort-select" onchange="sortItems()">
+        </div>
+        <div class="filter-group">
+            <!DOCTYPE html>
+            <label for="sort-select">Sort By:</label>
+            <select id="sort-select" onchange="sortItems()">
                     <option value="newest">Newest Arrivals</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>
                     <option value="name">Alphabetical</option>
                 </select>
+        </div>
+    </div>
+
+    <div class="loading-spinner" id="loading-spinner">
+        <div class="spinner"></div>
+        <p>Loading inventory...</p>
+    </div>
+
+    <div id="featured-items-container" class="items-grid">
+        <!-- Items will be loaded here -->
+    </div>
+
+    <div class="cart-section" id="cart-section">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div id="cart-total"></div>
+        <div class="cart-actions">
+            <button id="update-cart" class="btn btn-secondary">Update Cart</button>
+            <button id="checkout-button" class="btn btn-primary">Checkout</button>
+        </div>
+        <div class="cart-notice">
+            <p>Secure checkout powered by Square</p>
+            <p>Free local pickup available</p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-info text-center">
+            <p>&copy; 2024 Haskins House Records</p>
+            <p>534 2nd Street, Portsmouth, OH 45662</p>
+            <p>Phone: (740) 771-0017</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/haskinshouserecords" target="_blank" rel="noopener">Facebook</a>
+                <html lang="en">
+
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Shop Vinyl Records &amp; Equipment - Haskins House Records</title>
+                    <meta name="description" content="Shop our curated collection of new and used vinyl records, CDs, and audio equipment.">
+                    <link rel="preconnect" href="https://connect.squareup.com">
+                    <link rel="preconnect" href="https://web.squarecdn.com">
+                    <link rel="stylesheet" href="/styles.css">
+                    <script src="/script.js" defer></script>
+                </head>
+
+                <body>
+                    <header>
+                        <nav>
+                            <a href="/" class="logo-link">
+                                <img src="/images/logo.png" alt="Haskins House Records" class="logo">
+                            </a>
+                            <button class="mobile-menu" aria-label="Menu">
+                <span class="mobile-menu__line"></span>
+                <span class="mobile-menu__line"></span>
+                <span class="mobile-menu__line"></span>
+            </button>
+                            <ul class="nav-links">
+                                <li><a href="/" class="nav-link">Home</a></li>
+                                <li><a href="/about.html" class="nav-link">About</a></li>
+                                <li><a href="/store.html" class="nav-link active">Shop</a></li>
+                                <li><a href="/contact.html" class="nav-link">Contact</a></li>
+                                <li><a href="/questions.html" class="nav-link">FAQs</a></li>
+                            </ul>
+                        </nav>
+                        <div class="mobile-nav">
+                            <ul class="mobile-nav__links">
+                                <li><a href="/" class="mobile-nav__link">Home</a></li>
+                                <li><a href="/about.html" class="mobile-nav__link">About</a></li>
+                                <li><a href="/store.html" class="mobile-nav__link active">Shop</a></li>
+                                <a href="https://www.instagram.com/haskinshouserecords" target="_blank" rel="noopener">Instagram</a>
+                        </div>
             </div>
         </div>
+</footer>
 
-        <div class="loading-spinner" id="loading-spinner">
-            <div class="spinner"></div>
-            <p>Loading inventory...</p>
-        </div>
+<script>
+    document.querySelector('.mobile-menu').addEventListener('click', function() {
+        this.classList.toggle('active');
+        document.querySelector('.nav-links').classList.toggle('active');
+    });
 
-        <div id="featured-items-container" class="items-grid">
-            <!-- Items will be loaded here -->
-        </div>
-
-        <div class="cart-section" id="cart-section">
-            <h2>Your Cart</h2>
-            <div id="cart-items"></div>
-            <div id="cart-total"></div>
-            <div class="cart-actions">
-                <button id="update-cart" class="btn btn-secondary">Update Cart</button>
-                <button id="checkout-button" class="btn btn-primary">Checkout</button>
-            </div>
-            <div class="cart-notice">
-                <p>Secure checkout powered by Square</p>
-                <p>Free local pickup available</p>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-info text-center">
-                <p>&copy; 2024 Haskins House Records</p>
-                <p>534 2nd Street, Portsmouth, OH 45662</p>
-                <p>Phone: (740) 771-0017</p>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/haskinshouserecords" target="_blank" rel="noopener">Facebook</a>
-                    <a href="https://www.instagram.com/haskinshouserecords" target="_blank" rel="noopener">Instagram</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        document.querySelector('.hamburger').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.nav-links').classList.toggle('active');
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            document.querySelector('.mobile-menu').classList.remove('active');
+            document.querySelector('.nav-links').classList.remove('active');
         });
-
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                document.querySelector('.hamburger').classList.remove('active');
-                document.querySelector('.nav-links').classList.remove('active');
-            });
-        });
-    </script>
+    });
+</script>
 </body>
 
 </html>
