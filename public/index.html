@@ -18,19 +18,29 @@
             <a href="/" class="logo-link">
                 <img src="/images/logo.png" alt="Haskins House Records" class="logo">
             </a>
-            <button class="hamburger" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button class="mobile-menu" aria-label="Menu">
+                <span class="mobile-menu__line"></span>
+                <span class="mobile-menu__line"></span>
+                <span class="mobile-menu__line"></span>
             </button>
             <ul class="nav-links">
-                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/" class="nav-link active">Home</a></li>
                 <li><a href="/about.html" class="nav-link">About</a></li>
                 <li><a href="/store.html" class="nav-link">Shop</a></li>
                 <li><a href="/contact.html" class="nav-link">Contact</a></li>
                 <li><a href="/questions.html" class="nav-link">FAQs</a></li>
             </ul>
         </nav>
+        <div class="mobile-nav">
+            <ul class="mobile-nav__links">
+                <li><a href="/" class="mobile-nav__link active">Home</a></li>
+                <li><a href="/about.html" class="mobile-nav__link">About</a></li>
+                <li><a href="/store.html" class="mobile-nav__link">Shop</a></li>
+                <li><a href="/contact.html" class="mobile-nav__link">Contact</a></li>
+                <li><a href="/questions.html" class="mobile-nav__link">FAQs</a></li>
+            </ul>
+        </div>
+        <div class="overlay"></div>
     </header>
 
     <main>
@@ -109,16 +119,23 @@
     </footer>
 
     <script>
-        document.querySelector('.hamburger').addEventListener('click', function() {
-            this.classList.toggle('active');
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const overlay = document.querySelector('.overlay');
 
-        // Close menu when clicking a link
-        document.querySelectorAll('.nav-link').forEach(link => {
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileMenu.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        document.querySelectorAll('.mobile-nav__link').forEach(link => {
             link.addEventListener('click', () => {
-                document.querySelector('.hamburger').classList.remove('active');
-                document.querySelector('.nav-links').classList.remove('active');
+                toggleMenu();
             });
         });
     </script>
