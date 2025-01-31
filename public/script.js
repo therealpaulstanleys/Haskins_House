@@ -23,4 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.mobile-nav__link').forEach(link => {
         link.addEventListener('click', toggleMenu);
     });
+
+    // Add any other JavaScript functionality here
 });

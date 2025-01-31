@@ -117,28 +117,6 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        const mobileMenu = document.querySelector('.mobile-menu');
-        const mobileNav = document.querySelector('.mobile-nav');
-        const overlay = document.querySelector('.overlay');
-
-        function toggleMenu() {
-            mobileMenu.classList.toggle('active');
-            mobileNav.classList.toggle('active');
-            overlay.classList.toggle('active');
-            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
-        }
-
-        mobileMenu.addEventListener('click', toggleMenu);
-        overlay.addEventListener('click', toggleMenu);
-
-        document.querySelectorAll('.mobile-nav__link').forEach(link => {
-            link.addEventListener('click', () => {
-                toggleMenu();
-            });
-        });
-    </script>
 </body>
 
 </html>
