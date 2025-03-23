@@ -9,8 +9,7 @@ const path = require('path');
 const dotenv = require('dotenv');
 
 // Load environment variables
-console.log('Loading environment from:', path.resolve(__dirname, '../.env'));
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;

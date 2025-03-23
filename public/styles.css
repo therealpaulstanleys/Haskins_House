@@ -1054,7 +1054,7 @@ header.scrolled .logo {
         position: fixed;
         top: 1rem;
         right: 1rem;
-        z-index: 2000;
+        z-index: 1000;
         background: none;
         border: none;
         cursor: pointer;

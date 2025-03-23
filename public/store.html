@@ -18,10 +18,10 @@
             <a href="/" class="logo-link">
                 <img src="/images/logo.png" alt="Haskins House Records" class="logo">
             </a>
-            <button class="mobile-menu" aria-label="Menu">
-                <span class="mobile-menu__line"></span>
-                <span class="mobile-menu__line"></span>
-                <span class="mobile-menu__line"></span>
+            <button class="hamburger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
             <ul class="nav-links">
                 <li><a href="/" class="nav-link">Home</a></li>
@@ -31,15 +31,6 @@
                 <li><a href="/questions.html" class="nav-link">FAQs</a></li>
             </ul>
         </nav>
-        <div class="mobile-nav">
-            <ul class="mobile-nav__links">
-                <li><a href="/" class="mobile-nav__link">Home</a></li>
-                <li><a href="/about.html" class="mobile-nav__link">About</a></li>
-                <li><a href="/store.html" class="mobile-nav__link active">Shop</a></li>
-                <li><a href="/contact.html" class="mobile-nav__link">Contact</a></li>
-                <li><a href="/questions.html" class="mobile-nav__link">FAQs</a></li>
-            </ul>
-        </div>
     </header>
 
     <main class="store-container">
@@ -120,15 +111,15 @@
     </footer>
 
     <script>
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
+        document.querySelector('.hamburger').addEventListener('click', function() {
             this.classList.toggle('active');
-            document.querySelector('.mobile-nav').classList.toggle('active');
+            document.querySelector('.nav-links').classList.toggle('active');
         });
 
-        document.querySelectorAll('.mobile-nav__link').forEach(link => {
+        document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', () => {
-                document.querySelector('.mobile-menu').classList.remove('active');
-                document.querySelector('.mobile-nav').classList.remove('active');
+                document.querySelector('.hamburger').classList.remove('active');
+                document.querySelector('.nav-links').classList.remove('active');
             });
         });
     </script>

@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="featured-item">
-                    <img src="/images/childers2.png" alt="Record Trading" loading="lazy">
+                    <img src="/images/store-records.jpg" alt="Record Trading" loading="lazy">
                     <div class="featured-content">
                         <h2>Buy, Sell &amp; Trade</h2>
                         <p>Looking to sell your collection? Give us a call at (740) 771-0017.</p>
@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="featured-item">
-                    <img src="/images/equipment&bins.png" alt="Audio Equipment" loading="lazy">
+                    <img src="/images/store-interior.jpg" alt="Audio Equipment" loading="lazy">
                     <div class="featured-content">
                         <h2>Quality Equipment</h2>
                         <p>Browse our selection of vintage and modern audio equipment.</p>
@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="featured-item">
-                    <img src="/images/middle_bins.png" alt="Record Collection" loading="lazy">
+                    <img src="/images/store-collection.jpg" alt="Record Collection" loading="lazy">
                     <div class="featured-content">
                         <h2>New Arrivals</h2>
                         <p>Fresh inventory added weekly. Follow us on social media for updates!</p>
@@ -93,7 +93,6 @@
                 <p>Monday - Saturday: 12:00 PM - 5:00 PM</p>
                 <p>Sunday: CLOSED</p>
                 <div class="social-links">
-
                     <a href="https://www.facebook.com/haskinshouserecords" target="_blank" rel="noopener" class="social-link">
                         Follow us on Facebook
                     </a>
@@ -118,6 +117,28 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const overlay = document.querySelector('.overlay');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            mobileNav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileMenu.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+
+        document.querySelectorAll('.mobile-nav__link').forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+    </script>
 </body>
 
 </html>

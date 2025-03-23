@@ -12,7 +12,7 @@
         "@apimatic/axios-client-adapter": "^0.3.0",
         "@apimatic/core": "^0.10.0",
         "@apimatic/schema": "^0.7.0",
-        "axios": "^1.8.2",
+        "axios": "^1.6.7",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "dotenv": "^16.4.1",
@@ -28,6 +28,6 @@
         "nodemon": "^3.0.3"
     },
     "engines": {
-        "node": ">=22.14.0"
+        "node": ">=20.0.0"
     }
 }

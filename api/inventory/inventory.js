@@ -8,7 +8,9 @@ const router = express.Router();
 router.get('/', async(req, res) => {
     try {
         const items = await fetchInventory();
-        if (!items || !items.length) return res.status(404).json({ error: 'No items found' });
+        if (!items || !items.length) {
+            return res.status(404).json({ error: 'No items found' });
+        }
         res.json({ items });
     } catch (error) {
         console.error('Error:', error);
@@ -16,4 +18,4 @@ router.get('/', async(req, res) => {
     }
 });
 
-module.exports = router; // Export the router // bl00dz
+module.exports = router;
