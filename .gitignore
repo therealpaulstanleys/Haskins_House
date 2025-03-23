@@ -1,7 +1,41 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Environment variables
-/server/.env
-/server/.env.test
-/server/.env.*
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+out/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
 
 # Keys and certificates
 /server/*.key
@@ -12,42 +46,15 @@
 fullchain.pem
 privkey.pem
 
-# Node modules
-node_modules/
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-
-# Runtime data
-pids/
-*.pid
-*.seed
-*.pid.lock
-
 # Coverage directories
 lib-cov/
 coverage/
 .nyc_output/
 
-# Build outputs
-.next/
-.nuxt/
-.vuepress/dist/
-.serverless/
-.fusebox/
-
 # Dependency directories
 jspm_packages/
 bower_components/
 typings/
-
-# Optional npm cache directory
-.npm/
-
-# Optional eslint cache
-.eslintcache/
 
 # Optional REPL history
 .node_repl_history/
@@ -59,7 +66,6 @@ typings/
 .yarn-integrity
 
 # OS generated files
-.DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
