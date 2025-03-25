@@ -5,4 +5,6 @@
  3/22 Working on streamlining everything.
 
 Run npm install
+
+This will be running on Nodejs 
                             
