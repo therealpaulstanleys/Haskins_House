@@ -15,10 +15,10 @@ jobs:
 
       - name: Set up SSH keys for GitHub
         env:
-          GITHUB_DEPLOY_KEY: ${{ secrets.GITHUB_DEPLOY_KEY }}
+          HUB_DEPLOY_KEY: ${{ secrets.HUB_DEPLOY_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "$GITHUB_DEPLOY_KEY" > ~/.ssh/github_ssh_key
+          echo "$HUB_DEPLOY_KEY" > ~/.ssh/github_ssh_key
           chmod 600 ~/.ssh/github_ssh_key
           eval $(ssh-agent -s)
           ssh-add ~/.ssh/github_ssh_key
