@@ -3,7 +3,7 @@ name: Deploy to DigitalOcean
 on:
   push:
     branches:
-      - main  # This will run the workflow when you push to the main branch
+      - main  # Change this if using a different branch
 
 jobs:
   deploy:
@@ -11,32 +11,35 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # Fetches your GitHub repo's latest code
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'  # Uses the latest Node.js 20 LTS version
-
-      - name: Install dependencies
-        run: npm install  # Installs project dependencies
-
-      - name: Build project
-        run: npm run build  # Builds your project for production
-
-      - name: Configure SSH
+      - name: Set up SSH keys for GitHub
+        env:
+          GITHUB_DEPLOY_KEY: ${{ secrets.GITHUB_DEPLOY_KEY }}
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.DIGITALOCEAN_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.DROPLET_IP }} >> ~/.ssh/known_hosts  # Adds your server to known hosts
+          echo "$GITHUB_DEPLOY_KEY" > ~/.ssh/github_ssh_key
+          chmod 600 ~/.ssh/github_ssh_key
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/github_ssh_key
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      - name: Deploy to DigitalOcean
+      - name: Connect to DigitalOcean and deploy
+        env:
+          DO_PRIVATE_KEY: ${{ secrets.DO_PRIVATE_KEY }}
+          DO_HOST: ${{ secrets.DO_HOST }}
+          DO_USER: ${{ secrets.DO_USER }}
         run: |
-          ssh -i ~/.ssh/id_rsa murray@${{ secrets.DROPLET_IP }} << EOF
-            cd /var/www/Haskins_House/
-            git pull origin main  # Pulls the latest code from GitHub
-            npm install  # Reinstalls dependencies
-            npm run build  # Rebuilds the project
-            pm2 restart all  # Restarts the Node.js server using PM2
+          mkdir -p ~/.ssh
+          echo "$DO_PRIVATE_KEY" > ~/.ssh/DO_nops
+          chmod 600 ~/.ssh/DO_nops
+          ssh-keyscan $DO_HOST >> ~/.ssh/known_hosts
+
+          # SSH into DigitalOcean and deploy
+          ssh -i ~/.ssh/DO_nops -o StrictHostKeyChecking=no $DO_USER@$DO_HOST << 'EOF'
+            cd /path/to/your/project  # Change to your project directory
+            git pull origin main  # Pull latest changes
+            npm install  # Install dependencies (if needed)
+            npm run build  # Build (if needed)
+            pm2 restart app  # Restart the application (if using PM2)
           EOF
