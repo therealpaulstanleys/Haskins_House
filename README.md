@@ -4,7 +4,8 @@
 
  3/22 Working on streamlining everything.
 
-Run npm install
+Run npm install to build the modules. 
 
 This will be running on Nodejs 
+
                             
