@@ -1,4 +1,6 @@
 ***Welcome to haskinshouserecords.com***
+
+7.2 Likes so far!
  
  This is a simple website I am working on. It's a repo to a record store. 
 
