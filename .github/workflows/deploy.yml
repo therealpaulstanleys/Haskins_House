@@ -50,5 +50,5 @@ jobs:
             else
               echo "Skipping build step (no build script found)"
             fi
-            pm2 restart app || pm2 start app.js --name app || { echo "PM2 failed"; exit 1; }
+            pm2 restart server || pm2 start server/server.js --name server || { echo "PM2 failed"; exit 1; }
           EOF
