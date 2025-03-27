@@ -3,7 +3,7 @@ name: Deploy to DigitalOcean
 on:
   push:
     branches:
-      - main  
+      - main
 
 jobs:
   deploy:
@@ -23,6 +23,7 @@ jobs:
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/github_ssh_key
           ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config --global core.sshCommand "ssh -i ~/.ssh/github_ssh_key"
 
       - name: Set up SSH keys for DigitalOcean
         env:
@@ -42,8 +43,14 @@ jobs:
         run: |
           ssh -i ~/.ssh/DO_nops -o StrictHostKeyChecking=no $DO_USER@$DO_HOST << 'EOF'
             cd /var/www/Haskins_House/  
-            git pull origin main  # Pull latest changes
-            npm install  # Install dependencies 
-            npm run build  # Build 
-            pm2 restart app  # Restart the application 
+            git pull origin main || { echo "Git pull failed"; exit 1; }
+            npm install || { echo "NPM install failed"; exit 1; }
+
+            if grep -q '"build":' package.json; then
+              npm run build || { echo "Build failed"; exit 1; }
+            else
+              echo "Skipping build step (no build script found)"
+            fi
+
+            pm2 restart app || pm2 start app.js --name app || { echo "PM2 failed"; exit 1; }
           EOF
