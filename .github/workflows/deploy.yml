@@ -37,7 +37,7 @@ jobs:
 
           # SSH into DigitalOcean and deploy
           ssh -i ~/.ssh/DO_nops -o StrictHostKeyChecking=no $DO_USER@$DO_HOST << 'EOF'
-            cd /path/to/your/project  # Change to your project directory
+            cd /var/www/Haskins_House/  
             git pull origin main  # Pull latest changes
             npm install  # Install dependencies (if needed)
             npm run build  # Build (if needed)
