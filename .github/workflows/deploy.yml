@@ -42,15 +42,13 @@ jobs:
           DO_USER: ${{ secrets.DO_USER }}
         run: |
           ssh -i ~/.ssh/DO_nops -o StrictHostKeyChecking=no $DO_USER@$DO_HOST << 'EOF'
-            cd /var/www/Haskins_House/  
+            cd /var/www/Haskins_House/
             git pull origin main || { echo "Git pull failed"; exit 1; }
             npm install || { echo "NPM install failed"; exit 1; }
-
             if grep -q '"build":' package.json; then
               npm run build || { echo "Build failed"; exit 1; }
             else
               echo "Skipping build step (no build script found)"
             fi
-
             pm2 restart app || pm2 start app.js --name app || { echo "PM2 failed"; exit 1; }
           EOF
