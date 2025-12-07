@@ -12,7 +12,7 @@
         "@apimatic/axios-client-adapter": "^0.3.0",
         "@apimatic/core": "^0.10.0",
         "@apimatic/schema": "^0.7.0",
-        "axios": "^1.6.7",
+        "axios": "^1.13.2",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
         "dotenv": "^16.4.1",
